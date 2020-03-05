@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.april.achieveit_project.mapper.ActivityTypeMapper">
+  <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.ActivityType">
+    <constructor>
+      <idArg column="activity_type_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="level_1_description" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="level_2_description" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    activity_type_id, level_1_description, level_2_description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ActivityType
+    where activity_type_id = #{activityTypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ActivityType
+    where activity_type_id = #{activityTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.april.achieveit_project.entity.ActivityType">
+    insert into ActivityType (activity_type_id, level_1_description, 
+      level_2_description)
+    values (#{activityTypeId,jdbcType=INTEGER}, #{level1Description,jdbcType=VARCHAR}, 
+      #{level2Description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.ActivityType">
+    insert into ActivityType
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="activityTypeId != null">
+        activity_type_id,
+      </if>
+      <if test="level1Description != null">
+        level_1_description,
+      </if>
+      <if test="level2Description != null">
+        level_2_description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="activityTypeId != null">
+        #{activityTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="level1Description != null">
+        #{level1Description,jdbcType=VARCHAR},
+      </if>
+      <if test="level2Description != null">
+        #{level2Description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_project.entity.ActivityType">
+    update ActivityType
+    <set>
+      <if test="level1Description != null">
+        level_1_description = #{level1Description,jdbcType=VARCHAR},
+      </if>
+      <if test="level2Description != null">
+        level_2_description = #{level2Description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where activity_type_id = #{activityTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.ActivityType">
+    update ActivityType
+    set level_1_description = #{level1Description,jdbcType=VARCHAR},
+      level_2_description = #{level2Description,jdbcType=VARCHAR}
+    where activity_type_id = #{activityTypeId,jdbcType=INTEGER}
+  </update>
+</mapper>

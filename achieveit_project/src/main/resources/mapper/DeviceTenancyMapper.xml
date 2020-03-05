@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.april.achieveit_project.mapper.DeviceTenancyMapper">
+  <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.DeviceTenancy">
+    <constructor>
+      <idArg column="tenancy_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="referred_project_id" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="referred_device_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="tenancy_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="scheduled_return_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="referred_device_manager_id" javaType="java.lang.String" jdbcType="CHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    tenancy_id, referred_project_id, referred_device_id, tenancy_time, scheduled_return_time, 
+    referred_device_manager_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DeviceTenancy
+    where tenancy_id = #{tenancyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from DeviceTenancy
+    where tenancy_id = #{tenancyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.april.achieveit_project.entity.DeviceTenancy">
+    insert into DeviceTenancy (tenancy_id, referred_project_id, referred_device_id, 
+      tenancy_time, scheduled_return_time, referred_device_manager_id
+      )
+    values (#{tenancyId,jdbcType=INTEGER}, #{referredProjectId,jdbcType=CHAR}, #{referredDeviceId,jdbcType=INTEGER}, 
+      #{tenancyTime,jdbcType=TIMESTAMP}, #{scheduledReturnTime,jdbcType=TIMESTAMP}, #{referredDeviceManagerId,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.DeviceTenancy">
+    insert into DeviceTenancy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tenancyId != null">
+        tenancy_id,
+      </if>
+      <if test="referredProjectId != null">
+        referred_project_id,
+      </if>
+      <if test="referredDeviceId != null">
+        referred_device_id,
+      </if>
+      <if test="tenancyTime != null">
+        tenancy_time,
+      </if>
+      <if test="scheduledReturnTime != null">
+        scheduled_return_time,
+      </if>
+      <if test="referredDeviceManagerId != null">
+        referred_device_manager_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tenancyId != null">
+        #{tenancyId,jdbcType=INTEGER},
+      </if>
+      <if test="referredProjectId != null">
+        #{referredProjectId,jdbcType=CHAR},
+      </if>
+      <if test="referredDeviceId != null">
+        #{referredDeviceId,jdbcType=INTEGER},
+      </if>
+      <if test="tenancyTime != null">
+        #{tenancyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scheduledReturnTime != null">
+        #{scheduledReturnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="referredDeviceManagerId != null">
+        #{referredDeviceManagerId,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_project.entity.DeviceTenancy">
+    update DeviceTenancy
+    <set>
+      <if test="referredProjectId != null">
+        referred_project_id = #{referredProjectId,jdbcType=CHAR},
+      </if>
+      <if test="referredDeviceId != null">
+        referred_device_id = #{referredDeviceId,jdbcType=INTEGER},
+      </if>
+      <if test="tenancyTime != null">
+        tenancy_time = #{tenancyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scheduledReturnTime != null">
+        scheduled_return_time = #{scheduledReturnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="referredDeviceManagerId != null">
+        referred_device_manager_id = #{referredDeviceManagerId,jdbcType=CHAR},
+      </if>
+    </set>
+    where tenancy_id = #{tenancyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.DeviceTenancy">
+    update DeviceTenancy
+    set referred_project_id = #{referredProjectId,jdbcType=CHAR},
+      referred_device_id = #{referredDeviceId,jdbcType=INTEGER},
+      tenancy_time = #{tenancyTime,jdbcType=TIMESTAMP},
+      scheduled_return_time = #{scheduledReturnTime,jdbcType=TIMESTAMP},
+      referred_device_manager_id = #{referredDeviceManagerId,jdbcType=CHAR}
+    where tenancy_id = #{tenancyId,jdbcType=INTEGER}
+  </update>
+</mapper>

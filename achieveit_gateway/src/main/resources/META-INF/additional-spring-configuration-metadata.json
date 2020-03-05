@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "local.filter.allowPaths",
+      "type": "java.lang.String",
+      "description": "Description for local.filter.allowPaths."
+    },
+    {
+      "name": "local.server-identity",
+      "type": "java.lang.String",
+      "description": "Description for local.server-identity."
+    },
+    {
+      "name": "local.shared-secret",
+      "type": "java.lang.String",
+      "description": "Description for local.shared-secret."
+    }
+  ] }

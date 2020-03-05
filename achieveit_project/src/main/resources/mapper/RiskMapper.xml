@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.april.achieveit_project.mapper.RiskMapper">
+  <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.Risk">
+    <constructor>
+      <idArg column="risk_id" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="referred_project_id" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="risk_type" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="risk_description" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="risk_level" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="risk_impact" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="risk_countermeasure" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="risk_status" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="referred_risk_responsible_person_id" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="risk_track_frequency" javaType="java.lang.String" jdbcType="CHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    risk_id, referred_project_id, risk_type, risk_description, risk_level, risk_impact, 
+    risk_countermeasure, risk_status, referred_risk_responsible_person_id, risk_track_frequency
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Risk
+    where risk_id = #{riskId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Risk
+    where risk_id = #{riskId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.april.achieveit_project.entity.Risk">
+    insert into Risk (risk_id, referred_project_id, risk_type, 
+      risk_description, risk_level, risk_impact, 
+      risk_countermeasure, risk_status, referred_risk_responsible_person_id, 
+      risk_track_frequency)
+    values (#{riskId,jdbcType=CHAR}, #{referredProjectId,jdbcType=CHAR}, #{riskType,jdbcType=CHAR}, 
+      #{riskDescription,jdbcType=VARCHAR}, #{riskLevel,jdbcType=CHAR}, #{riskImpact,jdbcType=VARCHAR}, 
+      #{riskCountermeasure,jdbcType=VARCHAR}, #{riskStatus,jdbcType=CHAR}, #{referredRiskResponsiblePersonId,jdbcType=CHAR}, 
+      #{riskTrackFrequency,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.Risk">
+    insert into Risk
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="riskId != null">
+        risk_id,
+      </if>
+      <if test="referredProjectId != null">
+        referred_project_id,
+      </if>
+      <if test="riskType != null">
+        risk_type,
+      </if>
+      <if test="riskDescription != null">
+        risk_description,
+      </if>
+      <if test="riskLevel != null">
+        risk_level,
+      </if>
+      <if test="riskImpact != null">
+        risk_impact,
+      </if>
+      <if test="riskCountermeasure != null">
+        risk_countermeasure,
+      </if>
+      <if test="riskStatus != null">
+        risk_status,
+      </if>
+      <if test="referredRiskResponsiblePersonId != null">
+        referred_risk_responsible_person_id,
+      </if>
+      <if test="riskTrackFrequency != null">
+        risk_track_frequency,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="riskId != null">
+        #{riskId,jdbcType=CHAR},
+      </if>
+      <if test="referredProjectId != null">
+        #{referredProjectId,jdbcType=CHAR},
+      </if>
+      <if test="riskType != null">
+        #{riskType,jdbcType=CHAR},
+      </if>
+      <if test="riskDescription != null">
+        #{riskDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="riskLevel != null">
+        #{riskLevel,jdbcType=CHAR},
+      </if>
+      <if test="riskImpact != null">
+        #{riskImpact,jdbcType=VARCHAR},
+      </if>
+      <if test="riskCountermeasure != null">
+        #{riskCountermeasure,jdbcType=VARCHAR},
+      </if>
+      <if test="riskStatus != null">
+        #{riskStatus,jdbcType=CHAR},
+      </if>
+      <if test="referredRiskResponsiblePersonId != null">
+        #{referredRiskResponsiblePersonId,jdbcType=CHAR},
+      </if>
+      <if test="riskTrackFrequency != null">
+        #{riskTrackFrequency,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_project.entity.Risk">
+    update Risk
+    <set>
+      <if test="referredProjectId != null">
+        referred_project_id = #{referredProjectId,jdbcType=CHAR},
+      </if>
+      <if test="riskType != null">
+        risk_type = #{riskType,jdbcType=CHAR},
+      </if>
+      <if test="riskDescription != null">
+        risk_description = #{riskDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="riskLevel != null">
+        risk_level = #{riskLevel,jdbcType=CHAR},
+      </if>
+      <if test="riskImpact != null">
+        risk_impact = #{riskImpact,jdbcType=VARCHAR},
+      </if>
+      <if test="riskCountermeasure != null">
+        risk_countermeasure = #{riskCountermeasure,jdbcType=VARCHAR},
+      </if>
+      <if test="riskStatus != null">
+        risk_status = #{riskStatus,jdbcType=CHAR},
+      </if>
+      <if test="referredRiskResponsiblePersonId != null">
+        referred_risk_responsible_person_id = #{referredRiskResponsiblePersonId,jdbcType=CHAR},
+      </if>
+      <if test="riskTrackFrequency != null">
+        risk_track_frequency = #{riskTrackFrequency,jdbcType=CHAR},
+      </if>
+    </set>
+    where risk_id = #{riskId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.Risk">
+    update Risk
+    set referred_project_id = #{referredProjectId,jdbcType=CHAR},
+      risk_type = #{riskType,jdbcType=CHAR},
+      risk_description = #{riskDescription,jdbcType=VARCHAR},
+      risk_level = #{riskLevel,jdbcType=CHAR},
+      risk_impact = #{riskImpact,jdbcType=VARCHAR},
+      risk_countermeasure = #{riskCountermeasure,jdbcType=VARCHAR},
+      risk_status = #{riskStatus,jdbcType=CHAR},
+      referred_risk_responsible_person_id = #{referredRiskResponsiblePersonId,jdbcType=CHAR},
+      risk_track_frequency = #{riskTrackFrequency,jdbcType=CHAR}
+    where risk_id = #{riskId,jdbcType=CHAR}
+  </update>
+</mapper>

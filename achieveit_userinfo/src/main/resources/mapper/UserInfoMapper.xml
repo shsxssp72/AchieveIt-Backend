@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.april.achieveit_userinfo.mapper.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo.entity.UserInfo">
+    <constructor>
+      <idArg column="user_id" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="referred_outer_user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_password" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="user_salt" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="referred_user_global_role_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, referred_outer_user_id, user_name, user_password, user_salt, referred_user_global_role_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from UserInfo
+    where user_id = #{userId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from UserInfo
+    where user_id = #{userId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.april.achieveit_userinfo.entity.UserInfo">
+    insert into UserInfo (user_id, referred_outer_user_id, user_name, 
+      user_password, user_salt, referred_user_global_role_id
+      )
+    values (#{userId,jdbcType=CHAR}, #{referredOuterUserId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{userPassword,jdbcType=CHAR}, #{userSalt,jdbcType=CHAR}, #{referredUserGlobalRoleId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.april.achieveit_userinfo.entity.UserInfo">
+    insert into UserInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="referredOuterUserId != null">
+        referred_outer_user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userPassword != null">
+        user_password,
+      </if>
+      <if test="userSalt != null">
+        user_salt,
+      </if>
+      <if test="referredUserGlobalRoleId != null">
+        referred_user_global_role_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=CHAR},
+      </if>
+      <if test="referredOuterUserId != null">
+        #{referredOuterUserId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=CHAR},
+      </if>
+      <if test="userSalt != null">
+        #{userSalt,jdbcType=CHAR},
+      </if>
+      <if test="referredUserGlobalRoleId != null">
+        #{referredUserGlobalRoleId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_userinfo.entity.UserInfo">
+    update UserInfo
+    <set>
+      <if test="referredOuterUserId != null">
+        referred_outer_user_id = #{referredOuterUserId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        user_password = #{userPassword,jdbcType=CHAR},
+      </if>
+      <if test="userSalt != null">
+        user_salt = #{userSalt,jdbcType=CHAR},
+      </if>
+      <if test="referredUserGlobalRoleId != null">
+        referred_user_global_role_id = #{referredUserGlobalRoleId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_userinfo.entity.UserInfo">
+    update UserInfo
+    set referred_outer_user_id = #{referredOuterUserId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=CHAR},
+      user_salt = #{userSalt,jdbcType=CHAR},
+      referred_user_global_role_id = #{referredUserGlobalRoleId,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=CHAR}
+  </update>
+</mapper>
