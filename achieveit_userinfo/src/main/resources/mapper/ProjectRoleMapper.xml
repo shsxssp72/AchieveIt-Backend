@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.april.achieveit_userinfo.mapper.ProjectRoleMapper">
-  <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo.entity.ProjectRole">
+  <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo_interface.entity.ProjectRole">
     <constructor>
       <idArg column="project_role_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="project_role_name" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -20,11 +20,11 @@
     delete from ProjectRole
     where project_role_id = #{projectRoleId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.april.achieveit_userinfo.entity.ProjectRole">
+  <insert id="insert" parameterType="com.april.achieveit_userinfo_interface.entity.ProjectRole">
     insert into ProjectRole (project_role_id, project_role_name)
     values (#{projectRoleId,jdbcType=INTEGER}, #{projectRoleName,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.april.achieveit_userinfo.entity.ProjectRole">
+  <insert id="insertSelective" parameterType="com.april.achieveit_userinfo_interface.entity.ProjectRole">
     insert into ProjectRole
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="projectRoleId != null">
@@ -43,7 +43,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_userinfo.entity.ProjectRole">
+  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_userinfo_interface.entity.ProjectRole">
     update ProjectRole
     <set>
       <if test="projectRoleName != null">
@@ -52,7 +52,7 @@
     </set>
     where project_role_id = #{projectRoleId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_userinfo.entity.ProjectRole">
+  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_userinfo_interface.entity.ProjectRole">
     update ProjectRole
     set project_role_name = #{projectRoleName,jdbcType=VARCHAR}
     where project_role_id = #{projectRoleId,jdbcType=INTEGER}

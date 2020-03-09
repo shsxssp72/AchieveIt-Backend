@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.april.achieveit_userinfo.mapper.PermissionMapper">
-  <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo.entity.Permission">
+  <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo_interface.entity.Permission">
     <constructor>
       <idArg column="permission_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="permission_name" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -20,11 +20,11 @@
     delete from Permission
     where permission_id = #{permissionId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.april.achieveit_userinfo.entity.Permission">
+  <insert id="insert" parameterType="com.april.achieveit_userinfo_interface.entity.Permission">
     insert into Permission (permission_id, permission_name)
     values (#{permissionId,jdbcType=INTEGER}, #{permissionName,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.april.achieveit_userinfo.entity.Permission">
+  <insert id="insertSelective" parameterType="com.april.achieveit_userinfo_interface.entity.Permission">
     insert into Permission
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="permissionId != null">
@@ -43,7 +43,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_userinfo.entity.Permission">
+  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_userinfo_interface.entity.Permission">
     update Permission
     <set>
       <if test="permissionName != null">
@@ -52,7 +52,7 @@
     </set>
     where permission_id = #{permissionId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_userinfo.entity.Permission">
+  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_userinfo_interface.entity.Permission">
     update Permission
     set permission_name = #{permissionName,jdbcType=VARCHAR}
     where permission_id = #{permissionId,jdbcType=INTEGER}

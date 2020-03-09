@@ -1,6 +1,6 @@
 package com.april.achieveit_userinfo.mapper;
 
-import com.april.achieveit_userinfo.entity.ProjectRole;
+import com.april.achieveit_userinfo_interface.entity.ProjectRole;
 
 public interface ProjectRoleMapper {
     int deleteByPrimaryKey(Integer projectRoleId);
