@@ -5,11 +5,14 @@ public class ProjectFunction {
 
     private String referredProjectId;
 
+    private Integer superiorFunctionId;
+
     private String description;
 
-    public ProjectFunction(Integer functionId, String referredProjectId, String description) {
+    public ProjectFunction(Integer functionId, String referredProjectId, Integer superiorFunctionId, String description) {
         this.functionId = functionId;
         this.referredProjectId = referredProjectId;
+        this.superiorFunctionId = superiorFunctionId;
         this.description = description;
     }
 
@@ -31,6 +34,14 @@ public class ProjectFunction {
 
     public void setReferredProjectId(String referredProjectId) {
         this.referredProjectId = referredProjectId == null ? null : referredProjectId.trim();
+    }
+
+    public Integer getSuperiorFunctionId() {
+        return superiorFunctionId;
+    }
+
+    public void setSuperiorFunctionId(Integer superiorFunctionId) {
+        this.superiorFunctionId = superiorFunctionId;
     }
 
     public String getDescription() {

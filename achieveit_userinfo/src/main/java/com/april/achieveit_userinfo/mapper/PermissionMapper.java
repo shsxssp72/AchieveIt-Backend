@@ -1,8 +1,9 @@
 package com.april.achieveit_userinfo.mapper;
 
-import com.april.achieveit_userinfo.entity.Permission;
+import com.april.achieveit_userinfo_interface.entity.Permission;
 
-public interface PermissionMapper {
+public interface PermissionMapper
+{
     int deleteByPrimaryKey(Integer permissionId);
 
     int insert(Permission record);

@@ -1,6 +1,6 @@
 package com.april.achieveit_userinfo.mapper;
 
-import com.april.achieveit_userinfo.entity.UserInfo;
+import com.april.achieveit_userinfo_interface.entity.UserInfo;
 
 public interface UserInfoMapper {
     int deleteByPrimaryKey(String userId);

@@ -1,4 +1,4 @@
-package com.april.achieveit_userinfo.entity;
+package com.april.achieveit_userinfo_interface.entity;
 
 public class UserInfo {
     private String userId;

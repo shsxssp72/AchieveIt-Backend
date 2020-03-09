@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.april.achieveit_userinfo.mapper.GlobalRoleMapper">
-  <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo.entity.GlobalRole">
+  <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo_interface.entity.GlobalRole">
     <constructor>
       <idArg column="global_role_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="global_role_name" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -20,11 +20,11 @@
     delete from GlobalRole
     where global_role_id = #{globalRoleId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.april.achieveit_userinfo.entity.GlobalRole">
+  <insert id="insert" parameterType="com.april.achieveit_userinfo_interface.entity.GlobalRole">
     insert into GlobalRole (global_role_id, global_role_name)
     values (#{globalRoleId,jdbcType=INTEGER}, #{globalRoleName,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.april.achieveit_userinfo.entity.GlobalRole">
+  <insert id="insertSelective" parameterType="com.april.achieveit_userinfo_interface.entity.GlobalRole">
     insert into GlobalRole
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="globalRoleId != null">
@@ -43,7 +43,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_userinfo.entity.GlobalRole">
+  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_userinfo_interface.entity.GlobalRole">
     update GlobalRole
     <set>
       <if test="globalRoleName != null">
@@ -52,7 +52,7 @@
     </set>
     where global_role_id = #{globalRoleId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_userinfo.entity.GlobalRole">
+  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_userinfo_interface.entity.GlobalRole">
     update GlobalRole
     set global_role_name = #{globalRoleName,jdbcType=VARCHAR}
     where global_role_id = #{globalRoleId,jdbcType=INTEGER}

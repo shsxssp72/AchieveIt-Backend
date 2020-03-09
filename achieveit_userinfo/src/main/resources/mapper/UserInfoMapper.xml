@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.april.achieveit_userinfo.mapper.UserInfoMapper">
-  <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo.entity.UserInfo">
+  <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo_interface.entity.UserInfo">
     <constructor>
       <idArg column="user_id" javaType="java.lang.String" jdbcType="CHAR" />
       <arg column="referred_outer_user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -24,7 +24,7 @@
     delete from UserInfo
     where user_id = #{userId,jdbcType=CHAR}
   </delete>
-  <insert id="insert" parameterType="com.april.achieveit_userinfo.entity.UserInfo">
+  <insert id="insert" parameterType="com.april.achieveit_userinfo_interface.entity.UserInfo">
     insert into UserInfo (user_id, referred_outer_user_id, user_name, 
       user_password, user_salt, referred_user_global_role_id
       )
@@ -32,7 +32,7 @@
       #{userPassword,jdbcType=CHAR}, #{userSalt,jdbcType=CHAR}, #{referredUserGlobalRoleId,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.april.achieveit_userinfo.entity.UserInfo">
+  <insert id="insertSelective" parameterType="com.april.achieveit_userinfo_interface.entity.UserInfo">
     insert into UserInfo
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -75,7 +75,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_userinfo.entity.UserInfo">
+  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_userinfo_interface.entity.UserInfo">
     update UserInfo
     <set>
       <if test="referredOuterUserId != null">
@@ -96,7 +96,7 @@
     </set>
     where user_id = #{userId,jdbcType=CHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_userinfo.entity.UserInfo">
+  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_userinfo_interface.entity.UserInfo">
     update UserInfo
     set referred_outer_user_id = #{referredOuterUserId,jdbcType=INTEGER},
       user_name = #{userName,jdbcType=VARCHAR},

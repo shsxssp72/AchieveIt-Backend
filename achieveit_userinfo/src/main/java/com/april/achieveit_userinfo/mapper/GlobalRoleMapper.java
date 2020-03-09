@@ -1,8 +1,9 @@
 package com.april.achieveit_userinfo.mapper;
 
-import com.april.achieveit_userinfo.entity.GlobalRole;
+import com.april.achieveit_userinfo_interface.entity.GlobalRole;
 
-public interface GlobalRoleMapper {
+public interface GlobalRoleMapper
+{
     int deleteByPrimaryKey(Integer globalRoleId);
 
     int insert(GlobalRole record);
