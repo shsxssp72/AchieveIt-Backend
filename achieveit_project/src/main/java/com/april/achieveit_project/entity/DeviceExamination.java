@@ -12,9 +12,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class DeviceExamination
 {
-    private Integer examinationId;
+    private Long examinationId;
 
-    private Integer referredDeviceId;
+    private Long referredDeviceId;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date examinationTime;
 

@@ -3,26 +3,26 @@
 <mapper namespace="com.april.achieveit_userinfo.mapper.PermissionMapper">
   <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo_interface.entity.Permission">
     <constructor>
-      <idArg column="permission_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="permission_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="permission_name" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
     permission_id, permission_name
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from Permission
-    where permission_id = #{permissionId,jdbcType=INTEGER}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from Permission
-    where permission_id = #{permissionId,jdbcType=INTEGER}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.april.achieveit_userinfo_interface.entity.Permission">
     insert into Permission (permission_id, permission_name)
-    values (#{permissionId,jdbcType=INTEGER}, #{permissionName,jdbcType=VARCHAR})
+    values (#{permissionId,jdbcType=BIGINT}, #{permissionName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.april.achieveit_userinfo_interface.entity.Permission">
     insert into Permission
@@ -36,7 +36,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="permissionId != null">
-        #{permissionId,jdbcType=INTEGER},
+        #{permissionId,jdbcType=BIGINT},
       </if>
       <if test="permissionName != null">
         #{permissionName,jdbcType=VARCHAR},
@@ -50,11 +50,11 @@
         permission_name = #{permissionName,jdbcType=VARCHAR},
       </if>
     </set>
-    where permission_id = #{permissionId,jdbcType=INTEGER}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.april.achieveit_userinfo_interface.entity.Permission">
     update Permission
     set permission_name = #{permissionName,jdbcType=VARCHAR}
-    where permission_id = #{permissionId,jdbcType=INTEGER}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
   </update>
 </mapper>

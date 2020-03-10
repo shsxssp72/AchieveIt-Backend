@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GlobalRole
 {
-    private Integer globalRoleId;
+    private Long globalRoleId;
 
     private String globalRoleName;
 }

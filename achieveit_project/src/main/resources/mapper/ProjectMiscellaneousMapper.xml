@@ -1,84 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.april.achieveit_project.mapper.ProjectMiscellaneousMapper">
-  <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.ProjectMiscellaneous">
-    <constructor>
-      <idArg column="misc_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="referred_project_id" javaType="java.lang.String" jdbcType="CHAR" />
-      <arg column="key_field" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="value_field" javaType="java.lang.String" jdbcType="VARCHAR" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
-    misc_id, referred_project_id, key_field, value_field
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from ProjectMiscellaneous
-    where misc_id = #{miscId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from ProjectMiscellaneous
-    where misc_id = #{miscId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.april.achieveit_project.entity.ProjectMiscellaneous">
-    insert into ProjectMiscellaneous (misc_id, referred_project_id, key_field, 
-      value_field)
-    values (#{miscId,jdbcType=INTEGER}, #{referredProjectId,jdbcType=CHAR}, #{keyField,jdbcType=VARCHAR}, 
-      #{valueField,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.ProjectMiscellaneous">
-    insert into ProjectMiscellaneous
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="miscId != null">
-        misc_id,
-      </if>
-      <if test="referredProjectId != null">
-        referred_project_id,
-      </if>
-      <if test="keyField != null">
-        key_field,
-      </if>
-      <if test="valueField != null">
-        value_field,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="miscId != null">
-        #{miscId,jdbcType=INTEGER},
-      </if>
-      <if test="referredProjectId != null">
-        #{referredProjectId,jdbcType=CHAR},
-      </if>
-      <if test="keyField != null">
-        #{keyField,jdbcType=VARCHAR},
-      </if>
-      <if test="valueField != null">
-        #{valueField,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_project.entity.ProjectMiscellaneous">
-    update ProjectMiscellaneous
-    <set>
-      <if test="referredProjectId != null">
-        referred_project_id = #{referredProjectId,jdbcType=CHAR},
-      </if>
-      <if test="keyField != null">
-        key_field = #{keyField,jdbcType=VARCHAR},
-      </if>
-      <if test="valueField != null">
-        value_field = #{valueField,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where misc_id = #{miscId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.ProjectMiscellaneous">
-    update ProjectMiscellaneous
-    set referred_project_id = #{referredProjectId,jdbcType=CHAR},
-      key_field = #{keyField,jdbcType=VARCHAR},
-      value_field = #{valueField,jdbcType=VARCHAR}
-    where misc_id = #{miscId,jdbcType=INTEGER}
-  </update>
+    <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.ProjectMiscellaneous">
+        <constructor>
+            <idArg column="misc_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="referred_project_id" javaType="java.lang.String" jdbcType="CHAR"/>
+            <arg column="key_field" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="value_field" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+        misc_id, referred_project_id, key_field, value_field
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ProjectMiscellaneous
+        where misc_id = #{miscId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByProjectId" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from ProjectMiscellaneous
+      where referred_project_id =#{projectId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE
+        FROM ProjectMiscellaneous
+        WHERE misc_id = #{miscId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.april.achieveit_project.entity.ProjectMiscellaneous">
+        INSERT INTO ProjectMiscellaneous (misc_id, referred_project_id, key_field,
+                                          value_field)
+        VALUES (#{miscId,jdbcType=BIGINT}, #{referredProjectId,jdbcType=CHAR}, #{keyField,jdbcType=VARCHAR},
+                #{valueField,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.ProjectMiscellaneous">
+        insert into ProjectMiscellaneous
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="miscId != null">
+                misc_id,
+            </if>
+            <if test="referredProjectId != null">
+                referred_project_id,
+            </if>
+            <if test="keyField != null">
+                key_field,
+            </if>
+            <if test="valueField != null">
+                value_field,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="miscId != null">
+                #{miscId,jdbcType=BIGINT},
+            </if>
+            <if test="referredProjectId != null">
+                #{referredProjectId,jdbcType=CHAR},
+            </if>
+            <if test="keyField != null">
+                #{keyField,jdbcType=VARCHAR},
+            </if>
+            <if test="valueField != null">
+                #{valueField,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_project.entity.ProjectMiscellaneous">
+        update ProjectMiscellaneous
+        <set>
+            <if test="referredProjectId != null">
+                referred_project_id = #{referredProjectId,jdbcType=CHAR},
+            </if>
+            <if test="keyField != null">
+                key_field = #{keyField,jdbcType=VARCHAR},
+            </if>
+            <if test="valueField != null">
+                value_field = #{valueField,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where misc_id = #{miscId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.ProjectMiscellaneous">
+        UPDATE ProjectMiscellaneous
+        SET referred_project_id = #{referredProjectId,jdbcType=CHAR},
+            key_field           = #{keyField,jdbcType=VARCHAR},
+            value_field         = #{valueField,jdbcType=VARCHAR}
+        WHERE misc_id = #{miscId,jdbcType=BIGINT}
+    </update>
 </mapper>

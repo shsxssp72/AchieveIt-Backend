@@ -3,7 +3,7 @@
 <mapper namespace="com.april.achieveit_project.mapper.DeviceInfoMapper">
   <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.DeviceInfo">
     <constructor>
-      <idArg column="device_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="device_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="device_name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="device_status" javaType="java.lang.String" jdbcType="CHAR" />
     </constructor>
@@ -11,20 +11,20 @@
   <sql id="Base_Column_List">
     device_id, device_name, device_status
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from DeviceInfo
-    where device_id = #{deviceId,jdbcType=INTEGER}
+    where device_id = #{deviceId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from DeviceInfo
-    where device_id = #{deviceId,jdbcType=INTEGER}
+    where device_id = #{deviceId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.april.achieveit_project.entity.DeviceInfo">
     insert into DeviceInfo (device_id, device_name, device_status
       )
-    values (#{deviceId,jdbcType=INTEGER}, #{deviceName,jdbcType=VARCHAR}, #{deviceStatus,jdbcType=CHAR}
+    values (#{deviceId,jdbcType=BIGINT}, #{deviceName,jdbcType=VARCHAR}, #{deviceStatus,jdbcType=CHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.DeviceInfo">
@@ -42,7 +42,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="deviceId != null">
-        #{deviceId,jdbcType=INTEGER},
+        #{deviceId,jdbcType=BIGINT},
       </if>
       <if test="deviceName != null">
         #{deviceName,jdbcType=VARCHAR},
@@ -62,12 +62,12 @@
         device_status = #{deviceStatus,jdbcType=CHAR},
       </if>
     </set>
-    where device_id = #{deviceId,jdbcType=INTEGER}
+    where device_id = #{deviceId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.DeviceInfo">
     update DeviceInfo
     set device_name = #{deviceName,jdbcType=VARCHAR},
       device_status = #{deviceStatus,jdbcType=CHAR}
-    where device_id = #{deviceId,jdbcType=INTEGER}
+    where device_id = #{deviceId,jdbcType=BIGINT}
   </update>
 </mapper>

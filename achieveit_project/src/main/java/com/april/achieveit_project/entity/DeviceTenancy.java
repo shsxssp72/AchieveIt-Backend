@@ -12,11 +12,11 @@ import java.util.Date;
 @NoArgsConstructor
 public class DeviceTenancy
 {
-    private Integer tenancyId;
+    private Long tenancyId;
 
     private String referredProjectId;
 
-    private Integer referredDeviceId;
+    private Long referredDeviceId;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date tenancyTime;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")

@@ -3,14 +3,14 @@
 <mapper namespace="com.april.achieveit_userinfo.mapper.GlobalRolePermissionRelationMapper">
   <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo_interface.entity.GlobalRolePermissionRelation">
     <constructor>
-      <arg column="referred_global_role_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="referred_permission_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="referred_global_role_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="referred_permission_id" javaType="java.lang.Long" jdbcType="BIGINT" />
     </constructor>
   </resultMap>
   <insert id="insert" parameterType="com.april.achieveit_userinfo_interface.entity.GlobalRolePermissionRelation">
     insert into GlobalRolePermissionRelation (referred_global_role_id, referred_permission_id
       )
-    values (#{referredGlobalRoleId,jdbcType=INTEGER}, #{referredPermissionId,jdbcType=INTEGER}
+    values (#{referredGlobalRoleId,jdbcType=BIGINT}, #{referredPermissionId,jdbcType=BIGINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.april.achieveit_userinfo_interface.entity.GlobalRolePermissionRelation">
@@ -25,10 +25,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="referredGlobalRoleId != null">
-        #{referredGlobalRoleId,jdbcType=INTEGER},
+        #{referredGlobalRoleId,jdbcType=BIGINT},
       </if>
       <if test="referredPermissionId != null">
-        #{referredPermissionId,jdbcType=INTEGER},
+        #{referredPermissionId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>

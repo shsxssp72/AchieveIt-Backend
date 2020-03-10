@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProjectFunction {
-    private Integer functionId;
+    private Long functionId;
 
     private String referredProjectId;
 
-    private Integer superiorFunctionId;
+    private Long superiorFunctionId;
 
     private String description;
 }

@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public interface WorkingHourMapper
 {
-    int deleteByPrimaryKey(Integer workingHourId);
+    int deleteByPrimaryKey(Long workingHourId);
 
     int insert(WorkingHour record);
 
     int insertSelective(WorkingHour record);
 
-    WorkingHour selectByPrimaryKey(Integer workingHourId);
+    WorkingHour selectByPrimaryKey(Long workingHourId);
 
     int updateByPrimaryKeySelective(WorkingHour record);
 

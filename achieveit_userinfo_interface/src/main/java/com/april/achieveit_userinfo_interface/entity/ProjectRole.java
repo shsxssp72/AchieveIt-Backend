@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProjectRole
 {
-    private Integer projectRoleId;
+    private Long projectRoleId;
 
     private String projectRoleName;
 }

@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public interface DeviceInfoMapper
 {
-    int deleteByPrimaryKey(Integer deviceId);
+    int deleteByPrimaryKey(Long deviceId);
 
     int insert(DeviceInfo record);
 
     int insertSelective(DeviceInfo record);
 
-    DeviceInfo selectByPrimaryKey(Integer deviceId);
+    DeviceInfo selectByPrimaryKey(Long deviceId);
 
     int updateByPrimaryKeySelective(DeviceInfo record);
 

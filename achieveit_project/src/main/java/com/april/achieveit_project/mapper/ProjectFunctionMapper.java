@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public interface ProjectFunctionMapper
 {
-    int deleteByPrimaryKey(Integer functionId);
+    int deleteByPrimaryKey(Long functionId);
 
     int insert(ProjectFunction record);
 
     int insertSelective(ProjectFunction record);
 
-    ProjectFunction selectByPrimaryKey(Integer functionId);
+    ProjectFunction selectByPrimaryKey(Long functionId);
 
     int updateByPrimaryKeySelective(ProjectFunction record);
 

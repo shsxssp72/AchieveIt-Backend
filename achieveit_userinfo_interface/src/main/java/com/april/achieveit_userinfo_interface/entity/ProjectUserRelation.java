@@ -1,4 +1,4 @@
-package com.april.achieveit_project.entity;
+package com.april.achieveit_userinfo_interface.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,5 +14,5 @@ public class ProjectUserRelation {
 
     private String referredSuperiorId;
 
-    private Integer referredProjectRoleId;
+    private Long referredProjectRoleId;
 }

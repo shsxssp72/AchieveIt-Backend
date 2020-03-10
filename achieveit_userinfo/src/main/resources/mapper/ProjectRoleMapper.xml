@@ -3,26 +3,26 @@
 <mapper namespace="com.april.achieveit_userinfo.mapper.ProjectRoleMapper">
   <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo_interface.entity.ProjectRole">
     <constructor>
-      <idArg column="project_role_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="project_role_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="project_role_name" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
     project_role_id, project_role_name
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from ProjectRole
-    where project_role_id = #{projectRoleId,jdbcType=INTEGER}
+    where project_role_id = #{projectRoleId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from ProjectRole
-    where project_role_id = #{projectRoleId,jdbcType=INTEGER}
+    where project_role_id = #{projectRoleId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.april.achieveit_userinfo_interface.entity.ProjectRole">
     insert into ProjectRole (project_role_id, project_role_name)
-    values (#{projectRoleId,jdbcType=INTEGER}, #{projectRoleName,jdbcType=VARCHAR})
+    values (#{projectRoleId,jdbcType=BIGINT}, #{projectRoleName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.april.achieveit_userinfo_interface.entity.ProjectRole">
     insert into ProjectRole
@@ -36,7 +36,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="projectRoleId != null">
-        #{projectRoleId,jdbcType=INTEGER},
+        #{projectRoleId,jdbcType=BIGINT},
       </if>
       <if test="projectRoleName != null">
         #{projectRoleName,jdbcType=VARCHAR},
@@ -50,11 +50,11 @@
         project_role_name = #{projectRoleName,jdbcType=VARCHAR},
       </if>
     </set>
-    where project_role_id = #{projectRoleId,jdbcType=INTEGER}
+    where project_role_id = #{projectRoleId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.april.achieveit_userinfo_interface.entity.ProjectRole">
     update ProjectRole
     set project_role_name = #{projectRoleName,jdbcType=VARCHAR}
-    where project_role_id = #{projectRoleId,jdbcType=INTEGER}
+    where project_role_id = #{projectRoleId,jdbcType=BIGINT}
   </update>
 </mapper>

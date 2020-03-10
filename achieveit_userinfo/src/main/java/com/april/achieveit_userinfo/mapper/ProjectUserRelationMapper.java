@@ -1,6 +1,6 @@
-package com.april.achieveit_project.mapper;
+package com.april.achieveit_userinfo.mapper;
 
-import com.april.achieveit_project.entity.ProjectUserRelation;
+import com.april.achieveit_userinfo_interface.entity.ProjectUserRelation;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 

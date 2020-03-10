@@ -4,13 +4,13 @@ import com.april.achieveit_userinfo_interface.entity.Permission;
 
 public interface PermissionMapper
 {
-    int deleteByPrimaryKey(Integer permissionId);
+    int deleteByPrimaryKey(Long permissionId);
 
     int insert(Permission record);
 
     int insertSelective(Permission record);
 
-    Permission selectByPrimaryKey(Integer permissionId);
+    Permission selectByPrimaryKey(Long permissionId);
 
     int updateByPrimaryKeySelective(Permission record);
 

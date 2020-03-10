@@ -11,7 +11,7 @@
             <arg column="scheduled_end_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="mile_stone" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="technology" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <arg column="referred_business_field_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="referred_business_field_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
             <arg column="main_function" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </constructor>
     </resultMap>
@@ -32,7 +32,7 @@
         where project_name like concat('%',{#projectName},'%')
         order by project_id
     </select>
-    <select id="selectByProjectIds" resultType="com.april.achieveit_project.entity.Project">
+    <select id="selectByProjectIds" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from Project
@@ -54,7 +54,7 @@
         VALUES (#{projectId,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{projectName,jdbcType=VARCHAR},
                 #{referredOuterCustomerId,jdbcType=CHAR}, #{scheduledStartTime,jdbcType=TIMESTAMP},
                 #{scheduledEndTime,jdbcType=TIMESTAMP}, #{mileStone,jdbcType=VARCHAR}, #{technology,jdbcType=VARCHAR},
-                #{referredBusinessFieldId,jdbcType=INTEGER}, #{mainFunction,jdbcType=VARCHAR})
+                #{referredBusinessFieldId,jdbcType=BIGINT}, #{mainFunction,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.Project">
         insert into Project
@@ -116,7 +116,7 @@
                 #{technology,jdbcType=VARCHAR},
             </if>
             <if test="referredBusinessFieldId != null">
-                #{referredBusinessFieldId,jdbcType=INTEGER},
+                #{referredBusinessFieldId,jdbcType=BIGINT},
             </if>
             <if test="mainFunction != null">
                 #{mainFunction,jdbcType=VARCHAR},
@@ -148,7 +148,7 @@
                 technology = #{technology,jdbcType=VARCHAR},
             </if>
             <if test="referredBusinessFieldId != null">
-                referred_business_field_id = #{referredBusinessFieldId,jdbcType=INTEGER},
+                referred_business_field_id = #{referredBusinessFieldId,jdbcType=BIGINT},
             </if>
             <if test="mainFunction != null">
                 main_function = #{mainFunction,jdbcType=VARCHAR},
@@ -165,7 +165,7 @@
             scheduled_end_time         = #{scheduledEndTime,jdbcType=TIMESTAMP},
             mile_stone                 = #{mileStone,jdbcType=VARCHAR},
             technology                 = #{technology,jdbcType=VARCHAR},
-            referred_business_field_id = #{referredBusinessFieldId,jdbcType=INTEGER},
+            referred_business_field_id = #{referredBusinessFieldId,jdbcType=BIGINT},
             main_function              = #{mainFunction,jdbcType=VARCHAR}
         WHERE project_id = #{projectId,jdbcType=CHAR}
     </update>

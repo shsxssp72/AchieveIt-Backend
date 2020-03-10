@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GlobalRolePermissionRelation
 {
-    private Integer referredGlobalRoleId;
+    private Long referredGlobalRoleId;
 
-    private Integer referredPermissionId;
+    private Long referredPermissionId;
 }

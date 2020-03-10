@@ -34,7 +34,7 @@ public class Project
     @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
     private String technology;
     @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
-    private Integer referredBusinessFieldId;
+    private Long referredBusinessFieldId;
     @JsonView(value=JsonVisibilityLevel.AuthenticatedViewLevel.class)
     private String mainFunction;
 

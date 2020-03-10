@@ -12,15 +12,15 @@ import java.util.Date;
 @NoArgsConstructor
 public class WorkingHour
 {
-    private Integer workingHourId;
+    private Long workingHourId;
 
     private String referredUserId;
 
     private String referredProjectId;
 
-    private Integer referredActivityTypeId;
+    private Long referredActivityTypeId;
 
-    private Integer referredFunctionId;
+    private Long referredFunctionId;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date startTime;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")

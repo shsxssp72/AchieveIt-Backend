@@ -4,6 +4,8 @@ import com.april.achieveit_project.entity.ProjectMiscellaneous;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper
 @Component
 public interface ProjectMiscellaneousMapper
@@ -15,6 +17,8 @@ public interface ProjectMiscellaneousMapper
     int insertSelective(ProjectMiscellaneous record);
 
     ProjectMiscellaneous selectByPrimaryKey(Integer miscId);
+
+    List<ProjectMiscellaneous> selectByProjectId(String projectId);
 
     int updateByPrimaryKeySelective(ProjectMiscellaneous record);
 

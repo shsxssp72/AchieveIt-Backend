@@ -3,11 +3,11 @@
 <mapper namespace="com.april.achieveit_project.mapper.WorkingHourMapper">
   <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.WorkingHour">
     <constructor>
-      <idArg column="working_hour_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="working_hour_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="referred_user_id" javaType="java.lang.String" jdbcType="CHAR" />
       <arg column="referred_project_id" javaType="java.lang.String" jdbcType="CHAR" />
-      <arg column="referred_activity_type_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="referred_function_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="referred_activity_type_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="referred_function_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="start_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="verified" javaType="java.lang.Boolean" jdbcType="BIT" />
@@ -17,23 +17,23 @@
     working_hour_id, referred_user_id, referred_project_id, referred_activity_type_id, 
     referred_function_id, start_time, end_time, verified
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from WorkingHour
-    where working_hour_id = #{workingHourId,jdbcType=INTEGER}
+    where working_hour_id = #{workingHourId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from WorkingHour
-    where working_hour_id = #{workingHourId,jdbcType=INTEGER}
+    where working_hour_id = #{workingHourId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.april.achieveit_project.entity.WorkingHour">
     insert into WorkingHour (working_hour_id, referred_user_id, referred_project_id, 
       referred_activity_type_id, referred_function_id, 
       start_time, end_time, verified
       )
-    values (#{workingHourId,jdbcType=INTEGER}, #{referredUserId,jdbcType=CHAR}, #{referredProjectId,jdbcType=CHAR}, 
-      #{referredActivityTypeId,jdbcType=INTEGER}, #{referredFunctionId,jdbcType=INTEGER}, 
+    values (#{workingHourId,jdbcType=BIGINT}, #{referredUserId,jdbcType=CHAR}, #{referredProjectId,jdbcType=CHAR},
+      #{referredActivityTypeId,jdbcType=BIGINT}, #{referredFunctionId,jdbcType=BIGINT},
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{verified,jdbcType=BIT}
       )
   </insert>
@@ -67,7 +67,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="workingHourId != null">
-        #{workingHourId,jdbcType=INTEGER},
+        #{workingHourId,jdbcType=BIGINT},
       </if>
       <if test="referredUserId != null">
         #{referredUserId,jdbcType=CHAR},
@@ -76,10 +76,10 @@
         #{referredProjectId,jdbcType=CHAR},
       </if>
       <if test="referredActivityTypeId != null">
-        #{referredActivityTypeId,jdbcType=INTEGER},
+        #{referredActivityTypeId,jdbcType=BIGINT},
       </if>
       <if test="referredFunctionId != null">
-        #{referredFunctionId,jdbcType=INTEGER},
+        #{referredFunctionId,jdbcType=BIGINT},
       </if>
       <if test="startTime != null">
         #{startTime,jdbcType=TIMESTAMP},
@@ -102,10 +102,10 @@
         referred_project_id = #{referredProjectId,jdbcType=CHAR},
       </if>
       <if test="referredActivityTypeId != null">
-        referred_activity_type_id = #{referredActivityTypeId,jdbcType=INTEGER},
+        referred_activity_type_id = #{referredActivityTypeId,jdbcType=BIGINT},
       </if>
       <if test="referredFunctionId != null">
-        referred_function_id = #{referredFunctionId,jdbcType=INTEGER},
+        referred_function_id = #{referredFunctionId,jdbcType=BIGINT},
       </if>
       <if test="startTime != null">
         start_time = #{startTime,jdbcType=TIMESTAMP},
@@ -117,17 +117,17 @@
         verified = #{verified,jdbcType=BIT},
       </if>
     </set>
-    where working_hour_id = #{workingHourId,jdbcType=INTEGER}
+    where working_hour_id = #{workingHourId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.WorkingHour">
     update WorkingHour
     set referred_user_id = #{referredUserId,jdbcType=CHAR},
       referred_project_id = #{referredProjectId,jdbcType=CHAR},
-      referred_activity_type_id = #{referredActivityTypeId,jdbcType=INTEGER},
-      referred_function_id = #{referredFunctionId,jdbcType=INTEGER},
+      referred_activity_type_id = #{referredActivityTypeId,jdbcType=BIGINT},
+      referred_function_id = #{referredFunctionId,jdbcType=BIGINT},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       verified = #{verified,jdbcType=BIT}
-    where working_hour_id = #{workingHourId,jdbcType=INTEGER}
+    where working_hour_id = #{workingHourId,jdbcType=BIGINT}
   </update>
 </mapper>

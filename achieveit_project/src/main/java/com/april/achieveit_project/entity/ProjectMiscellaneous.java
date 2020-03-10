@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProjectMiscellaneous {
-    private Integer miscId;
+    private Long miscId;
 
     private String referredProjectId;
 

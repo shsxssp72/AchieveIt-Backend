@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ActivityType {
-    private Integer activityTypeId;
+    private Long activityTypeId;
 
     private String level1Description;
 

@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public interface ActivityTypeMapper
 {
-    int deleteByPrimaryKey(Integer activityTypeId);
+    int deleteByPrimaryKey(Long activityTypeId);
 
     int insert(ActivityType record);
 
     int insertSelective(ActivityType record);
 
-    ActivityType selectByPrimaryKey(Integer activityTypeId);
+    ActivityType selectByPrimaryKey(Long activityTypeId);
 
     int updateByPrimaryKeySelective(ActivityType record);
 

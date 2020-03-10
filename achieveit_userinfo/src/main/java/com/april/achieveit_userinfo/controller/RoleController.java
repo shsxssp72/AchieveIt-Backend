@@ -46,6 +46,7 @@ public class RoleController implements RoleServiceApi
     {
         return null;
     }
+
     /**
      * Will delete all existing project member
      */
@@ -67,9 +68,17 @@ public class RoleController implements RoleServiceApi
         //TODO Complete the logic
         return result;
     }
+
     @Override
     @GetMapping(path="/projectRole")
     public ResponseContent GetProjectMember(@RequestBody Map<String,String> params)
+    {
+        return null;
+    }
+
+    @Override
+    @GetMapping(path="/globalRole")
+    public ResponseContent GetUserGlobalRole(@RequestBody Map<String,String> params)
     {
         return null;
     }

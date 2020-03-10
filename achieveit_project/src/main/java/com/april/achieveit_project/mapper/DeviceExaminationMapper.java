@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public interface DeviceExaminationMapper
 {
-    int deleteByPrimaryKey(Integer examinationId);
+    int deleteByPrimaryKey(Long examinationId);
 
     int insert(DeviceExamination record);
 
     int insertSelective(DeviceExamination record);
 
-    DeviceExamination selectByPrimaryKey(Integer examinationId);
+    DeviceExamination selectByPrimaryKey(Long examinationId);
 
     int updateByPrimaryKeySelective(DeviceExamination record);
 

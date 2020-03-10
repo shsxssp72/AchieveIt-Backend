@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Permission
 {
-    private Integer permissionId;
+    private Long permissionId;
 
     private String permissionName;
 }

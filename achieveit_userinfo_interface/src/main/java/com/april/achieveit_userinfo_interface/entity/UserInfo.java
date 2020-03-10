@@ -11,7 +11,7 @@ public class UserInfo
 {
     private String userId;
 
-    private Integer referredOuterUserId;
+    private Long referredOuterUserId;
 
     private String userName;
 
@@ -19,5 +19,5 @@ public class UserInfo
 
     private String userSalt;
 
-    private Integer referredUserGlobalRoleId;
+    private Long referredUserGlobalRoleId;
 }

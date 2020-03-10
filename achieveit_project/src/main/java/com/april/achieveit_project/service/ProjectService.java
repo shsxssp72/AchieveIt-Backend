@@ -1,16 +1,21 @@
 package com.april.achieveit_project.service;
 
+import com.april.achieveit_common.utility.SnowFlakeIdGenerator;
 import com.april.achieveit_project.config.ProjectStateTransition;
 import com.april.achieveit_project.entity.Project;
+import com.april.achieveit_project.entity.ProjectMiscellaneous;
 import com.april.achieveit_project.mapper.ProjectMapper;
+import com.april.achieveit_project.mapper.ProjectMiscellaneousMapper;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +26,22 @@ public class ProjectService
 
     @Autowired
     private ProjectMapper projectMapper;
+
+    @Autowired
+    private ProjectMiscellaneousMapper projectMiscellaneousMapper;
+
+    @Value("${snowflake.datacenter-id}")
+    private Long datacenterId;
+    @Value("${snowflake.machine-id}")
+    private Long machineId;
+    private SnowFlakeIdGenerator snowFlakeIdGenerator;
+
+    @PostConstruct
+    private void init()
+    {
+        snowFlakeIdGenerator=new SnowFlakeIdGenerator(datacenterId,
+                                                      machineId);
+    }
 
 
     public void NewProject(Project project)
@@ -75,6 +96,29 @@ public class ProjectService
 
         projectMapper.updateByPrimaryKey(project);
     }
+    /**
+     * Block before QA Manager, EPG Leader, Conf. Manager
+     */
+    private boolean additionalProjectStateTransitionCheck(String projectId,ProjectStateTransition.ProjectState currentState)
+    {
+        if(currentState!=ProjectStateTransition.ProjectState.Initiated)
+            return true;
+        List<ProjectMiscellaneous> projectMiscs=projectMiscellaneousMapper.selectByProjectId(projectId);
+        boolean qaAdded=false, epgAdded=false, confAdded=false;
+        for(ProjectMiscellaneous item: projectMiscs)//TODO Check role name in the end
+        {
+            if(item.getKeyField()
+                    .equals("QAManager"))
+                qaAdded=true;
+            if(item.getKeyField()
+                    .equals("EPGManager"))
+                epgAdded=true;
+            if(item.getKeyField()
+                    .equals("ConfigurationManager"))
+                confAdded=true;
+        }
+        return qaAdded&&epgAdded&&confAdded;
+    }
 
     public void UpdateProjectStatus(String projectId,String status)
     {
@@ -83,9 +127,13 @@ public class ProjectService
         Project project=SelectByProjectId(projectId);
         String currentState=project.getStatus();
         ProjectStateTransition transition=ProjectStateTransition.getInstance();
-        if(!transition.isValidTransition(ProjectStateTransition.ProjectState.valueOf(currentState),
-                                         ProjectStateTransition.ProjectState.valueOf(status)))
+
+        boolean isValidTransition=transition.isValidTransition(ProjectStateTransition.ProjectState.valueOf(currentState),
+                                                               ProjectStateTransition.ProjectState.valueOf(status));
+        if(!isValidTransition&&!additionalProjectStateTransitionCheck(projectId,
+                                                                      ProjectStateTransition.ProjectState.valueOf(currentState)))
             throw new IllegalArgumentException("Invalid transition from: "+currentState+" to: "+status);
+
         Project toUpdateProject=new Project();
         toUpdateProject.setProjectId(projectId);
         toUpdateProject.setStatus(ProjectStateTransition.ProjectState.valueOf(status));
@@ -93,5 +141,13 @@ public class ProjectService
         projectMapper.updateByPrimaryKeySelective(project);
     }
 
+    public void UpdateProjectMiscWhenMemberUpdated(String projectId,String global_role_name)
+    {
+        var toInsert=new ProjectMiscellaneous(snowFlakeIdGenerator.getNextId(),
+                                              projectId,
+                                              global_role_name,
+                                              "MemberAdded");
+        projectMiscellaneousMapper.insert(toInsert);
+    }
 
 }

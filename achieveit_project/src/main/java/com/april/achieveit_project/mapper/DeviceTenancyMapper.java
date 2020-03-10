@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public interface DeviceTenancyMapper
 {
-    int deleteByPrimaryKey(Integer tenancyId);
+    int deleteByPrimaryKey(Long tenancyId);
 
     int insert(DeviceTenancy record);
 
     int insertSelective(DeviceTenancy record);
 
-    DeviceTenancy selectByPrimaryKey(Integer tenancyId);
+    DeviceTenancy selectByPrimaryKey(Long tenancyId);
 
     int updateByPrimaryKeySelective(DeviceTenancy record);
 
