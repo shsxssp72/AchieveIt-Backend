@@ -96,6 +96,7 @@ public class ProjectService
 
         projectMapper.updateByPrimaryKey(project);
     }
+
     /**
      * Block before QA Manager, EPG Leader, Conf. Manager
      */
@@ -103,20 +104,19 @@ public class ProjectService
     {
         if(currentState!=ProjectStateTransition.ProjectState.Initiated)
             return true;
-        List<ProjectMiscellaneous> projectMiscs=projectMiscellaneousMapper.selectByProjectId(projectId);
+
         boolean qaAdded=false, epgAdded=false, confAdded=false;
-        for(ProjectMiscellaneous item: projectMiscs)//TODO Check role name in the end
-        {
-            if(item.getKeyField()
-                    .equals("QAManager"))
-                qaAdded=true;
-            if(item.getKeyField()
-                    .equals("EPGManager"))
-                epgAdded=true;
-            if(item.getKeyField()
-                    .equals("ConfigurationManager"))
-                confAdded=true;
-        }
+        //TODO Check role name in the end
+        if(SelectMiscByProjectIdAndKey(projectId,
+                                       "QAManager")!=null)
+            qaAdded=true;
+        if(SelectMiscByProjectIdAndKey(projectId,
+                                       "EPGManager")!=null)
+            epgAdded=true;
+        if(SelectMiscByProjectIdAndKey(projectId,
+                                       "ConfigurationManager")!=null)
+            confAdded=true;
+
         return qaAdded&&epgAdded&&confAdded;
     }
 
@@ -143,11 +143,34 @@ public class ProjectService
 
     public void UpdateProjectMiscWhenMemberUpdated(String projectId,String global_role_name)
     {
-        var toInsert=new ProjectMiscellaneous(snowFlakeIdGenerator.getNextId(),
-                                              projectId,
-                                              global_role_name,
-                                              "MemberAdded");
-        projectMiscellaneousMapper.insert(toInsert);
+        InsertMiscByProjectIdAndKey(projectId,
+                                    global_role_name,
+                                    "MemberAdded");
+    }
+
+    public List<ProjectMiscellaneous> SelectMiscByProjectId(String projectId)
+    {
+        return projectMiscellaneousMapper.selectByProjectId(projectId);
+    }
+
+    public String SelectMiscByProjectIdAndKey(String projectId,String key)
+    {
+        ProjectMiscellaneous queryResult=projectMiscellaneousMapper.selectByProjectIdAndKey(projectId,
+                                                                                            key);
+        return queryResult==null?null:queryResult.getValueField();
+    }
+
+    public void InsertMiscByProjectIdAndKey(String projectId,String key,String value)
+    {
+        ProjectMiscellaneous queryResult=projectMiscellaneousMapper.selectByProjectIdAndKey(projectId,
+                                                                                            key);
+        if(queryResult!=null)
+            projectMiscellaneousMapper.deleteByPrimaryKey(queryResult.getMiscId());
+        ProjectMiscellaneous misc=new ProjectMiscellaneous(snowFlakeIdGenerator.getNextId(),
+                                                           projectId,
+                                                           key,
+                                                           value);
+        projectMiscellaneousMapper.insert(misc);
     }
 
 }

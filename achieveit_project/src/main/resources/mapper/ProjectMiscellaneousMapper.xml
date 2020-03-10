@@ -19,10 +19,16 @@
         where misc_id = #{miscId,jdbcType=BIGINT}
     </select>
     <select id="selectByProjectId" resultMap="BaseResultMap">
-      select
-      <include refid="Base_Column_List"/>
-      from ProjectMiscellaneous
-      where referred_project_id =#{projectId}
+        select
+        <include refid="Base_Column_List"/>
+        from ProjectMiscellaneous
+        where referred_project_id =#{projectId}
+    </select>
+    <select id="selectByProjectIdAndKey" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ProjectMiscellaneous
+        where referred_project_id =#{projectId} and key_field =#{key}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         DELETE

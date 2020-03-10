@@ -10,15 +10,17 @@ import java.util.List;
 @Component
 public interface ProjectMiscellaneousMapper
 {
-    int deleteByPrimaryKey(Integer miscId);
+    int deleteByPrimaryKey(Long miscId);
 
     int insert(ProjectMiscellaneous record);
 
     int insertSelective(ProjectMiscellaneous record);
 
-    ProjectMiscellaneous selectByPrimaryKey(Integer miscId);
+    ProjectMiscellaneous selectByPrimaryKey(Long miscId);
 
     List<ProjectMiscellaneous> selectByProjectId(String projectId);
+
+    ProjectMiscellaneous selectByProjectIdAndKey(String projectId,String key);
 
     int updateByPrimaryKeySelective(ProjectMiscellaneous record);
 
