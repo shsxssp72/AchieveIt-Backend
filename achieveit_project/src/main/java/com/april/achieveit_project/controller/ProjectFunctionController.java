@@ -35,8 +35,9 @@ public class ProjectFunctionController
         return null;
     }
 
-    @GetMapping(path="/function/download/{project_id}",produces=MediaType.TEXT_PLAIN_VALUE)
-    public @ResponseBody String DownloadProjectFunctions(@PathVariable(name="project_id") String project_id)
+    @GetMapping(path="/function/download/{project_id}", produces=MediaType.TEXT_PLAIN_VALUE)
+    public @ResponseBody
+    String DownloadProjectFunctions(@PathVariable(name="project_id") String project_id)
     {
         return null;
     }
