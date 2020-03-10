@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Mapper
 @Component
-public interface DeviceInfoMapper {
+public interface DeviceInfoMapper
+{
     int deleteByPrimaryKey(Integer deviceId);
 
     int insert(DeviceInfo record);

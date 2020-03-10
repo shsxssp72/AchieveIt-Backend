@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Mapper
 @Component
-public interface RiskMapper {
+public interface RiskMapper
+{
     int deleteByPrimaryKey(String riskId);
 
     int insert(Risk record);

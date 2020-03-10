@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Mapper
 @Component
-public interface WorkingHourMapper {
+public interface WorkingHourMapper
+{
     int deleteByPrimaryKey(Integer workingHourId);
 
     int insert(WorkingHour record);

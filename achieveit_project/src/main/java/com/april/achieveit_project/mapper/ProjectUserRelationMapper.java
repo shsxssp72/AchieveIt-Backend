@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Mapper
 @Component
-public interface ProjectUserRelationMapper {
+public interface ProjectUserRelationMapper
+{
     int insert(ProjectUserRelation record);
 
     int insertSelective(ProjectUserRelation record);

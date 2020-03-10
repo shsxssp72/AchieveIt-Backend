@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Mapper
 @Component
-public interface RiskRelatedPeopleMapper {
+public interface RiskRelatedPeopleMapper
+{
     int insert(RiskRelatedPeople record);
 
     int insertSelective(RiskRelatedPeople record);

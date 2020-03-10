@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Mapper
 @Component
-public interface ActivityTypeMapper {
+public interface ActivityTypeMapper
+{
     int deleteByPrimaryKey(Integer activityTypeId);
 
     int insert(ActivityType record);

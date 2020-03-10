@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Mapper
 @Component
-public interface DeviceTenancyMapper {
+public interface DeviceTenancyMapper
+{
     int deleteByPrimaryKey(Integer tenancyId);
 
     int insert(DeviceTenancy record);

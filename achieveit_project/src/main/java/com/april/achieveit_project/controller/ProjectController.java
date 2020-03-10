@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,7 +31,7 @@ public class ProjectController
     ProjectService projectService;
 
     @PostMapping(path="/setUp")
-    public ResponseContent SetUpProject(@RequestBody Project project)
+    public ResponseContent SetUpProject(@RequestBody Project project)//TODO Check if project_id valid
     {
         ResponseContent result=new ResponseContent();
         project.setStatus(ProjectStateTransition.ProjectState.Applied);
@@ -43,9 +44,20 @@ public class ProjectController
 
     @PostMapping(path="/search")
     @JsonView(value=JsonVisibilityLevel.BasicViewLevel.class)
-    public ResponseContent SearchProject(@RequestBody Map<String,String> params,HttpServletRequest request)
+    public ResponseContent SearchProject(@RequestBody Map<String,String> params)
     {
-        return null;
+        ResponseContent result=new ResponseContent();
+        String key_word=params.get("key_word");
+        int page_size=Integer.parseInt(params.get("page_size"));
+        int current_page=Integer.parseInt(params.get("current_page"));
+
+        List<Project> queryResult=projectService.SearchProjectByName(key_word,
+                                                                page_size,
+                                                                current_page);
+
+        result.setStatus(ResponseContentStatus.SUCCESS);
+        result.setResult(queryResult);
+        return result;
     }
 
     @GetMapping(path="/listRelative")

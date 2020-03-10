@@ -1,155 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.april.achieveit_project.mapper.ProjectMapper">
-  <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.Project">
-    <constructor>
-      <idArg column="project_id" javaType="java.lang.String" jdbcType="CHAR" />
-      <arg column="status" javaType="java.lang.String" jdbcType="CHAR" />
-      <arg column="project_name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="referred_outer_customer_id" javaType="java.lang.String" jdbcType="CHAR" />
-      <arg column="scheduled_start_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="scheduled_end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="mile_stone" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="technology" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="referred_business_field_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="main_function" javaType="java.lang.String" jdbcType="VARCHAR" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
-    project_id, status, project_name, referred_outer_customer_id, scheduled_start_time, 
+    <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.Project">
+        <constructor>
+            <idArg column="project_id" javaType="java.lang.String" jdbcType="CHAR"/>
+            <arg column="status" javaType="java.lang.String" jdbcType="CHAR"/>
+            <arg column="project_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="referred_outer_customer_id" javaType="java.lang.String" jdbcType="CHAR"/>
+            <arg column="scheduled_start_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="scheduled_end_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="mile_stone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="technology" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="referred_business_field_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="main_function" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+        project_id, status, project_name, referred_outer_customer_id, scheduled_start_time,
     scheduled_end_time, mile_stone, technology, referred_business_field_id, main_function
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from Project
-    where project_id = #{projectId,jdbcType=CHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from Project
-    where project_id = #{projectId,jdbcType=CHAR}
-  </delete>
-  <insert id="insert" parameterType="com.april.achieveit_project.entity.Project">
-    insert into Project (project_id, status, project_name, 
-      referred_outer_customer_id, scheduled_start_time, 
-      scheduled_end_time, mile_stone, technology, 
-      referred_business_field_id, main_function)
-    values (#{projectId,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{projectName,jdbcType=VARCHAR}, 
-      #{referredOuterCustomerId,jdbcType=CHAR}, #{scheduledStartTime,jdbcType=TIMESTAMP}, 
-      #{scheduledEndTime,jdbcType=TIMESTAMP}, #{mileStone,jdbcType=VARCHAR}, #{technology,jdbcType=VARCHAR}, 
-      #{referredBusinessFieldId,jdbcType=INTEGER}, #{mainFunction,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.Project">
-    insert into Project
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="projectId != null">
-        project_id,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="projectName != null">
-        project_name,
-      </if>
-      <if test="referredOuterCustomerId != null">
-        referred_outer_customer_id,
-      </if>
-      <if test="scheduledStartTime != null">
-        scheduled_start_time,
-      </if>
-      <if test="scheduledEndTime != null">
-        scheduled_end_time,
-      </if>
-      <if test="mileStone != null">
-        mile_stone,
-      </if>
-      <if test="technology != null">
-        technology,
-      </if>
-      <if test="referredBusinessFieldId != null">
-        referred_business_field_id,
-      </if>
-      <if test="mainFunction != null">
-        main_function,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="projectId != null">
-        #{projectId,jdbcType=CHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=CHAR},
-      </if>
-      <if test="projectName != null">
-        #{projectName,jdbcType=VARCHAR},
-      </if>
-      <if test="referredOuterCustomerId != null">
-        #{referredOuterCustomerId,jdbcType=CHAR},
-      </if>
-      <if test="scheduledStartTime != null">
-        #{scheduledStartTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="scheduledEndTime != null">
-        #{scheduledEndTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="mileStone != null">
-        #{mileStone,jdbcType=VARCHAR},
-      </if>
-      <if test="technology != null">
-        #{technology,jdbcType=VARCHAR},
-      </if>
-      <if test="referredBusinessFieldId != null">
-        #{referredBusinessFieldId,jdbcType=INTEGER},
-      </if>
-      <if test="mainFunction != null">
-        #{mainFunction,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_project.entity.Project">
-    update Project
-    <set>
-      <if test="status != null">
-        status = #{status,jdbcType=CHAR},
-      </if>
-      <if test="projectName != null">
-        project_name = #{projectName,jdbcType=VARCHAR},
-      </if>
-      <if test="referredOuterCustomerId != null">
-        referred_outer_customer_id = #{referredOuterCustomerId,jdbcType=CHAR},
-      </if>
-      <if test="scheduledStartTime != null">
-        scheduled_start_time = #{scheduledStartTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="scheduledEndTime != null">
-        scheduled_end_time = #{scheduledEndTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="mileStone != null">
-        mile_stone = #{mileStone,jdbcType=VARCHAR},
-      </if>
-      <if test="technology != null">
-        technology = #{technology,jdbcType=VARCHAR},
-      </if>
-      <if test="referredBusinessFieldId != null">
-        referred_business_field_id = #{referredBusinessFieldId,jdbcType=INTEGER},
-      </if>
-      <if test="mainFunction != null">
-        main_function = #{mainFunction,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where project_id = #{projectId,jdbcType=CHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.Project">
-    update Project
-    set status = #{status,jdbcType=CHAR},
-      project_name = #{projectName,jdbcType=VARCHAR},
-      referred_outer_customer_id = #{referredOuterCustomerId,jdbcType=CHAR},
-      scheduled_start_time = #{scheduledStartTime,jdbcType=TIMESTAMP},
-      scheduled_end_time = #{scheduledEndTime,jdbcType=TIMESTAMP},
-      mile_stone = #{mileStone,jdbcType=VARCHAR},
-      technology = #{technology,jdbcType=VARCHAR},
-      referred_business_field_id = #{referredBusinessFieldId,jdbcType=INTEGER},
-      main_function = #{mainFunction,jdbcType=VARCHAR}
-    where project_id = #{projectId,jdbcType=CHAR}
-  </update>
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Project
+        where project_id = #{projectId,jdbcType=CHAR}
+    </select>
+    <select id="selectByProjectName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Project
+        where project_name like concat('%',{#projectName},'%')
+        order by project_id
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        DELETE
+        FROM Project
+        WHERE project_id = #{projectId,jdbcType=CHAR}
+    </delete>
+    <insert id="insert" parameterType="com.april.achieveit_project.entity.Project">
+        INSERT INTO Project (project_id, status, project_name,
+                             referred_outer_customer_id, scheduled_start_time,
+                             scheduled_end_time, mile_stone, technology,
+                             referred_business_field_id, main_function)
+        VALUES (#{projectId,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{projectName,jdbcType=VARCHAR},
+                #{referredOuterCustomerId,jdbcType=CHAR}, #{scheduledStartTime,jdbcType=TIMESTAMP},
+                #{scheduledEndTime,jdbcType=TIMESTAMP}, #{mileStone,jdbcType=VARCHAR}, #{technology,jdbcType=VARCHAR},
+                #{referredBusinessFieldId,jdbcType=INTEGER}, #{mainFunction,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.Project">
+        insert into Project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">
+                project_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="projectName != null">
+                project_name,
+            </if>
+            <if test="referredOuterCustomerId != null">
+                referred_outer_customer_id,
+            </if>
+            <if test="scheduledStartTime != null">
+                scheduled_start_time,
+            </if>
+            <if test="scheduledEndTime != null">
+                scheduled_end_time,
+            </if>
+            <if test="mileStone != null">
+                mile_stone,
+            </if>
+            <if test="technology != null">
+                technology,
+            </if>
+            <if test="referredBusinessFieldId != null">
+                referred_business_field_id,
+            </if>
+            <if test="mainFunction != null">
+                main_function,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">
+                #{projectId,jdbcType=CHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=CHAR},
+            </if>
+            <if test="projectName != null">
+                #{projectName,jdbcType=VARCHAR},
+            </if>
+            <if test="referredOuterCustomerId != null">
+                #{referredOuterCustomerId,jdbcType=CHAR},
+            </if>
+            <if test="scheduledStartTime != null">
+                #{scheduledStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="scheduledEndTime != null">
+                #{scheduledEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="mileStone != null">
+                #{mileStone,jdbcType=VARCHAR},
+            </if>
+            <if test="technology != null">
+                #{technology,jdbcType=VARCHAR},
+            </if>
+            <if test="referredBusinessFieldId != null">
+                #{referredBusinessFieldId,jdbcType=INTEGER},
+            </if>
+            <if test="mainFunction != null">
+                #{mainFunction,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_project.entity.Project">
+        update Project
+        <set>
+            <if test="status != null">
+                status = #{status,jdbcType=CHAR},
+            </if>
+            <if test="projectName != null">
+                project_name = #{projectName,jdbcType=VARCHAR},
+            </if>
+            <if test="referredOuterCustomerId != null">
+                referred_outer_customer_id = #{referredOuterCustomerId,jdbcType=CHAR},
+            </if>
+            <if test="scheduledStartTime != null">
+                scheduled_start_time = #{scheduledStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="scheduledEndTime != null">
+                scheduled_end_time = #{scheduledEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="mileStone != null">
+                mile_stone = #{mileStone,jdbcType=VARCHAR},
+            </if>
+            <if test="technology != null">
+                technology = #{technology,jdbcType=VARCHAR},
+            </if>
+            <if test="referredBusinessFieldId != null">
+                referred_business_field_id = #{referredBusinessFieldId,jdbcType=INTEGER},
+            </if>
+            <if test="mainFunction != null">
+                main_function = #{mainFunction,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where project_id = #{projectId,jdbcType=CHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.Project">
+        UPDATE Project
+        SET status                     = #{status,jdbcType=CHAR},
+            project_name               = #{projectName,jdbcType=VARCHAR},
+            referred_outer_customer_id = #{referredOuterCustomerId,jdbcType=CHAR},
+            scheduled_start_time       = #{scheduledStartTime,jdbcType=TIMESTAMP},
+            scheduled_end_time         = #{scheduledEndTime,jdbcType=TIMESTAMP},
+            mile_stone                 = #{mileStone,jdbcType=VARCHAR},
+            technology                 = #{technology,jdbcType=VARCHAR},
+            referred_business_field_id = #{referredBusinessFieldId,jdbcType=INTEGER},
+            main_function              = #{mainFunction,jdbcType=VARCHAR}
+        WHERE project_id = #{projectId,jdbcType=CHAR}
+    </update>
 </mapper>

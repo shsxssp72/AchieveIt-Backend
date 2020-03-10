@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Mapper
 @Component
-public interface ProjectMiscellaneousMapper {
+public interface ProjectMiscellaneousMapper
+{
     int deleteByPrimaryKey(Integer miscId);
 
     int insert(ProjectMiscellaneous record);

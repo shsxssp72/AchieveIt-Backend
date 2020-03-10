@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Mapper
 @Component
-public interface ProjectFunctionMapper {
+public interface ProjectFunctionMapper
+{
     int deleteByPrimaryKey(Integer functionId);
 
     int insert(ProjectFunction record);
