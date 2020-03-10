@@ -16,13 +16,13 @@ public class ProjectIssueController
     private static Logger logger=LoggerFactory.getLogger(ProjectIssueController.class);
 
     @GetMapping(path="/{project_id}")
-    public ResponseContent GetProjectIssueTrackerUrl(@PathVariable(name="project_id") String project_id)
+    public ResponseContent GetProjectIssueTrackerUrl(@PathVariable(name="project_id") String projectId)
     {
         return null;
     }
 
     @PostMapping(path="/{project_id}")
-    public ResponseContent GetProjectIssueTrackerUrl(@PathVariable(name="project_id") String project_id,@RequestBody Map<String,String> params)
+    public ResponseContent GetProjectIssueTrackerUrl(@PathVariable(name="project_id") String projectId,@RequestBody Map<String,String> params)
     {
         return null;
     }

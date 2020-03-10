@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper
 @Component
@@ -19,6 +20,8 @@ public interface ProjectMapper
     Project selectByPrimaryKey(String projectId);
 
     List<Project> selectByProjectName(String projectName);
+
+    List<Project> selectByProjectIds(Set<String> projectIds);
 
     int updateByPrimaryKeySelective(Project record);
 

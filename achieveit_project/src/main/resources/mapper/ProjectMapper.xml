@@ -32,6 +32,15 @@
         where project_name like concat('%',{#projectName},'%')
         order by project_id
     </select>
+    <select id="selectByProjectIds" resultType="com.april.achieveit_project.entity.Project">
+        select
+        <include refid="Base_Column_List"/>
+        from Project
+        where project_id in
+        <foreach collection="set" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         DELETE
         FROM Project

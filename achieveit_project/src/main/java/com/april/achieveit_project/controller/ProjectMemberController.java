@@ -16,13 +16,13 @@ public class ProjectMemberController
     private static Logger logger=LoggerFactory.getLogger(ProjectMemberController.class);
 
     @PostMapping(path="/{project_id}")
-    public ResponseContent UpdateProjectMemberInfo(@PathVariable(name="project_id") String project_id,@RequestBody Map<String,String> params)
+    public ResponseContent UpdateProjectMemberInfo(@PathVariable(name="project_id") String projectId,@RequestBody Map<String,String> params)
     {
         return null;
     }
 
     @GetMapping(path="/{project_id}")
-    public ResponseContent GetProjectMemberInfo(@PathVariable(name="project_id") String project_id)
+    public ResponseContent GetProjectMemberInfo(@PathVariable(name="project_id") String projectId)
     {
         return null;
     }

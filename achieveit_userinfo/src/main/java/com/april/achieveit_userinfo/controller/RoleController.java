@@ -25,7 +25,7 @@ public class RoleController implements RoleServiceApi
 
     @Override
     @GetMapping(path="/projectRole")
-    public ResponseContent GetUserProjectRole(@RequestBody Map<String,String> params)
+    public ResponseContent GetUserProjectRole(@RequestBody Map<String,String> params)//TODO Different behavior with/without project_id
     {
         return null;
     }

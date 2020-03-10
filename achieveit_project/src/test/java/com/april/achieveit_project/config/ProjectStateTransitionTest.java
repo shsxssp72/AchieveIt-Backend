@@ -30,4 +30,10 @@ class ProjectStateTransitionTest
         assertFalse(transition.isValidTransition(Developing,Archived));
         assertFalse(transition.isValidTransition(ArchiveDeclined,Archived));
     }
+
+    @Test
+    void noMatchingValue()
+    {
+        assertThrows(IllegalArgumentException.class,()->ProjectStateTransition.ProjectState.valueOf("invalid"));
+    }
 }

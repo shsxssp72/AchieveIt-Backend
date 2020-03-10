@@ -17,18 +17,18 @@ public class ProjectRiskController
     private static Logger logger=LoggerFactory.getLogger(ProjectRiskController.class);
 
     @PostMapping(path="/{project_id}")
-    public ResponseContent AddRisk(@PathVariable(name="project_id") String project_id,@RequestBody Risk risk)
+    public ResponseContent AddRisk(@PathVariable(name="project_id") String projectId,@RequestBody Risk risk)
     {
         return null;
     }
     @GetMapping(path="/{project_id}")
-    public ResponseContent GetRisk(@PathVariable(name="project_id") String project_id)
+    public ResponseContent GetRisk(@PathVariable(name="project_id") String projectId)
     {
         return null;
     }
 
     @PostMapping(path="/{project_id}/{risk_id}")
-    public ResponseContent AddRisk(@PathVariable(name="project_id") String project_id,@PathVariable(name="risk_id") String risk_id,@RequestBody Risk risk)
+    public ResponseContent AddRisk(@PathVariable(name="project_id") String projectId,@PathVariable(name="risk_id") String riskId,@RequestBody Risk risk)
     {
         return null;
     }
