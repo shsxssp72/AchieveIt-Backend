@@ -9,12 +9,18 @@ import java.util.Map;
 
 public interface RoleServiceApi
 {
-    @PostMapping(path="/projectRole")
+    @PostMapping(path="/user/userProjectRole")
     ResponseContent UpdateUserProjectRole(@RequestBody Map<String,String> params);
 
-    @GetMapping(path="/projectRole")
+    @GetMapping(path="/user/userProjectRole")
     ResponseContent GetUserProjectRole(@RequestBody Map<String,String> params);
 
-    @PostMapping(path="/projectRole/batch")
+    @PostMapping(path="/user/userProjectRole/batch")
     ResponseContent BatchGetUserProjectRole(@RequestBody Map<String,String> params);
+
+    @PostMapping(path="/user/projectRole")
+    ResponseContent UpdateProjectMember(@RequestBody Map<String,String> params);
+
+    @GetMapping(path="/user/projectRole")
+    ResponseContent GetProjectMember(@RequestBody Map<String,String> params);
 }

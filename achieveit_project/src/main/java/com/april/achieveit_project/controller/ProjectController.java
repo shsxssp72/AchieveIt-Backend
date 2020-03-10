@@ -30,8 +30,6 @@ import java.util.TreeMap;
 @RequestMapping(path="/project")
 public class ProjectController
 {
-    //TODO Placeholder
-
     private static Logger logger=LoggerFactory.getLogger(ProjectController.class);
 
     @Autowired
