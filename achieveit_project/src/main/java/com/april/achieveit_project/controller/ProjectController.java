@@ -34,17 +34,7 @@ public class ProjectController
     {
         ResponseContent result=new ResponseContent();
         project.setStatus(ProjectStateTransition.ProjectState.Applied);
-
-        try
-        {
-            projectService.NewProject(project);
-        }
-        catch(Exception e)
-        {
-            result.setMessage(e.getMessage());
-            result.setStatus(ResponseContentStatus.FAILURE);
-            return result;
-        }
+        projectService.NewProject(project);
 
         result.setMessage(dependencyService.sendEmail());
         result.setStatus(ResponseContentStatus.SUCCESS);
