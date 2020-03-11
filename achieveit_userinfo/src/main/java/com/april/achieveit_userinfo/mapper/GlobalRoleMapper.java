@@ -4,13 +4,13 @@ import com.april.achieveit_userinfo_interface.entity.GlobalRole;
 
 public interface GlobalRoleMapper
 {
-    int deleteByPrimaryKey(Integer globalRoleId);
+    int deleteByPrimaryKey(Long globalRoleId);
 
     int insert(GlobalRole record);
 
     int insertSelective(GlobalRole record);
 
-    GlobalRole selectByPrimaryKey(Integer globalRoleId);
+    GlobalRole selectByPrimaryKey(Long globalRoleId);
 
     int updateByPrimaryKeySelective(GlobalRole record);
 

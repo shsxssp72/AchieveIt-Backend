@@ -1,32 +1,15 @@
 package com.april.achieveit_userinfo_interface.entity;
 
-public class GlobalRole {
-    private Integer globalRoleId;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class GlobalRole
+{
+    private Long globalRoleId;
 
     private String globalRoleName;
-
-    public GlobalRole(Integer globalRoleId, String globalRoleName) {
-        this.globalRoleId = globalRoleId;
-        this.globalRoleName = globalRoleName;
-    }
-
-    public GlobalRole() {
-        super();
-    }
-
-    public Integer getGlobalRoleId() {
-        return globalRoleId;
-    }
-
-    public void setGlobalRoleId(Integer globalRoleId) {
-        this.globalRoleId = globalRoleId;
-    }
-
-    public String getGlobalRoleName() {
-        return globalRoleName;
-    }
-
-    public void setGlobalRoleName(String globalRoleName) {
-        this.globalRoleName = globalRoleName == null ? null : globalRoleName.trim();
-    }
 }

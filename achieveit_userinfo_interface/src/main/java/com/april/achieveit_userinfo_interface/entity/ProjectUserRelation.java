@@ -7,9 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectRole
-{
-    private Long projectRoleId;
+public class ProjectUserRelation {
+    private String referredProjectId;
 
-    private String projectRoleName;
+    private String referredUserId;
+
+    private String referredSuperiorId;
+
+    private Long referredProjectRoleId;
 }

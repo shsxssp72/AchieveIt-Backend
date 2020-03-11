@@ -21,10 +21,20 @@ public class CookieUtility
         return new CookieBuilder(response);
     }
 
+    public static String getCookieValue(HttpServletRequest request,String cookieName) throws UnsupportedEncodingException
+    {
+        return getCookieValue(request,
+                              cookieName,
+                              null,
+                              null);
+    }
+
     public static String getCookieValue(HttpServletRequest request,String cookieName,String charset) throws UnsupportedEncodingException
     {
         return getCookieValue(request,
-                              cookieName, null,charset);
+                              cookieName,
+                              null,
+                              charset);
     }
 
     public static String getCookieValue(HttpServletRequest request,String cookieName,Map<String,String> filterParams,String charset) throws UnsupportedEncodingException

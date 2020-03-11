@@ -3,14 +3,14 @@
 <mapper namespace="com.april.achieveit_userinfo.mapper.ProjectRolePermissionRelationMapper">
   <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo_interface.entity.ProjectRolePermissionRelation">
     <constructor>
-      <arg column="referred_project_role_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="referred_permission_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="referred_project_role_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="referred_permission_id" javaType="java.lang.Long" jdbcType="BIGINT" />
     </constructor>
   </resultMap>
   <insert id="insert" parameterType="com.april.achieveit_userinfo_interface.entity.ProjectRolePermissionRelation">
     insert into ProjectRolePermissionRelation (referred_project_role_id, referred_permission_id
       )
-    values (#{referredProjectRoleId,jdbcType=INTEGER}, #{referredPermissionId,jdbcType=INTEGER}
+    values (#{referredProjectRoleId,jdbcType=BIGINT}, #{referredPermissionId,jdbcType=BIGINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.april.achieveit_userinfo_interface.entity.ProjectRolePermissionRelation">
@@ -25,10 +25,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="referredProjectRoleId != null">
-        #{referredProjectRoleId,jdbcType=INTEGER},
+        #{referredProjectRoleId,jdbcType=BIGINT},
       </if>
       <if test="referredPermissionId != null">
-        #{referredPermissionId,jdbcType=INTEGER},
+        #{referredPermissionId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>

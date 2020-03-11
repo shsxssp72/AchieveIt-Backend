@@ -18,25 +18,26 @@ public class ProjectFunctionController
     private static Logger logger=LoggerFactory.getLogger(ProjectFunctionController.class);
 
     @PostMapping(path="/functionParse")
-    public ResponseContent ParseFunctionCsv(@RequestParam("csv_file") MultipartFile csv_file)
+    public ResponseContent ParseFunctionCsv(@RequestParam("csv_file") MultipartFile csvFile)
     {
         return null;
     }
 
     @PostMapping(path="/function/{project_id}")
-    public ResponseContent UpdateProjectFunctions(@PathVariable(name="project_id") String project_id,@RequestBody Map<String,String> params)
+    public ResponseContent UpdateProjectFunctions(@PathVariable(name="project_id") String projectId,@RequestBody Map<String,String> params)
     {
         return null;
     }
 
     @GetMapping(path="/function/{project_id}")
-    public ResponseContent GetProjectFunctions(@PathVariable(name="project_id") String project_id)
+    public ResponseContent GetProjectFunctions(@PathVariable(name="project_id") String projectId)
     {
         return null;
     }
 
-    @GetMapping(path="/function/download/{project_id}",produces=MediaType.TEXT_PLAIN_VALUE)
-    public @ResponseBody String DownloadProjectFunctions(@PathVariable(name="project_id") String project_id)
+    @GetMapping(path="/function/download/{project_id}", produces=MediaType.TEXT_PLAIN_VALUE)
+    public @ResponseBody
+    String DownloadProjectFunctions(@PathVariable(name="project_id") String projectId)
     {
         return null;
     }

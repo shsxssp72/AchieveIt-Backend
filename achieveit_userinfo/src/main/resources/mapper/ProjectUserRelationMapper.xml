@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.april.achieveit_project.mapper.ProjectUserRelationMapper">
-  <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.ProjectUserRelation">
+<mapper namespace="com.april.achieveit_userinfo.mapper.ProjectUserRelationMapper">
+  <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo_interface.entity.ProjectUserRelation">
     <constructor>
       <arg column="referred_project_id" javaType="java.lang.String" jdbcType="CHAR" />
       <arg column="referred_user_id" javaType="java.lang.String" jdbcType="CHAR" />
       <arg column="referred_superior_id" javaType="java.lang.String" jdbcType="CHAR" />
-      <arg column="referred_project_role_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="referred_project_role_id" javaType="java.lang.Long" jdbcType="BIGINT" />
     </constructor>
   </resultMap>
-  <insert id="insert" parameterType="com.april.achieveit_project.entity.ProjectUserRelation">
+  <insert id="insert" parameterType="com.april.achieveit_userinfo_interface.entity.ProjectUserRelation">
     insert into ProjectUserRelation (referred_project_id, referred_user_id, referred_superior_id, 
       referred_project_role_id)
     values (#{referredProjectId,jdbcType=CHAR}, #{referredUserId,jdbcType=CHAR}, #{referredSuperiorId,jdbcType=CHAR}, 
-      #{referredProjectRoleId,jdbcType=INTEGER})
+      #{referredProjectRoleId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.ProjectUserRelation">
+  <insert id="insertSelective" parameterType="com.april.achieveit_userinfo_interface.entity.ProjectUserRelation">
     insert into ProjectUserRelation
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="referredProjectId != null">
@@ -42,7 +42,7 @@
         #{referredSuperiorId,jdbcType=CHAR},
       </if>
       <if test="referredProjectRoleId != null">
-        #{referredProjectRoleId,jdbcType=INTEGER},
+        #{referredProjectRoleId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>

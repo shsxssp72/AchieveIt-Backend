@@ -17,25 +17,25 @@ public class ProjectWorkingHourController
     private static Logger logger=LoggerFactory.getLogger(ProjectWorkingHourController.class);
 
     @PostMapping(path="/{project_id}")
-    public ResponseContent AddWorkingHour(@PathVariable(name="project_id") String project_id,@RequestBody WorkingHour workingHour)
+    public ResponseContent AddWorkingHour(@PathVariable(name="project_id") String projectId,@RequestBody WorkingHour workingHour)
     {
         return null;
     }
 
     @GetMapping(path="/{project_id}")
-    public ResponseContent GetWorkingHour(@PathVariable(name="project_id") String project_id)
+    public ResponseContent GetWorkingHour(@PathVariable(name="project_id") String projectId)
     {
         return null;
     }
 
     @PostMapping(path="/{project_id}/{working_hour_id}")
-    public ResponseContent UpdateWorkingHour(@PathVariable(name="project_id") String project_id,@PathVariable(name="working_hour_id") String working_hour_id,@RequestBody WorkingHour workingHour)
+    public ResponseContent UpdateWorkingHour(@PathVariable(name="project_id") String projectId,@PathVariable(name="working_hour_id") String workingHourId,@RequestBody WorkingHour workingHour)
     {
         return null;
     }
 
     @GetMapping(path="/{project_id}/{working_hour_id}")
-    public ResponseContent GetDetailedWorkingHour(@PathVariable(name="project_id") String project_id,@PathVariable(name="working_hour_id") String working_hour_id)
+    public ResponseContent GetDetailedWorkingHour(@PathVariable(name="project_id") String projectId,@PathVariable(name="working_hour_id") String workingHourId)
     {
         return null;
     }

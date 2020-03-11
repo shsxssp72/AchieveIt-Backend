@@ -24,13 +24,13 @@ public class ProjectDeviceController
     }
 
     @GetMapping(path="/{device_id}")
-    public ResponseContent GetDeviceInfo(@PathVariable(name="device_id") String device_id)
+    public ResponseContent GetDeviceInfo(@PathVariable(name="device_id") String deviceId)
     {
         return null;
     }
 
     @PostMapping(path="/{device_id}")
-    public ResponseContent UpdateDeviceInfo(@PathVariable(name="device_id") String device_id,@RequestBody Map<String,String> params)
+    public ResponseContent UpdateDeviceInfo(@PathVariable(name="device_id") String deviceId,@RequestBody Map<String,String> params)
     {
         return null;
     }

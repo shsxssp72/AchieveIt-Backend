@@ -1,32 +1,15 @@
 package com.april.achieveit_userinfo_interface.entity;
 
-public class ProjectRolePermissionRelation {
-    private Integer referredProjectRoleId;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    private Integer referredPermissionId;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ProjectRolePermissionRelation
+{
+    private Long referredProjectRoleId;
 
-    public ProjectRolePermissionRelation(Integer referredProjectRoleId, Integer referredPermissionId) {
-        this.referredProjectRoleId = referredProjectRoleId;
-        this.referredPermissionId = referredPermissionId;
-    }
-
-    public ProjectRolePermissionRelation() {
-        super();
-    }
-
-    public Integer getReferredProjectRoleId() {
-        return referredProjectRoleId;
-    }
-
-    public void setReferredProjectRoleId(Integer referredProjectRoleId) {
-        this.referredProjectRoleId = referredProjectRoleId;
-    }
-
-    public Integer getReferredPermissionId() {
-        return referredPermissionId;
-    }
-
-    public void setReferredPermissionId(Integer referredPermissionId) {
-        this.referredPermissionId = referredPermissionId;
-    }
+    private Long referredPermissionId;
 }

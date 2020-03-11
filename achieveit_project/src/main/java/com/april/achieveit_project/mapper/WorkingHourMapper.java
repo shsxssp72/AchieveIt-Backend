@@ -1,15 +1,20 @@
 package com.april.achieveit_project.mapper;
 
 import com.april.achieveit_project.entity.WorkingHour;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
 
-public interface WorkingHourMapper {
-    int deleteByPrimaryKey(Integer workingHourId);
+@Mapper
+@Component
+public interface WorkingHourMapper
+{
+    int deleteByPrimaryKey(Long workingHourId);
 
     int insert(WorkingHour record);
 
     int insertSelective(WorkingHour record);
 
-    WorkingHour selectByPrimaryKey(Integer workingHourId);
+    WorkingHour selectByPrimaryKey(Long workingHourId);
 
     int updateByPrimaryKeySelective(WorkingHour record);
 
