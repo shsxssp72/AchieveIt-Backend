@@ -4,6 +4,8 @@ import com.april.achieveit_project.entity.WorkingHour;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper
 @Component
 public interface WorkingHourMapper
@@ -15,6 +17,8 @@ public interface WorkingHourMapper
     int insertSelective(WorkingHour record);
 
     WorkingHour selectByPrimaryKey(Long workingHourId);
+
+    List<WorkingHour> selectByProjectIdAndUserIds(String projectId,List<String> userId);
 
     int updateByPrimaryKeySelective(WorkingHour record);
 

@@ -82,4 +82,11 @@ public class RoleController implements RoleServiceApi
     {
         return null;
     }
+
+    @Override
+    @GetMapping(path="/inferior")
+    public ResponseContent GetInferior(Map<String,String> params)
+    {
+        return null;
+    }
 }

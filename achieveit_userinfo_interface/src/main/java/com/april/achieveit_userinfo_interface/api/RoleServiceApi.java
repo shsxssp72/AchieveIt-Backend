@@ -25,5 +25,8 @@ public interface RoleServiceApi
     ResponseContent GetProjectMember(@RequestBody Map<String,String> params);
 
     @GetMapping(path="/user/globalRole")
-    public ResponseContent GetUserGlobalRole(@RequestBody Map<String,String> params);
+    ResponseContent GetUserGlobalRole(@RequestBody Map<String,String> params);
+
+    @GetMapping(path="/user/inferior")
+    ResponseContent GetInferior(@RequestBody Map<String,String> params);
 }
