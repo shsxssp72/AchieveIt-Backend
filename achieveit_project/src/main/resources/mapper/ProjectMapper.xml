@@ -9,6 +9,7 @@
             <arg column="referred_outer_customer_id" javaType="java.lang.String" jdbcType="CHAR"/>
             <arg column="scheduled_start_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="scheduled_end_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="referred_superior_id" javaType="java.lang.String" jdbcType="CHAR"
             <arg column="mile_stone" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="technology" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="referred_business_field_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
@@ -17,7 +18,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         project_id, status, project_name, referred_outer_customer_id, scheduled_start_time,
-    scheduled_end_time, mile_stone, technology, referred_business_field_id, main_function
+    scheduled_end_time, referred_superior_id, mile_stone, technology, referred_business_field_id, main_function
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
@@ -49,11 +50,11 @@
     <insert id="insert" parameterType="com.april.achieveit_project.entity.Project">
         INSERT INTO Project (project_id, status, project_name,
                              referred_outer_customer_id, scheduled_start_time,
-                             scheduled_end_time, mile_stone, technology,
+                             scheduled_end_time, referred_superior_id, mile_stone, technology,
                              referred_business_field_id, main_function)
         VALUES (#{projectId,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{projectName,jdbcType=VARCHAR},
                 #{referredOuterCustomerId,jdbcType=CHAR}, #{scheduledStartTime,jdbcType=TIMESTAMP},
-                #{scheduledEndTime,jdbcType=TIMESTAMP}, #{mileStone,jdbcType=VARCHAR}, #{technology,jdbcType=VARCHAR},
+                #{scheduledEndTime,jdbcType=TIMESTAMP}, #{referredSuperiorId,jdbcType=CHAR}, #{mileStone,jdbcType=VARCHAR}, #{technology,jdbcType=VARCHAR},
                 #{referredBusinessFieldId,jdbcType=BIGINT}, #{mainFunction,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.Project">
@@ -76,6 +77,9 @@
             </if>
             <if test="scheduledEndTime != null">
                 scheduled_end_time,
+            </if>
+            <if test="referredSuperiorId != null">
+                referred_superior_id,
             </if>
             <if test="mileStone != null">
                 mile_stone,
@@ -109,6 +113,9 @@
             <if test="scheduledEndTime != null">
                 #{scheduledEndTime,jdbcType=TIMESTAMP},
             </if>
+            <if test="referredSuperiorId != null">
+                #{referredSuperiorId,jdbcType=CHAR},
+            </if>
             <if test="mileStone != null">
                 #{mileStone,jdbcType=VARCHAR},
             </if>
@@ -141,6 +148,9 @@
             <if test="scheduledEndTime != null">
                 scheduled_end_time = #{scheduledEndTime,jdbcType=TIMESTAMP},
             </if>
+            <if test="referredSuperiorId != null">
+                referred_superior_id = #{referredSuperiorId,jdbcType=CHAR}
+            </if>
             <if test="mileStone != null">
                 mile_stone = #{mileStone,jdbcType=VARCHAR},
             </if>
@@ -163,6 +173,7 @@
             referred_outer_customer_id = #{referredOuterCustomerId,jdbcType=CHAR},
             scheduled_start_time       = #{scheduledStartTime,jdbcType=TIMESTAMP},
             scheduled_end_time         = #{scheduledEndTime,jdbcType=TIMESTAMP},
+            referred_superior_id       = #{referredSuperiorId,jdbcType=CHAR},
             mile_stone                 = #{mileStone,jdbcType=VARCHAR},
             technology                 = #{technology,jdbcType=VARCHAR},
             referred_business_field_id = #{referredBusinessFieldId,jdbcType=BIGINT},
