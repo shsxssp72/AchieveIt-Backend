@@ -7,6 +7,6 @@ public class DependencyService
 {
     public String sendEmail()
     {
-        return "Mails have been sent to EPG Leader, QA Manager, Configuration Manager.";
+        return "Mails have been sent.";
     }
 }

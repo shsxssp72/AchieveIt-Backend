@@ -16,27 +16,33 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    risk_id, referred_project_id, risk_type, risk_description, risk_level, risk_impact, 
+    risk_id, referred_project_id, risk_type, risk_description, risk_level, risk_impact,
     risk_countermeasure, risk_status, referred_risk_responsible_person_id, risk_track_frequency
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from Risk
     where risk_id = #{riskId,jdbcType=CHAR}
+  </select>
+  <select id="selectByProjectId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from Risk
+    where referred_project_id =#{projectId,jdbcType=CHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from Risk
     where risk_id = #{riskId,jdbcType=CHAR}
   </delete>
   <insert id="insert" parameterType="com.april.achieveit_project.entity.Risk">
-    insert into Risk (risk_id, referred_project_id, risk_type, 
-      risk_description, risk_level, risk_impact, 
-      risk_countermeasure, risk_status, referred_risk_responsible_person_id, 
+    insert into Risk (risk_id, referred_project_id, risk_type,
+      risk_description, risk_level, risk_impact,
+      risk_countermeasure, risk_status, referred_risk_responsible_person_id,
       risk_track_frequency)
-    values (#{riskId,jdbcType=CHAR}, #{referredProjectId,jdbcType=CHAR}, #{riskType,jdbcType=CHAR}, 
-      #{riskDescription,jdbcType=VARCHAR}, #{riskLevel,jdbcType=CHAR}, #{riskImpact,jdbcType=VARCHAR}, 
-      #{riskCountermeasure,jdbcType=VARCHAR}, #{riskStatus,jdbcType=CHAR}, #{referredRiskResponsiblePersonId,jdbcType=CHAR}, 
+    values (#{riskId,jdbcType=CHAR}, #{referredProjectId,jdbcType=CHAR}, #{riskType,jdbcType=CHAR},
+      #{riskDescription,jdbcType=VARCHAR}, #{riskLevel,jdbcType=CHAR}, #{riskImpact,jdbcType=VARCHAR},
+      #{riskCountermeasure,jdbcType=VARCHAR}, #{riskStatus,jdbcType=CHAR}, #{referredRiskResponsiblePersonId,jdbcType=CHAR},
       #{riskTrackFrequency,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.Risk">

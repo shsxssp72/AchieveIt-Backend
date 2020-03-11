@@ -32,4 +32,15 @@
       </if>
     </trim>
   </insert>
+  <delete id="deleteByRiskId">
+    delete
+    from RiskRelatedPeople
+    where referred_risk_id =#{riskId,jdbcType=CHAR}
+  </delete>
+  <select id="selectByRiskId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from RiskRelatedPeople
+    where referred_risk_id =#{riskId,jdbcType=CHAR}
+  </select>
 </mapper>
