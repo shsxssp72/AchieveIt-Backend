@@ -1,84 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.april.achieveit_project.mapper.ProjectFunctionMapper">
-  <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.ProjectFunction">
-    <constructor>
-      <idArg column="function_id" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="referred_project_id" javaType="java.lang.String" jdbcType="CHAR" />
-      <arg column="superior_function_id" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
-    function_id, referred_project_id, superior_function_id, description
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from ProjectFunction
-    where function_id = #{functionId,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from ProjectFunction
-    where function_id = #{functionId,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="com.april.achieveit_project.entity.ProjectFunction">
-    insert into ProjectFunction (function_id, referred_project_id, superior_function_id, 
-      description)
-    values (#{functionId,jdbcType=BIGINT}, #{referredProjectId,jdbcType=CHAR}, #{superiorFunctionId,jdbcType=BIGINT},
-      #{description,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.ProjectFunction">
-    insert into ProjectFunction
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="functionId != null">
-        function_id,
-      </if>
-      <if test="referredProjectId != null">
-        referred_project_id,
-      </if>
-      <if test="superiorFunctionId != null">
-        superior_function_id,
-      </if>
-      <if test="description != null">
-        description,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="functionId != null">
-        #{functionId,jdbcType=BIGINT},
-      </if>
-      <if test="referredProjectId != null">
-        #{referredProjectId,jdbcType=CHAR},
-      </if>
-      <if test="superiorFunctionId != null">
-        #{superiorFunctionId,jdbcType=BIGINT},
-      </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_project.entity.ProjectFunction">
-    update ProjectFunction
-    <set>
-      <if test="referredProjectId != null">
-        referred_project_id = #{referredProjectId,jdbcType=CHAR},
-      </if>
-      <if test="superiorFunctionId != null">
-        superior_function_id = #{superiorFunctionId,jdbcType=BIGINT},
-      </if>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where function_id = #{functionId,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.ProjectFunction">
-    update ProjectFunction
-    set referred_project_id = #{referredProjectId,jdbcType=CHAR},
-      superior_function_id = #{superiorFunctionId,jdbcType=BIGINT},
-      description = #{description,jdbcType=VARCHAR}
-    where function_id = #{functionId,jdbcType=BIGINT}
-  </update>
+    <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.ProjectFunction">
+        <constructor>
+            <idArg column="function_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="referred_project_id" javaType="java.lang.String" jdbcType="CHAR"/>
+            <arg column="superior_function_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+        function_id, referred_project_id, superior_function_id, description
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ProjectFunction
+        where function_id = #{functionId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByProjectId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ProjectFunction
+        where referred_project_id = #{projectId,jdbcType=CHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE
+        FROM ProjectFunction
+        WHERE function_id = #{functionId,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByProjectId">
+        DELETE
+        FROM ProjectFunction
+        WHERE referred_project_id = #{projectId,jdbcType=CHAR}
+    </delete>
+    <insert id="insert" parameterType="com.april.achieveit_project.entity.ProjectFunction">
+        INSERT INTO ProjectFunction (function_id, referred_project_id, superior_function_id,
+                                     description)
+        VALUES (#{functionId,jdbcType=BIGINT}, #{referredProjectId,jdbcType=CHAR},
+                #{superiorFunctionId,jdbcType=BIGINT},
+                #{description,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.ProjectFunction">
+        insert into ProjectFunction
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="functionId != null">
+                function_id,
+            </if>
+            <if test="referredProjectId != null">
+                referred_project_id,
+            </if>
+            <if test="superiorFunctionId != null">
+                superior_function_id,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="functionId != null">
+                #{functionId,jdbcType=BIGINT},
+            </if>
+            <if test="referredProjectId != null">
+                #{referredProjectId,jdbcType=CHAR},
+            </if>
+            <if test="superiorFunctionId != null">
+                #{superiorFunctionId,jdbcType=BIGINT},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_project.entity.ProjectFunction">
+        update ProjectFunction
+        <set>
+            <if test="referredProjectId != null">
+                referred_project_id = #{referredProjectId,jdbcType=CHAR},
+            </if>
+            <if test="superiorFunctionId != null">
+                superior_function_id = #{superiorFunctionId,jdbcType=BIGINT},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where function_id = #{functionId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.ProjectFunction">
+        UPDATE ProjectFunction
+        SET referred_project_id  = #{referredProjectId,jdbcType=CHAR},
+            superior_function_id = #{superiorFunctionId,jdbcType=BIGINT},
+            description          = #{description,jdbcType=VARCHAR}
+        WHERE function_id = #{functionId,jdbcType=BIGINT}
+    </update>
 </mapper>

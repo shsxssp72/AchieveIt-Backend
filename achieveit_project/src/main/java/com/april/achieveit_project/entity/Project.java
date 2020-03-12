@@ -29,6 +29,8 @@ public class Project
     @JsonView(value=JsonVisibilityLevel.AuthenticatedViewLevel.class)
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date scheduledEndTime;
+    @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
+    private String referredSuperiorId;
     @JsonView(value=JsonVisibilityLevel.AuthenticatedViewLevel.class)
     private String mileStone;
     @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)

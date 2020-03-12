@@ -4,6 +4,8 @@ import com.april.achieveit_project.entity.DeviceInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper
 @Component
 public interface DeviceInfoMapper
@@ -15,6 +17,8 @@ public interface DeviceInfoMapper
     int insertSelective(DeviceInfo record);
 
     DeviceInfo selectByPrimaryKey(Long deviceId);
+
+    List<DeviceInfo> selectAll();
 
     int updateByPrimaryKeySelective(DeviceInfo record);
 

@@ -4,6 +4,8 @@ import com.april.achieveit_project.entity.ActivityType;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper
 @Component
 public interface ActivityTypeMapper
@@ -15,6 +17,8 @@ public interface ActivityTypeMapper
     int insertSelective(ActivityType record);
 
     ActivityType selectByPrimaryKey(Long activityTypeId);
+
+    List<ActivityType> selectAll();
 
     int updateByPrimaryKeySelective(ActivityType record);
 

@@ -4,6 +4,8 @@ import com.april.achieveit_project.entity.Risk;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper
 @Component
 public interface RiskMapper
@@ -15,6 +17,8 @@ public interface RiskMapper
     int insertSelective(Risk record);
 
     Risk selectByPrimaryKey(String riskId);
+
+    List<Risk> selectByProjectId(String projectId);
 
     int updateByPrimaryKeySelective(Risk record);
 

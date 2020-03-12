@@ -17,6 +17,11 @@
     from ActivityType
     where activity_type_id = #{activityTypeId,jdbcType=BIGINT}
   </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from ActivityType
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from ActivityType
     where activity_type_id = #{activityTypeId,jdbcType=BIGINT}
