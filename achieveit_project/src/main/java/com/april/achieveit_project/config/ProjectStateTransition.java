@@ -1,7 +1,6 @@
 package com.april.achieveit_project.config;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,49 +21,25 @@ public class ProjectStateTransition
     private Map<String,Set<String>> validTransition=new HashMap<>()
     {{
         put(ProjectState.Applied.name(),
-            new HashSet<>()
-            {{
-                add(ProjectState.Initiated.name());
-                add(ProjectState.Rejected.name());
-            }});
+            Set.of(ProjectState.Initiated.name(),
+                   ProjectState.Rejected.name()));
         put(ProjectState.Initiated.name(),
-            new HashSet<>()
-            {{
-                add(ProjectState.Developing.name());
-            }});
+            Set.of(ProjectState.Developing.name()));
         put(ProjectState.Rejected.name(),
-            new HashSet<>()
-            {{
-                add(ProjectState.Applied.name());
-            }});
+            Set.of(ProjectState.Applied.name()));
         put(ProjectState.Developing.name(),
-            new HashSet<>()
-            {{
-                add(ProjectState.Delivered.name());
-            }});
+            Set.of(ProjectState.Delivered.name()));
         put(ProjectState.Delivered.name(),
-            new HashSet<>()
-            {{
-                add(ProjectState.Finished.name());
-            }});
+            Set.of(ProjectState.Finished.name()));
         put(ProjectState.Finished.name(),
-            new HashSet<>()
-            {{
-                add(ProjectState.ReadyArchive.name());
-            }});
+            Set.of(ProjectState.ReadyArchive.name()));
         put(ProjectState.ReadyArchive.name(),
-            new HashSet<>()
-            {{
-                add(ProjectState.Archived.name());
-                add(ProjectState.ArchiveDeclined.name());
-            }});
+            Set.of(ProjectState.Archived.name(),
+                   ProjectState.ArchiveDeclined.name()));
         put(ProjectState.ArchiveDeclined.name(),
-            new HashSet<>()
-            {{
-                add(ProjectState.ReadyArchive.name());
-            }});
+            Set.of(ProjectState.ReadyArchive.name()));
         put(ProjectState.Archived.name(),
-            new HashSet<>());
+            Set.of());
     }};
 
 
