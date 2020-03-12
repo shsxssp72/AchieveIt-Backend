@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProjectRiskService
 {
-    private static Logger logger=LoggerFactory.getLogger(ProjectRiskController.class);
+    private static Logger logger=LoggerFactory.getLogger(ProjectRiskService.class);
     @Autowired
     private RiskMapper riskMapper;
     @Autowired

@@ -47,6 +47,9 @@ public class ProjectWorkingHourController
         return result;
     }
 
+    /**
+     * Note that when working hour referred to a non-existing functionId, it should show that function has been modified
+     */
     @SneakyThrows
     @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
     @GetMapping(path="/{project_id}")

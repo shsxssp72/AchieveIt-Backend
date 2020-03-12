@@ -22,7 +22,7 @@ import java.util.List;
 @Service
 public class ProjectDeviceService
 {
-    private static Logger logger=LoggerFactory.getLogger(ProjectDeviceController.class);
+    private static Logger logger=LoggerFactory.getLogger(ProjectDeviceService.class);
 
     @Autowired
     DeviceInfoMapper deviceInfoMapper;

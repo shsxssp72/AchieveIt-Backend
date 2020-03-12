@@ -19,8 +19,6 @@ import java.util.Map;
 @RequestMapping(path="/project/device")
 public class ProjectDeviceController
 {
-    //TODO Placeholder
-
     private static Logger logger=LoggerFactory.getLogger(ProjectDeviceController.class);
     @Autowired
     private ProjectDeviceService projectDeviceService;

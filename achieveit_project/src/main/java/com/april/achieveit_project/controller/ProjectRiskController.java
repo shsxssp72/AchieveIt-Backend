@@ -20,8 +20,6 @@ import java.util.Map;
 @RequestMapping(path="/project/risk")
 public class ProjectRiskController
 {
-    //TODO Placeholder
-
     private static Logger logger=LoggerFactory.getLogger(ProjectRiskController.class);
     @Autowired
     private ProjectRiskService projectRiskService;
