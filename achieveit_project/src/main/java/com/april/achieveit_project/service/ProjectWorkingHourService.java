@@ -3,8 +3,10 @@ package com.april.achieveit_project.service;
 import com.april.achieveit_common.bean.ResponseContent;
 import com.april.achieveit_common.utility.SnowFlakeIdGenerator;
 import com.april.achieveit_project.entity.ActivityType;
+import com.april.achieveit_project.entity.ProjectFunction;
 import com.april.achieveit_project.entity.WorkingHour;
 import com.april.achieveit_project.mapper.ActivityTypeMapper;
+import com.april.achieveit_project.mapper.ProjectFunctionMapper;
 import com.april.achieveit_project.mapper.WorkingHourMapper;
 import com.april.achieveit_userinfo_interface.api.RoleServiceApi;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -32,6 +34,8 @@ public class ProjectWorkingHourService
     @Autowired
     private RoleServiceApi roleServiceApi;
     @Autowired
+    ProjectFunctionMapper projectFunctionMapper;
+    @Autowired
     ObjectMapper objectMapper;
 
     @Value("${snowflake.datacenter-id}")
@@ -50,6 +54,8 @@ public class ProjectWorkingHourService
     public void NewWorkingHour(WorkingHour workingHour)
     {
         workingHour.setReferredFunctionId(snowFlakeIdGenerator.getNextId());
+        ProjectFunction referredWorkingHour=projectFunctionMapper.selectByPrimaryKey(workingHour.getReferredFunctionId());
+        workingHour.setFunctionDescriptionSnapshot(referredWorkingHour.getDescription());
         workingHourMapper.insert(workingHour);
     }
 
@@ -76,6 +82,8 @@ public class ProjectWorkingHourService
                 .equals(userId))
             throw new IllegalArgumentException("User can only update his own working hour");
         workingHour.setVerified(false);
+        ProjectFunction referredWorkingHour=projectFunctionMapper.selectByPrimaryKey(workingHour.getReferredFunctionId());
+        workingHour.setFunctionDescriptionSnapshot(referredWorkingHour.getDescription());
         workingHourMapper.updateByPrimaryKeySelective(workingHour);
     }
 
