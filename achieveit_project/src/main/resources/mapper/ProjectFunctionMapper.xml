@@ -39,7 +39,7 @@
         INSERT INTO ProjectFunction (function_id, referred_project_id, id_for_display, superior_function_id,
                                      description)
         VALUES (#{functionId,jdbcType=BIGINT}, #{referredProjectId,jdbcType=CHAR},
-                #{idForDisplay,jdbc=VARCHAR},
+                #{idForDisplay,jdbcType=VARCHAR},
                 #{superiorFunctionId,jdbcType=BIGINT},
                 #{description,jdbcType=VARCHAR})
     </insert>
