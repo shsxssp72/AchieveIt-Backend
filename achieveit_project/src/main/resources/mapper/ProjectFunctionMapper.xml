@@ -5,12 +5,13 @@
         <constructor>
             <idArg column="function_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
             <arg column="referred_project_id" javaType="java.lang.String" jdbcType="CHAR"/>
+            <arg column="id_for_display" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="superior_function_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
             <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-        function_id, referred_project_id, superior_function_id, description
+        function_id, referred_project_id, id_for_display, superior_function_id, description
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -35,9 +36,10 @@
         WHERE referred_project_id = #{projectId,jdbcType=CHAR}
     </delete>
     <insert id="insert" parameterType="com.april.achieveit_project.entity.ProjectFunction">
-        INSERT INTO ProjectFunction (function_id, referred_project_id, superior_function_id,
+        INSERT INTO ProjectFunction (function_id, referred_project_id, id_for_display, superior_function_id,
                                      description)
         VALUES (#{functionId,jdbcType=BIGINT}, #{referredProjectId,jdbcType=CHAR},
+                #{idForDisplay,jdbc=VARCHAR},
                 #{superiorFunctionId,jdbcType=BIGINT},
                 #{description,jdbcType=VARCHAR})
     </insert>
@@ -49,6 +51,9 @@
             </if>
             <if test="referredProjectId != null">
                 referred_project_id,
+            </if>
+            <if test="idForDisplay != null">
+                id_for_display,
             </if>
             <if test="superiorFunctionId != null">
                 superior_function_id,
@@ -64,6 +69,9 @@
             <if test="referredProjectId != null">
                 #{referredProjectId,jdbcType=CHAR},
             </if>
+            <if test="idForDisplay != null">
+                #{idForDisplay,jdbcType=VARCHAR},
+            </if>
             <if test="superiorFunctionId != null">
                 #{superiorFunctionId,jdbcType=BIGINT},
             </if>
@@ -78,6 +86,9 @@
             <if test="referredProjectId != null">
                 referred_project_id = #{referredProjectId,jdbcType=CHAR},
             </if>
+            <if test="idForDisplay != null">
+                id_for_display = #{idForDisplay,jdbcType=VARCHAR},
+            </if>
             <if test="superiorFunctionId != null">
                 superior_function_id = #{superiorFunctionId,jdbcType=BIGINT},
             </if>
@@ -90,6 +101,7 @@
     <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.ProjectFunction">
         UPDATE ProjectFunction
         SET referred_project_id  = #{referredProjectId,jdbcType=CHAR},
+            id_for_display = #{idForDisplay,jdbcType=VARCHAR},
             superior_function_id = #{superiorFunctionId,jdbcType=BIGINT},
             description          = #{description,jdbcType=VARCHAR}
         WHERE function_id = #{functionId,jdbcType=BIGINT}

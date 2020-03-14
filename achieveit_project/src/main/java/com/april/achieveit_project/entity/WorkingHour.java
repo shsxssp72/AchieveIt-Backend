@@ -16,6 +16,8 @@ public class WorkingHour
 {
     @JsonView(value=JsonVisibilityLevel.BasicViewLevel.class)
     private Long workingHourId;
+    @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
+    private String functionDescriptionSnapshot;
     @JsonView(value=JsonVisibilityLevel.AuthenticatedViewLevel.class)
     private String referredUserId;
     @JsonView(value=JsonVisibilityLevel.AuthenticatedViewLevel.class)
