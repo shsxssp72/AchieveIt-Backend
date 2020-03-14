@@ -12,6 +12,8 @@ public class ProjectFunction {
 
     private String referredProjectId;
 
+    private String idForDisplay;
+
     private Long superiorFunctionId;
 
     private String description;
