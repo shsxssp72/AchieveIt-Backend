@@ -48,6 +48,7 @@ public class ProjectFunctionService
         for(Map<String,String> item: functions)
         {
             ProjectFunction function=new ProjectFunction(Long.parseLong(item.get("function_id")),
+                                                         item.get("id_for_display"),
                                                          projectId,
                                                          Long.parseLong(item.get("superior_function_id")),
                                                          item.get("function_description"));
@@ -94,6 +95,7 @@ public class ProjectFunctionService
         for(CSVRecord item:records)
         {
             ProjectFunction function=new ProjectFunction(Long.parseLong(item.get("function_id")),
+                                                         item.get("id_for_display"),
                                                          item.get("referred_project_id"),
                                                          Long.parseLong(item.get("superior_function_id")),
                                                          item.get("function_description"));
