@@ -9,7 +9,7 @@
             <arg column="referred_outer_customer_id" javaType="java.lang.String" jdbcType="CHAR"/>
             <arg column="scheduled_start_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="scheduled_end_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
-            <arg column="referred_superior_id" javaType="java.lang.String" jdbcType="CHAR"
+            <arg column="referred_superior_id" javaType="java.lang.String" jdbcType="CHAR"/>
             <arg column="mile_stone" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="technology" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="referred_business_field_id" javaType="java.lang.Long" jdbcType="BIGINT"/>

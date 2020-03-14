@@ -94,6 +94,10 @@ public class ProjectService
         if(StringUtils.isNotEmpty(project.getMainFunction()))
             currentProject.setMainFunction(project.getMainFunction());
 
+        if(currentProject.getStatus()
+                .equals(ProjectStateTransition.ProjectState.Rejected.name()))
+            currentProject.setStatus(ProjectStateTransition.ProjectState.Applied);
+
         projectMapper.updateByPrimaryKey(project);
     }
 
