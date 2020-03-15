@@ -45,7 +45,7 @@ public class ProjectRiskService
         String newId=generateNewRiskId();
         for(;riskMapper.selectByPrimaryKey(newId)!=null;)
             newId=generateNewRiskId();
-        risk.setReferredProjectId(newId);
+        risk.setRiskId(newId);
 
         for(String personId: relatedPerson)
         {
