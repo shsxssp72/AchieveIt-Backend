@@ -1,7 +1,11 @@
 package com.april.achieveit_userinfo.mapper;
 
 import com.april.achieveit_userinfo_interface.entity.ProjectRole;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
 
+@Mapper
+@Component
 public interface ProjectRoleMapper {
     int deleteByPrimaryKey(Long projectRoleId);
 
