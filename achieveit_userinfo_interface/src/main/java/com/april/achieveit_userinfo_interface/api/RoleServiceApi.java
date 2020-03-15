@@ -29,4 +29,10 @@ public interface RoleServiceApi
 
     @GetMapping(path="/user/inferior")
     ResponseContent GetInferior(@RequestBody Map<String,String> params);
+
+    @GetMapping(path="/user/permission")
+    ResponseContent GetUserPermission(@RequestBody Map<String,String> params);
+
+    @PostMapping(path="/user/permission")
+    ResponseContent UpdateUserPermission(Map<String,String> params);
 }
