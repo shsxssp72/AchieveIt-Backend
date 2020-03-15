@@ -21,8 +21,6 @@ import java.util.Map;
 @RequestMapping(path="/project")
 public class ProjectFunctionController
 {
-    //TODO Placeholder
-
     private static Logger logger=LoggerFactory.getLogger(ProjectFunctionController.class);
     @Autowired
     ObjectMapper objectMapper;
@@ -32,14 +30,14 @@ public class ProjectFunctionController
 
     @SneakyThrows
     @PostMapping(path="/functionParse")
-    public ResponseContent ParseFunctionCsv(@RequestParam("csv_file") MultipartFile csvFile)
+    public ResponseContent ParseFunctionCsv(@RequestParam("projectId")String projectId,@RequestParam("csv_file") MultipartFile csvFile)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
         String content=new String(csvFile.getBytes());
 
-        result.setResult(new ImmutablePair<>("functions",projectFunctionService.ParseFunctionCsv(content)));
+        result.setResult(new ImmutablePair<>("functions",projectFunctionService.ParseFunctionCsv(projectId,content)));
 
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;

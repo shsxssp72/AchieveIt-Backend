@@ -14,11 +14,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.io.StringReader;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectFunctionService
@@ -42,18 +43,9 @@ public class ProjectFunctionService
                                                       machineId);
     }
 
-    public void UpdateFunctions(String projectId,List<Map<String,String>> functions)
+    public void UpdateFunctions(String projectId,List<Map<String,String>> functions)//frontend pass no-function-id function, use displayId to verify
     {
-        List<ProjectFunction> extractedFunctions=new LinkedList<>();
-        for(Map<String,String> item: functions)
-        {
-            ProjectFunction function=new ProjectFunction(Long.parseLong(item.get("function_id")),
-                                                         item.get("id_for_display"),
-                                                         projectId,
-                                                         Long.parseLong(item.get("superior_function_id")),
-                                                         item.get("function_description"));
-            extractedFunctions.add(function);
-        }
+        List<ProjectFunction> extractedFunctions=matchFunctionsToExistingOnes(projectId,functions);
         projectFunctionMapper.deleteByProjectId(projectId);
         extractedFunctions.forEach(i->projectFunctionMapper.insert(i));
     }
@@ -85,23 +77,59 @@ public class ProjectFunctionService
         return csvBuilder.toString();
     }
 
-    public List<ProjectFunction> ParseFunctionCsv(String csvContent) throws IOException
+    @SneakyThrows
+    public List<ProjectFunction> ParseFunctionCsv(String projectId,String csvContent)
     {
 
         Iterable<CSVRecord> records=CSVFormat.DEFAULT.withHeader(CsvHeaders)
                 .withFirstRecordAsHeader()
                 .parse(new StringReader(csvContent));
+
+        List<Map<String,String>> functions=new LinkedList<>();
+        records.forEach(i->{
+            functions.add(new HashMap<>(){{
+                put("id_for_display",i.get("function_id"));
+                put("superior_function_id",i.get("superior_function_id"));
+                put("function_description",i.get("function_description"));
+            }});
+        });
+        return matchFunctionsToExistingOnes(projectId,functions);
+    }
+
+    private List<ProjectFunction> matchFunctionsToExistingOnes(String projectId,List<Map<String,String>> functions)
+    {
+        Map<String,ProjectFunction> existingFunctions=projectFunctionMapper.selectByProjectId(projectId)
+                .parallelStream()
+                .collect(Collectors.toMap(ProjectFunction::getIdForDisplay,
+                                          i->i));
         List<ProjectFunction> extractedFunctions=new LinkedList<>();
-        for(CSVRecord item:records)
+        Map<String,Long> submittedDisplayIdMap=new HashMap<String,Long>();
+
+        for(Map<String,String> item: functions)
         {
-            ProjectFunction function=new ProjectFunction(Long.parseLong(item.get("function_id")),
-                                                         item.get("id_for_display"),
-                                                         item.get("referred_project_id"),
-                                                         Long.parseLong(item.get("superior_function_id")),
-                                                         item.get("function_description"));
+            String idForDisplay=item.get("id_for_display");
+            String superiorFunctionId=item.get("superior_function_id");//DisplayId version
+            String functionDescription=item.get("function_description");
+
+            ProjectFunction function=new ProjectFunction();
+
+            if(existingFunctions.containsKey(idForDisplay))
+            {
+                function.setFunctionId(existingFunctions.get(idForDisplay)
+                                               .getFunctionId());
+            }
+            else
+            {
+                function.setFunctionId(getNewId());
+            }
+            submittedDisplayIdMap.put(function.getIdForDisplay(),
+                                      function.getFunctionId());
+            function.setSuperiorFunctionId(submittedDisplayIdMap.get(superiorFunctionId));
+            function.setDescription(functionDescription);
+            function.setReferredProjectId(projectId);
+
             extractedFunctions.add(function);
         }
         return extractedFunctions;
     }
-
 }
