@@ -15,5 +15,8 @@ public interface ProjectUserRelationMapper
     int insertSelective(ProjectUserRelation record);
 
     List<ProjectUserRelation> selectByProjectIdAndUserId(String projectId,String userId);
+
     List<ProjectUserRelation> selectBySuperiorId(String superiorId);
+
+    int deleteByProjectIdAndUserId(String projectId,String userId);
 }

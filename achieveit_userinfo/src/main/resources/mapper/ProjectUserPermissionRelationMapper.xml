@@ -42,6 +42,17 @@
       </if>
     </trim>
   </insert>
+  <delete id="deleteByProjectIdAndUserId">
+    DELETE
+    FROM ProjectUserPermissionRelation
+    WHERE 1=1
+    <if test="projectId != null">
+      AND referred_project_id=#{projectId,jdbcType=CHAR}
+    </if>
+    <if test="userId != null">
+      AND referred_user_id=#{userId,jdbcType=CHAR}
+    </if>
+  </delete>
   <select id="selectByProjectIdAndUserId"
           resultMap="BaseResultMap">
     SELECT

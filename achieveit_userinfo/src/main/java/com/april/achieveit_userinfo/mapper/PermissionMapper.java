@@ -16,6 +16,8 @@ public interface PermissionMapper
 
     Permission selectByPrimaryKey(Long permissionId);
 
+    Permission selectByPermissionName(String permissionName);
+
     int updateByPrimaryKeySelective(Permission record);
 
     int updateByPrimaryKey(Permission record);

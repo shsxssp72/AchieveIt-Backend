@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public interface RoleServiceApi
@@ -18,14 +19,17 @@ public interface RoleServiceApi
     @PostMapping(path="/user/userProjectRole/batch")
     ResponseContent BatchGetUserProjectRole(@RequestBody Map<String,String> params);
 
-    @PostMapping(path="/user/projectRole")
+    @PostMapping(path="/user/projectMember")
     ResponseContent UpdateProjectMember(@RequestBody Map<String,String> params);
 
-    @GetMapping(path="/user/projectRole")
+    @GetMapping(path="/user/projectMember")
     ResponseContent GetProjectMember(@RequestBody Map<String,String> params);
 
     @GetMapping(path="/user/globalRole")
     ResponseContent GetUserGlobalRole(@RequestBody Map<String,String> params);
+
+    @GetMapping(path="/user/globalRole")
+    ResponseContent GetSelfGlobalRole(HttpServletRequest request);
 
     @GetMapping(path="/user/inferior")
     ResponseContent GetInferior(@RequestBody Map<String,String> params);

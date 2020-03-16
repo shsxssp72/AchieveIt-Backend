@@ -15,4 +15,6 @@ public interface ProjectUserPermissionRelationMapper {
     int insertSelective(ProjectUserPermissionRelation record);
 
     List<ProjectUserPermissionRelation> selectByProjectIdAndUserId(String projectId,String userId);
+
+    int deleteByProjectIdAndUserId(String projectId,String userId);
 }

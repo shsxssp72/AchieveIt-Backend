@@ -2,6 +2,8 @@ package com.april.achieveit_userinfo.service;
 
 import com.april.achieveit_userinfo.mapper.*;
 import com.april.achieveit_userinfo_interface.entity.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
@@ -166,5 +168,51 @@ public class AuthorizationService
                 .map(i->permissionMapper.selectByPrimaryKey(i.getReferredPermissionId())
                         .getPermissionName())
                 .collect(Collectors.toList());
+    }
+
+    public void UpdateUserProjectRole(String projectId,String userId,List<Map<String,String>> projectRoleIdList)
+    {
+        projectUserRelationMapper.deleteByProjectIdAndUserId(projectId,
+                                                             userId);
+        for(Map<String,String> item: projectRoleIdList)
+        {
+            projectUserRelationMapper.insert(new ProjectUserRelation(projectId,
+                                                                     userId,
+                                                                     item.get("superior_id"),
+                                                                     Long.parseLong(item.get("project_role_id"))));
+        }
+    }
+
+    public void UpdateProjectMember(String projectId,List<Map<String,String>> members) throws JsonProcessingException
+    {
+        projectUserRelationMapper.deleteByProjectIdAndUserId(projectId,
+                                                             null);//Delete all under the project
+        for(Map<String,String> member: members)
+        {
+            String userId=member.get("user_id");
+            List<Map<String,String>> projectRoleIdList=objectMapper.readValue(member.get("project_role_id_list"),
+                                                                              new TypeReference<List<Map<String,String>>>()
+                                                                              {
+                                                                              });
+            for(Map<String,String> item: projectRoleIdList)
+            {
+                long projectRoleId=Long.parseLong(item.get("project_role_id"));
+                String superiorId=item.get("superior_id");
+                projectUserRelationMapper.insert(new ProjectUserRelation(projectId,
+                                                                         userId,
+                                                                         superiorId,
+                                                                         projectRoleId));
+            }
+        }
+    }
+
+    public void UpdateUserProjectPermission(String projectId,String userId,List<String> permissionList)
+    {
+        userPermissionRelationMapper.deleteByProjectIdAndUserId(projectId,userId);
+        for(String item:permissionList)
+        {
+            Permission permission=permissionMapper.selectByPermissionName(item);
+            userPermissionRelationMapper.insert(new ProjectUserPermissionRelation(projectId,userId,permission.getPermissionId()));
+        }
     }
 }
