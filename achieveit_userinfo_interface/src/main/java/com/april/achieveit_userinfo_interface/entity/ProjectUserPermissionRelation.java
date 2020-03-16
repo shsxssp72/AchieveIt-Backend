@@ -7,10 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectUserPermissionRelation {
+public class ProjectUserPermissionRelation
+{
     private String referredProjectId;
 
     private String referredUserId;
 
     private Long referredPermissionId;
+
+    private Integer permitWeight;
 }
