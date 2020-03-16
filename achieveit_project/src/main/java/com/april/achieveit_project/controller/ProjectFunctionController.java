@@ -30,14 +30,16 @@ public class ProjectFunctionController
 
     @SneakyThrows
     @PostMapping(path="/functionParse")
-    public ResponseContent ParseFunctionCsv(@RequestParam("projectId")String projectId,@RequestParam("csv_file") MultipartFile csvFile)
+    public ResponseContent ParseFunctionCsv(@RequestParam("projectId") String projectId,@RequestParam("csv_file") MultipartFile csvFile)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
         String content=new String(csvFile.getBytes());
 
-        result.setResult(new ImmutablePair<>("functions",projectFunctionService.ParseFunctionCsv(projectId,content)));
+        result.setResult(new ImmutablePair<>("functions",
+                                             projectFunctionService.ParseFunctionCsv(projectId,
+                                                                                     content)));
 
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
@@ -79,7 +81,11 @@ public class ProjectFunctionController
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
 
-        result.setResult(new ImmutablePair<>("functions",projectFunctionService.GetAllProjectFunctions(projectId)));
+        ImmutablePair<List<Map<String,String>>,List<Map<String,String>>> queryResult=projectFunctionService.ClassifyFunctionByIsSuperior(projectId);
+        result.setResult(Map.of("first_level_functions:",
+                                queryResult.left,
+                                "second_level_functions",
+                                queryResult.right));
 
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
