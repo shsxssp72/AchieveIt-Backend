@@ -16,5 +16,9 @@ public interface ProjectUserPermissionRelationMapper
 
     List<ProjectUserPermissionRelation> selectByProjectIdAndUserId(String projectId,String userId);
 
-    int deleteByProjectIdAndUserId(String projectId,String userId);
+    ProjectUserPermissionRelation selectByProjectIdAndUserIdAndPermissionId(String projectId,String userId,Long permissionId);
+
+    int deleteByProjectIdAndUserIdAndPermissionId(String projectId,String userId,Long permissionId);
+
+    int updateWeightByProjectIdAndUserIdAndPermissionId(int weight,String projectId,String userId,Long permissionId);
 }

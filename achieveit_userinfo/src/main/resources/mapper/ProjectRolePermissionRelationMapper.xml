@@ -7,6 +7,9 @@
       <arg column="referred_permission_id" javaType="java.lang.Long" jdbcType="BIGINT" />
     </constructor>
   </resultMap>
+  <sql id="Base_Column_List">
+    referred_project_role_id, referred_permission_id
+  </sql>
   <insert id="insert" parameterType="com.april.achieveit_userinfo_interface.entity.ProjectRolePermissionRelation">
     insert into ProjectRolePermissionRelation (referred_project_role_id, referred_permission_id
       )
@@ -32,4 +35,11 @@
       </if>
     </trim>
   </insert>
+  <select id="selectByProjectRoleId"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from ProjectRolePermissionRelation
+    where referred_project_role_id=#{projectRoleId,jdbcType=BIGINT}
+  </select>
 </mapper>

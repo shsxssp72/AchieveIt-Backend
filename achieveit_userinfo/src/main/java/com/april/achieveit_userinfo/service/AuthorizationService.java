@@ -2,19 +2,18 @@ package com.april.achieveit_userinfo.service;
 
 import com.april.achieveit_userinfo.mapper.*;
 import com.april.achieveit_userinfo_interface.entity.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import javax.annotation.PostConstruct;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,25 +21,35 @@ public class AuthorizationService
 {
     private Logger logger=LoggerFactory.getLogger(AuthorizationService.class);
     @Autowired
-    ProjectRoleMapper projectRoleMapper;
+    private ProjectRoleMapper projectRoleMapper;
     @Autowired
-    GlobalRoleMapper globalRoleMapper;
+    private GlobalRoleMapper globalRoleMapper;
     @Autowired
-    PermissionMapper permissionMapper;
+    private PermissionMapper permissionMapper;
     @Autowired
-    ProjectUserRelationMapper projectUserRelationMapper;
+    private ProjectUserRelationMapper projectUserRelationMapper;
     @Autowired
-    ProjectUserPermissionRelationMapper userPermissionRelationMapper;
+    private ProjectUserPermissionRelationMapper userPermissionRelationMapper;
 
     @Autowired
-    ProjectRolePermissionRelationMapper projectRolePermissionRelationMapper;
+    private ProjectRolePermissionRelationMapper projectRolePermissionRelationMapper;
     @Autowired
-    GlobalRolePermissionRelationMapper globalRolePermissionRelationMapper;
+    private GlobalRolePermissionRelationMapper globalRolePermissionRelationMapper;
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     @Autowired
     UserInfoMapper userInfoMapper;
+
+    @Value("${local.editable-permission}")
+    private String editable_permission_string;
+    private Set<String> EDITABLE_PERMISSIONS;
+
+    @PostConstruct
+    private void Init()
+    {
+        EDITABLE_PERMISSIONS=Set.of(editable_permission_string.split(","));
+    }
 
     @SneakyThrows
     private Map<String,String> prepareUserProjectRole(String projectId,String userId,List<ProjectUserRelation> projectUserRelations)
@@ -114,6 +123,7 @@ public class AuthorizationService
         return result;
     }
 
+    @Transactional
     public List<Map<String,String>> GetProjectMember(String projectId)
     {
         List<Map<String,String>> result=new LinkedList<>();
@@ -160,33 +170,98 @@ public class AuthorizationService
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public List<String> GetUserPermissionName(String projectId,String userId)
     {
         List<ProjectUserPermissionRelation> projectUserRelations=userPermissionRelationMapper.selectByProjectIdAndUserId(projectId,
                                                                                                                          userId);
         return projectUserRelations.parallelStream()
+                .filter(i->i.getPermitWeight()>0)
                 .map(i->permissionMapper.selectByPrimaryKey(i.getReferredPermissionId())
                         .getPermissionName())
                 .collect(Collectors.toList());
     }
 
-    public void UpdateUserProjectRole(String projectId,String userId,List<Map<String,String>> projectRoleIdList)
+    /**
+     * For multiple role may have same permission
+     */
+    private void deregisterProjectRole(String projectId,String userId,Long projectRoleId)
     {
-        projectUserRelationMapper.deleteByProjectIdAndUserId(projectId,
-                                                             userId);
-        for(Map<String,String> item: projectRoleIdList)
+        //
+        List<Long> roleRelatedPermissionIds=projectRolePermissionRelationMapper.selectByProjectRoleId(projectRoleId)
+                .parallelStream()
+                .map(ProjectRolePermissionRelation::getReferredPermissionId)
+                .collect(Collectors.toList());
+        for(Long permissionId: roleRelatedPermissionIds)
         {
-            projectUserRelationMapper.insert(new ProjectUserRelation(projectId,
-                                                                     userId,
-                                                                     item.get("superior_id"),
-                                                                     Long.parseLong(item.get("project_role_id"))));
+            ProjectUserPermissionRelation currentUserPermission=userPermissionRelationMapper.selectByProjectIdAndUserIdAndPermissionId(projectId,
+                                                                                                                                       userId,
+                                                                                                                                       permissionId);
+            userPermissionRelationMapper.updateWeightByProjectIdAndUserIdAndPermissionId(currentUserPermission.getPermitWeight()-1,
+                                                                                         projectId,
+                                                                                         userId,
+                                                                                         permissionId);
         }
     }
 
-    public void UpdateProjectMember(String projectId,List<Map<String,String>> members) throws JsonProcessingException
+    /**
+     * For multiple role may have same permission
+     */
+    private void registerProjectRole(String projectId,String userId,Long projectRoleId)
     {
+        List<Long> roleRelatedPermissionIds=projectRolePermissionRelationMapper.selectByProjectRoleId(projectRoleId)
+                .parallelStream()
+                .map(ProjectRolePermissionRelation::getReferredPermissionId)
+                .collect(Collectors.toList());
+        for(Long permissionId: roleRelatedPermissionIds)
+        {
+            ProjectUserPermissionRelation currentUserPermission=userPermissionRelationMapper.selectByProjectIdAndUserIdAndPermissionId(projectId,
+                                                                                                                                       userId,
+                                                                                                                                       permissionId);
+            if(currentUserPermission!=null)
+                userPermissionRelationMapper.updateWeightByProjectIdAndUserIdAndPermissionId(currentUserPermission.getPermitWeight()+1,
+                                                                                             projectId,
+                                                                                             userId,
+                                                                                             permissionId);
+            else
+                userPermissionRelationMapper.insert(new ProjectUserPermissionRelation(projectId,
+                                                                                      userId,
+                                                                                      permissionId,
+                                                                                      1));
+        }
+    }
+
+    @Transactional
+    public void UpdateUserProjectRole(String projectId,String userId,List<Map<String,String>> projectRoleIdList)
+    {
+        List<ProjectUserRelation> currentUserProjectRelations=projectUserRelationMapper.selectByProjectIdAndUserId(projectId,
+                                                                                                                   userId);
+        for(ProjectUserRelation relation: currentUserProjectRelations)
+        {
+            deregisterProjectRole(projectId,
+                                  userId,
+                                  relation.getReferredProjectRoleId());
+        }
         projectUserRelationMapper.deleteByProjectIdAndUserId(projectId,
-                                                             null);//Delete all under the project
+                                                             userId);
+
+        for(Map<String,String> item: projectRoleIdList)
+        {
+            long projectRoleId=Long.parseLong(item.get("project_role_id"));
+            projectUserRelationMapper.insert(new ProjectUserRelation(projectId,
+                                                                     userId,
+                                                                     item.get("superior_id"),
+                                                                     projectRoleId));
+            registerProjectRole(projectId,
+                                userId,
+                                projectRoleId);
+        }
+    }
+
+    @SneakyThrows
+    @Transactional
+    public void UpdateProjectMember(String projectId,List<Map<String,String>> members)
+    {
         for(Map<String,String> member: members)
         {
             String userId=member.get("user_id");
@@ -194,25 +269,36 @@ public class AuthorizationService
                                                                               new TypeReference<List<Map<String,String>>>()
                                                                               {
                                                                               });
-            for(Map<String,String> item: projectRoleIdList)
-            {
-                long projectRoleId=Long.parseLong(item.get("project_role_id"));
-                String superiorId=item.get("superior_id");
-                projectUserRelationMapper.insert(new ProjectUserRelation(projectId,
-                                                                         userId,
-                                                                         superiorId,
-                                                                         projectRoleId));
-            }
+            UpdateUserProjectRole(projectId,
+                                  userId,
+                                  projectRoleIdList);
         }
     }
 
+    @Transactional
     public void UpdateUserProjectPermission(String projectId,String userId,List<String> permissionList)
     {
-        userPermissionRelationMapper.deleteByProjectIdAndUserId(projectId,userId);
-        for(String item:permissionList)
+        for(String item: EDITABLE_PERMISSIONS)
+        {
+            Long permissionId=permissionMapper.selectByPermissionName(item)
+                    .getPermissionId();
+            userPermissionRelationMapper.deleteByProjectIdAndUserIdAndPermissionId(projectId,
+                                                                                   userId,
+                                                                                   permissionId);
+        }
+        permissionList.retainAll(EDITABLE_PERMISSIONS);
+        for(String item: permissionList)
         {
             Permission permission=permissionMapper.selectByPermissionName(item);
-            userPermissionRelationMapper.insert(new ProjectUserPermissionRelation(projectId,userId,permission.getPermissionId()));
+            userPermissionRelationMapper.insert(new ProjectUserPermissionRelation(projectId,
+                                                                                  userId,
+                                                                                  permission.getPermissionId(),
+                                                                                  1));
         }
+    }
+
+    public Set<String> getEditablePermissions()
+    {
+        return EDITABLE_PERMISSIONS;
     }
 }

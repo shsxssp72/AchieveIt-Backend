@@ -151,7 +151,7 @@ public class RoleController implements RoleServiceApi
 
     @Override
     @SneakyThrows
-    @GetMapping(path="/globalRole")
+    @GetMapping(path="/globalRole/self")
     public ResponseContent GetSelfGlobalRole(HttpServletRequest request)
     {
         logger.info("Invoking :"+Thread.currentThread()

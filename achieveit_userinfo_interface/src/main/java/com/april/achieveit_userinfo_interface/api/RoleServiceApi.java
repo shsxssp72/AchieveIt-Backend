@@ -28,7 +28,7 @@ public interface RoleServiceApi
     @GetMapping(path="/user/globalRole")
     ResponseContent GetUserGlobalRole(@RequestBody Map<String,String> params);
 
-    @GetMapping(path="/user/globalRole")
+    @GetMapping(path="/user/globalRole/self")
     ResponseContent GetSelfGlobalRole(HttpServletRequest request);
 
     @GetMapping(path="/user/inferior")
