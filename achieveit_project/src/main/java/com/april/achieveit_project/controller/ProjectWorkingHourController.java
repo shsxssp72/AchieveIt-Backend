@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/project/workingHour")
+@RequestMapping(path="/workingHour")
 public class ProjectWorkingHourController
 {
     private static Logger logger=LoggerFactory.getLogger(ProjectWorkingHourController.class);

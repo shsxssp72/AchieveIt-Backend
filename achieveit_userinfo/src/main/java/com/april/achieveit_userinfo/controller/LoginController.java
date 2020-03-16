@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/user")
+@RequestMapping(path="/")
 public class LoginController
 {
     private static Logger logger=LoggerFactory.getLogger(LoginController.class);

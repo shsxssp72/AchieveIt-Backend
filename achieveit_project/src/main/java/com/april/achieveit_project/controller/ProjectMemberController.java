@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/project/memberConf")
+@RequestMapping(path="/memberConf")
 public class ProjectMemberController
 {
     private static Logger logger=LoggerFactory.getLogger(ProjectMemberController.class);

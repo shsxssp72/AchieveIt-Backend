@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/user")
+@RequestMapping(path="/")
 public class RoleController implements RoleServiceApi
 {
     private static Logger logger=LoggerFactory.getLogger(RoleController.class);

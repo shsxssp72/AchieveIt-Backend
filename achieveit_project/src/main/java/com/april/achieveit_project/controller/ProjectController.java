@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @RestController
-@RequestMapping(path="/project")
+@RequestMapping(path="/")
 public class ProjectController
 {
     private static Logger logger=LoggerFactory.getLogger(ProjectController.class);

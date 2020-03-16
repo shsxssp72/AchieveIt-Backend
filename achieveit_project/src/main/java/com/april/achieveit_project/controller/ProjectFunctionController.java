@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/project")
+@RequestMapping(path="/")
 public class ProjectFunctionController
 {
     private static Logger logger=LoggerFactory.getLogger(ProjectFunctionController.class);
