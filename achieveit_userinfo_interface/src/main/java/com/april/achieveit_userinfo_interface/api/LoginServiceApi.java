@@ -4,6 +4,7 @@ import com.april.achieveit_common.bean.ResponseContent;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public interface LoginServiceApi
@@ -13,4 +14,7 @@ public interface LoginServiceApi
 
     @PostMapping(path="/user/info")
     ResponseContent UpdateCredential(@RequestBody Map<String,String> params);
+
+    @PostMapping(path="/user/renewToken")
+    ResponseContent RenewToken(HttpServletRequest request);
 }

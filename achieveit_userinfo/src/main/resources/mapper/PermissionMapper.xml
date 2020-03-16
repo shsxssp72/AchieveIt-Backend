@@ -16,6 +16,12 @@
     from Permission
     where permission_id = #{permissionId,jdbcType=BIGINT}
   </select>
+  <select id="selectByPermissionName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from Permission
+    where permission_name = #{permissionName,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from Permission
     where permission_id = #{permissionId,jdbcType=BIGINT}

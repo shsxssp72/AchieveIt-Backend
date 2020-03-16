@@ -9,10 +9,13 @@
       <arg column="referred_project_role_id" javaType="java.lang.Long" jdbcType="BIGINT" />
     </constructor>
   </resultMap>
+  <sql id="Base_Column_List">
+    referred_project_id, referred_user_id, referred_superior_id, referred_project_role_id
+  </sql>
   <insert id="insert" parameterType="com.april.achieveit_userinfo_interface.entity.ProjectUserRelation">
-    insert into ProjectUserRelation (referred_project_id, referred_user_id, referred_superior_id, 
+    insert into ProjectUserRelation (referred_project_id, referred_user_id, referred_superior_id,
       referred_project_role_id)
-    values (#{referredProjectId,jdbcType=CHAR}, #{referredUserId,jdbcType=CHAR}, #{referredSuperiorId,jdbcType=CHAR}, 
+    values (#{referredProjectId,jdbcType=CHAR}, #{referredUserId,jdbcType=CHAR}, #{referredSuperiorId,jdbcType=CHAR},
       #{referredProjectRoleId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.april.achieveit_userinfo_interface.entity.ProjectUserRelation">
@@ -46,4 +49,35 @@
       </if>
     </trim>
   </insert>
+  <delete id="deleteByProjectIdAndUserId">
+    DELETE
+    FROM ProjectUserRelation
+    WHERE 1=1
+    <if test="projectId != null">
+      AND referred_project_id = #{projectId,jdbcType=CHAR}
+    </if>
+    <if test="userId != null">
+      AND referred_user_id=#{userId,jdbcType=CHAR}
+    </if>
+  </delete>
+  <select id="selectByProjectIdAndUserId"
+          resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM ProjectUserRelation
+    WHERE 1=1
+    <if test="projectId != null">
+      AND referred_project_id=#{projectId,jdbcType=CHAR}
+    </if>
+    <if test="userId != null">
+      AND referred_user_id=#{userId,jdbcType=CHAR}
+    </if>
+  </select>
+  <select id="selectBySuperiorId"
+          resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM ProjectUserRelation
+    WHERE referred_superior_id = #{superiorId,jdbcType=CHAR}
+  </select>
 </mapper>
