@@ -53,7 +53,7 @@ public class ProjectService
     {
         PageHelper.startPage(currentPage,
                              pageSize);
-        return projectMapper.selectByProjectName(projectName);
+        return projectMapper.selectByProjectName(projectName);//TODO Filter those before Initiated
     }
 
     public List<Project> ListRelativeProject(Set<String> projectIds,int pageSize,int currentPage)

@@ -9,12 +9,12 @@ import java.util.Map;
 
 public interface LoginServiceApi
 {
-    @PostMapping(path="/user/login")
+    @PostMapping(path="/login")
     ResponseContent Login(@RequestBody Map<String,String> params);
 
-    @PostMapping(path="/user/info")
+    @PostMapping(path="/info")
     ResponseContent UpdateCredential(@RequestBody Map<String,String> params);
 
-    @PostMapping(path="/user/renewToken")
+    @PostMapping(path="/renewToken")
     ResponseContent RenewToken(HttpServletRequest request);
 }

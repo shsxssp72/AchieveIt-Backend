@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,7 +53,7 @@ public class AuthorizationService
     }
 
     @SneakyThrows
-    private Map<String,String> prepareUserProjectRole(String projectId,String userId,List<ProjectUserRelation> projectUserRelations)
+    private Map<String,String> prepareUserProjectRole(@NotNull String projectId,@NotNull String userId,List<ProjectUserRelation> projectUserRelations)
     {
         List<Map<String,String>> roleIdList=new LinkedList<>();
         for(ProjectUserRelation item: projectUserRelations)
@@ -76,7 +77,7 @@ public class AuthorizationService
     }
 
     @SneakyThrows
-    public Map<String,String> GetUserProjectRole(String projectId,String userId)
+    public Map<String,String> GetUserProjectRole(@NotNull String projectId,@NotNull String userId)
     {
         List<ProjectUserRelation> projectUserRelations=projectUserRelationMapper.selectByProjectIdAndUserId(projectId,
                                                                                                             userId);
@@ -85,7 +86,7 @@ public class AuthorizationService
                                       projectUserRelations);
     }
 
-    public List<Map<String,String>> GetUserRoleFromMultipleProject(String userId)
+    public List<Map<String,String>> GetUserRoleFromMultipleProject(@NotNull String userId)
     {
         List<ProjectUserRelation> projectUserRelations=projectUserRelationMapper.selectByProjectIdAndUserId(null,
                                                                                                             userId);
@@ -113,7 +114,7 @@ public class AuthorizationService
         return result;
     }
 
-    public List<Map<String,String>> BatchGetUserRoleFromMultipleProject(List<String> userIds)
+    public List<Map<String,String>> BatchGetUserRoleFromMultipleProject(@NotNull List<String> userIds)
     {
         List<Map<String,String>> result=new LinkedList<>();
         for(var userId: userIds)
@@ -124,7 +125,7 @@ public class AuthorizationService
     }
 
     @Transactional
-    public List<Map<String,String>> GetProjectMember(String projectId)
+    public List<Map<String,String>> GetProjectMember(@NotNull String projectId)
     {
         List<Map<String,String>> result=new LinkedList<>();
 
@@ -146,7 +147,7 @@ public class AuthorizationService
         return result;
     }
 
-    private UserInfo GetUserInfoById(String userId)
+    private UserInfo GetUserInfoById(@NotNull String userId)
     {
         return userInfoMapper.selectByPrimaryKey(userId);
     }
@@ -162,16 +163,19 @@ public class AuthorizationService
                       globalRoleName);
     }
 
-    public List<String> GetInferior(String superiorId)
+    public List<String> GetInferior(String projectId,@NotNull String superiorId)
     {
-        List<ProjectUserRelation> userRelations=projectUserRelationMapper.selectBySuperiorId(superiorId);
+        List<ProjectUserRelation> userRelations=projectUserRelationMapper.selectBySuperiorId(projectId,superiorId);
         return userRelations.parallelStream()
                 .map(ProjectUserRelation::getReferredUserId)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * When passing projectId as null, query global permission
+     */
     @Transactional
-    public List<String> GetUserPermissionName(String projectId,String userId)
+    public List<String> GetUserPermissionName(String projectId,@NotNull String userId)
     {
         List<ProjectUserPermissionRelation> projectUserRelations=userPermissionRelationMapper.selectByProjectIdAndUserId(projectId,
                                                                                                                          userId);
@@ -185,7 +189,7 @@ public class AuthorizationService
     /**
      * For multiple role may have same permission
      */
-    private void deregisterProjectRole(String projectId,String userId,Long projectRoleId)
+    private void deregisterProjectRole(@NotNull String projectId,@NotNull String userId,Long projectRoleId)
     {
         //
         List<Long> roleRelatedPermissionIds=projectRolePermissionRelationMapper.selectByProjectRoleId(projectRoleId)
@@ -207,7 +211,7 @@ public class AuthorizationService
     /**
      * For multiple role may have same permission
      */
-    private void registerProjectRole(String projectId,String userId,Long projectRoleId)
+    private void registerProjectRole(@NotNull String projectId,@NotNull String userId,Long projectRoleId)
     {
         List<Long> roleRelatedPermissionIds=projectRolePermissionRelationMapper.selectByProjectRoleId(projectRoleId)
                 .parallelStream()
@@ -232,7 +236,7 @@ public class AuthorizationService
     }
 
     @Transactional
-    public void UpdateUserProjectRole(String projectId,String userId,List<Map<String,String>> projectRoleIdList)
+    public void UpdateUserProjectRole(@NotNull String projectId,@NotNull String userId,List<Map<String,String>> projectRoleIdList)
     {
         List<ProjectUserRelation> currentUserProjectRelations=projectUserRelationMapper.selectByProjectIdAndUserId(projectId,
                                                                                                                    userId);
@@ -260,7 +264,7 @@ public class AuthorizationService
 
     @SneakyThrows
     @Transactional
-    public void UpdateProjectMember(String projectId,List<Map<String,String>> members)
+    public void UpdateProjectMember(@NotNull String projectId,List<Map<String,String>> members)
     {
         for(Map<String,String> member: members)
         {
@@ -276,7 +280,7 @@ public class AuthorizationService
     }
 
     @Transactional
-    public void UpdateUserProjectPermission(String projectId,String userId,List<String> permissionList)
+    public void UpdateUserProjectPermission(@NotNull String projectId,@NotNull String userId,List<String> permissionList)
     {
         for(String item: EDITABLE_PERMISSIONS)
         {

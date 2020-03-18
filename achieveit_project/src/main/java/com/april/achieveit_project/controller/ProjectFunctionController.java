@@ -30,7 +30,7 @@ public class ProjectFunctionController
 
     @SneakyThrows
     @PostMapping(path="/functionParse")
-    public ResponseContent ParseFunctionCsv(@RequestParam("projectId") String projectId,@RequestParam("csv_file") MultipartFile csvFile)
+    public ResponseContent ParseFunctionCsv(@RequestParam("project_id") String projectId,@RequestParam("csv_file") MultipartFile csvFile)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());

@@ -2,13 +2,13 @@ package com.april.achieveit_project.service;
 
 import com.april.achieveit_common.bean.ResponseContent;
 import com.april.achieveit_common.utility.SnowFlakeIdGenerator;
+import com.april.achieveit_project.client.RoleServiceClient;
 import com.april.achieveit_project.entity.ActivityType;
 import com.april.achieveit_project.entity.ProjectFunction;
 import com.april.achieveit_project.entity.WorkingHour;
 import com.april.achieveit_project.mapper.ActivityTypeMapper;
 import com.april.achieveit_project.mapper.ProjectFunctionMapper;
 import com.april.achieveit_project.mapper.WorkingHourMapper;
-import com.april.achieveit_userinfo_interface.api.RoleServiceApi;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class ProjectWorkingHourService
     @Autowired
     private ActivityTypeMapper activityTypeMapper;
     @Autowired
-    private RoleServiceApi roleServiceApi;
+    private RoleServiceClient roleServiceClient;
     @Autowired
     ProjectFunctionMapper projectFunctionMapper;
     @Autowired
@@ -93,7 +93,7 @@ public class ProjectWorkingHourService
         String creatorId=currentWorkingHour.getReferredProjectId();
         String projectId=currentWorkingHour.getReferredProjectId();
         //TODO role controller api may change, confirm in the end
-        ResponseContent queryResponse=roleServiceApi.GetUserProjectRole(new HashMap<>()
+        ResponseContent queryResponse=roleServiceClient.GetUserProjectRole(new HashMap<>()
         {{
             put("project_id",
                 projectId);
@@ -114,8 +114,10 @@ public class ProjectWorkingHourService
 
     public List<WorkingHour> GetToBeVerifiedWorkingHour(String projectId,String verifierId)
     {
-        ResponseContent queryResponse=roleServiceApi.GetInferior(new HashMap<>()
+        ResponseContent queryResponse=roleServiceClient.GetInferior(new HashMap<>()
         {{
+            put("project_id",
+                projectId);
             put("superior_id",
                 verifierId);
         }});

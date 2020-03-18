@@ -79,5 +79,8 @@
     <include refid="Base_Column_List"/>
     FROM ProjectUserRelation
     WHERE referred_superior_id = #{superiorId,jdbcType=CHAR}
+    <if test="projectId != null">
+      AND referred_project_id=#{projectId,jdbcType=CHAR}
+    </if>
   </select>
 </mapper>

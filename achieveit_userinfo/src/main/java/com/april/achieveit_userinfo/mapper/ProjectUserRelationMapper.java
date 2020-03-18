@@ -16,7 +16,7 @@ public interface ProjectUserRelationMapper
 
     List<ProjectUserRelation> selectByProjectIdAndUserId(String projectId,String userId);
 
-    List<ProjectUserRelation> selectBySuperiorId(String superiorId);
+    List<ProjectUserRelation> selectBySuperiorId(String projectId,String superiorId);
 
     int deleteByProjectIdAndUserId(String projectId,String userId);
 }
