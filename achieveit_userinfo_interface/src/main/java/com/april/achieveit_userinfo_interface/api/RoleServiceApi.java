@@ -10,33 +10,33 @@ import java.util.Map;
 
 public interface RoleServiceApi
 {
-    @PostMapping(path="/user/userProjectRole")
+    @PostMapping(path="/userProjectRole")
     ResponseContent UpdateUserProjectRole(@RequestBody Map<String,String> params);
 
-    @GetMapping(path="/user/userProjectRole")
+    @GetMapping(path="/userProjectRole")
     ResponseContent GetUserProjectRole(@RequestBody Map<String,String> params);
 
-    @PostMapping(path="/user/userProjectRole/batch")
+    @PostMapping(path="/userProjectRole/batch")
     ResponseContent BatchGetUserProjectRole(@RequestBody Map<String,String> params);
 
-    @PostMapping(path="/user/projectMember")
+    @PostMapping(path="/projectMember")
     ResponseContent UpdateProjectMember(@RequestBody Map<String,String> params);
 
-    @GetMapping(path="/user/projectMember")
+    @GetMapping(path="/projectMember")
     ResponseContent GetProjectMember(@RequestBody Map<String,String> params);
 
-    @GetMapping(path="/user/globalRole")
+    @GetMapping(path="/globalRole")
     ResponseContent GetUserGlobalRole(@RequestBody Map<String,String> params);
 
-    @GetMapping(path="/user/globalRole/self")
+    @GetMapping(path="/globalRole/self")
     ResponseContent GetSelfGlobalRole(HttpServletRequest request);
 
-    @GetMapping(path="/user/inferior")
+    @GetMapping(path="/inferior")
     ResponseContent GetInferior(@RequestBody Map<String,String> params);
 
-    @GetMapping(path="/user/permission")
+    @GetMapping(path="/permission")
     ResponseContent GetUserPermission(@RequestBody Map<String,String> params);
 
-    @PostMapping(path="/user/permission")
+    @PostMapping(path="/permission")
     ResponseContent UpdateUserPermission(Map<String,String> params);
 }

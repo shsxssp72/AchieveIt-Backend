@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/project/device")
+@RequestMapping(path="/device")
 public class ProjectDeviceController
 {
     private static Logger logger=LoggerFactory.getLogger(ProjectDeviceController.class);

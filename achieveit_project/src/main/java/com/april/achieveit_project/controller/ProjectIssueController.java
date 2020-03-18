@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/project/issue")
+@RequestMapping(path="/issue")
 public class ProjectIssueController
 {
     private static Logger logger=LoggerFactory.getLogger(ProjectIssueController.class);

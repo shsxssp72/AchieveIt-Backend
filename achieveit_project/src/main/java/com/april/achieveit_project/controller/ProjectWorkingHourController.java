@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/project/workingHour")
+@RequestMapping(path="/workingHour")
 public class ProjectWorkingHourController
 {
     private static Logger logger=LoggerFactory.getLogger(ProjectWorkingHourController.class);
@@ -135,7 +135,7 @@ public class ProjectWorkingHourController
 
     @SneakyThrows
     @GetMapping(path="/verify")
-    public ResponseContent GetToBeVerifiedWorkingHour(HttpServletRequest request)
+    public ResponseContent GetToBeVerifiedWorkingHour(@RequestBody Map<String,String> params,HttpServletRequest request)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
@@ -143,7 +143,8 @@ public class ProjectWorkingHourController
         String jwt=CookieUtility.getCookieValue(request,
                                                 "JWT");
         String userId=JWTUtility.getSubjectFromJWT(jwt);
-        List<WorkingHour> queryResult=projectWorkingHourService.GetToBeVerifiedWorkingHour(null,
+        String projectId=params.get("project_id");
+        List<WorkingHour> queryResult=projectWorkingHourService.GetToBeVerifiedWorkingHour(projectId,
                                                                                            userId);
         result.setResult(queryResult);
         result.setStatus(ResponseContentStatus.SUCCESS);

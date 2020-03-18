@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/project/risk")
+@RequestMapping(path="/risk")
 public class ProjectRiskController
 {
     private static Logger logger=LoggerFactory.getLogger(ProjectRiskController.class);

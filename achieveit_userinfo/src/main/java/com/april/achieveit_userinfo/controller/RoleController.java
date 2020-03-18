@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/user")
+@RequestMapping(path="/")
 public class RoleController implements RoleServiceApi
 {
     private static Logger logger=LoggerFactory.getLogger(RoleController.class);
@@ -172,8 +172,11 @@ public class RoleController implements RoleServiceApi
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
 
+        String projectId=params.getOrDefault("project_id",
+                                             null);
         String superiorId=params.get("superior_id");
-        result.setResult(authorizationService.GetInferior(superiorId));
+        result.setResult(authorizationService.GetInferior(projectId,
+                                                          superiorId));
 
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
@@ -187,7 +190,8 @@ public class RoleController implements RoleServiceApi
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
 
-        String projectId=params.get("projectId");
+        String projectId=params.getOrDefault("projectId",
+                                             null);
         String userId=params.get("user_id");
 
         result.setResult(authorizationService.GetUserPermissionName(projectId,
@@ -212,7 +216,9 @@ public class RoleController implements RoleServiceApi
                                                            new TypeReference<List<String>>()
                                                            {
                                                            });
-        authorizationService.UpdateUserProjectPermission(projectId,userId,permissionList);
+        authorizationService.UpdateUserProjectPermission(projectId,
+                                                         userId,
+                                                         permissionList);
 
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
