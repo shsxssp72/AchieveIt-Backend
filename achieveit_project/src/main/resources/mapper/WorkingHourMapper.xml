@@ -34,7 +34,7 @@
         </if>
         <if test="userId != null">
             and referred_user_id in
-            <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            <foreach collection="userId" index="index" item="item" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>

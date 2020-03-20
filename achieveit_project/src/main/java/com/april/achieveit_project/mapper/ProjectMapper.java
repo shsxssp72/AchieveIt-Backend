@@ -19,7 +19,7 @@ public interface ProjectMapper
 
     Project selectByPrimaryKey(String projectId);
 
-    List<Project> selectByProjectName(String projectName);
+    List<Project> selectByProjectNameAndStatus(String projectName,Set<String> validStatus);
 
     List<Project> selectByProjectIds(Set<String> projectIds);
 

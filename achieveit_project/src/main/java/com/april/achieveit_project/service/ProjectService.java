@@ -1,11 +1,13 @@
 package com.april.achieveit_project.service;
 
+import com.april.achieveit_common.utility.RedisCacheUtility;
 import com.april.achieveit_common.utility.SnowFlakeIdGenerator;
 import com.april.achieveit_project.config.ProjectStateTransition;
 import com.april.achieveit_project.entity.Project;
 import com.april.achieveit_project.entity.ProjectMiscellaneous;
 import com.april.achieveit_project.mapper.ProjectMapper;
 import com.april.achieveit_project.mapper.ProjectMiscellaneousMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,20 +15,41 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
-public class ProjectService
+public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
 {
     private static Logger logger=LoggerFactory.getLogger(ProjectService.class);
 
+    static
+    {
+        for(Method method: ProjectService.class.getDeclaredMethods())
+        {
+
+            reentrantLocks.computeIfAbsent(method.getName(),
+                                           f->new ReentrantLock());
+        }
+    }
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Value("${local.cache-valid-time}")
+    private Integer cacheValidTime;
+    @Value("${local.cache-concurrent-wait-time}")
+    private Integer cacheConcurrentWaitTime;
+
     @Autowired
     private ProjectMapper projectMapper;
-
     @Autowired
     private ProjectMiscellaneousMapper projectMiscellaneousMapper;
 
@@ -51,21 +74,56 @@ public class ProjectService
 
     public List<Project> SearchProjectByName(String projectName,int pageSize,int currentPage)
     {
-        PageHelper.startPage(currentPage,
-                             pageSize);
-        return projectMapper.selectByProjectName(projectName);//TODO Filter those before Initiated
+        String currentMethodName=Thread.currentThread()
+                .getStackTrace()[1].getMethodName();
+        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<List<Project>>(redisTemplate,
+                                                                                   objectMapper,
+                                                                                   reentrantLocks.get(currentMethodName),
+                                                                                   cacheValidTime,
+                                                                                   cacheConcurrentWaitTime);
+
+        String redisKey=currentMethodName+"_"+projectName+"_"+pageSize+"_"+currentPage;
+        return redisCacheHelper.QueryUsingCache(redisKey,
+                                                ()->
+                                                {
+                                                    PageHelper.startPage(currentPage,
+                                                                         pageSize);
+                                                    return projectMapper.selectByProjectNameAndStatus(projectName,
+                                                                                                      Set.of(ProjectStateTransition.ProjectState.Initiated.name(),
+                                                                                                             ProjectStateTransition.ProjectState.Developing.name(),
+                                                                                                             ProjectStateTransition.ProjectState.Delivered.name(),
+                                                                                                             ProjectStateTransition.ProjectState.Finished.name(),
+                                                                                                             ProjectStateTransition.ProjectState.ReadyArchive.name(),
+                                                                                                             ProjectStateTransition.ProjectState.ArchiveDeclined.name(),
+                                                                                                             ProjectStateTransition.ProjectState.Archived.name()));
+                                                });
     }
 
-    public List<Project> ListRelativeProject(Set<String> projectIds,int pageSize,int currentPage)
+    public List<Project> SelectByProjectIds(Set<String> projectIds,int pageSize,int currentPage)
     {
         PageHelper.startPage(currentPage,
                              pageSize);
         return projectMapper.selectByProjectIds(projectIds);
     }
 
+    private Project selectByProjectIdUsingCache(String projectId)
+    {
+        String currentMethodName=Thread.currentThread()
+                .getStackTrace()[1].getMethodName();
+        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<Project>(redisTemplate,
+                                                                             objectMapper,
+                                                                             reentrantLocks.get(currentMethodName),
+                                                                             cacheValidTime,
+                                                                             cacheConcurrentWaitTime);
+
+        String redisKey=currentMethodName+"_"+projectId;
+        return redisCacheHelper.QueryUsingCache(redisKey,
+                                                ()->projectMapper.selectByPrimaryKey(projectId));
+    }
+
     public Project SelectByProjectId(String projectId)
     {
-        var queryResult=projectMapper.selectByPrimaryKey(projectId);
+        var queryResult=selectByProjectIdUsingCache(projectId);
         if(queryResult==null)
             throw new IllegalArgumentException("No matching Project");
         return queryResult;
@@ -152,22 +210,33 @@ public class ProjectService
                                     "MemberAdded");
     }
 
-    public List<ProjectMiscellaneous> SelectMiscByProjectId(String projectId)
+    public ProjectMiscellaneous SelectMiscByProjectIdAndKeyUsingCache(String projectId,String key)
     {
-        return projectMiscellaneousMapper.selectByProjectId(projectId);
+        String currentMethodName=Thread.currentThread()
+                .getStackTrace()[1].getMethodName();
+        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<ProjectMiscellaneous>(redisTemplate,
+                                                                                          objectMapper,
+                                                                                          reentrantLocks.get(currentMethodName),
+                                                                                          cacheValidTime,
+                                                                                          cacheConcurrentWaitTime);
+
+        String redisKey=currentMethodName+"_"+projectId;
+        return redisCacheHelper.QueryUsingCache(redisKey,
+                                                ()->projectMiscellaneousMapper.selectByProjectIdAndKey(projectId,
+                                                                                                       key));
     }
 
     public String SelectMiscByProjectIdAndKey(String projectId,String key)
     {
-        ProjectMiscellaneous queryResult=projectMiscellaneousMapper.selectByProjectIdAndKey(projectId,
-                                                                                            key);
+        ProjectMiscellaneous queryResult=SelectMiscByProjectIdAndKeyUsingCache(projectId,
+                                                                               key);
         return queryResult==null?null:queryResult.getValueField();
     }
 
     public void InsertMiscByProjectIdAndKey(String projectId,String key,String value)
     {
-        ProjectMiscellaneous queryResult=projectMiscellaneousMapper.selectByProjectIdAndKey(projectId,
-                                                                                            key);
+        ProjectMiscellaneous queryResult=SelectMiscByProjectIdAndKeyUsingCache(projectId,
+                                                                               key);
         if(queryResult!=null)
             projectMiscellaneousMapper.deleteByPrimaryKey(queryResult.getMiscId());
         ProjectMiscellaneous misc=new ProjectMiscellaneous(snowFlakeIdGenerator.getNextId(),

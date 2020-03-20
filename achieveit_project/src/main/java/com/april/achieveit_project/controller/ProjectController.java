@@ -101,9 +101,9 @@ public class ProjectController
                                                                      {
                                                                      });
 
-        List<Project> queryResult=projectService.ListRelativeProject(userRoles.keySet(),
-                                                                     pageSize,
-                                                                     currentPage);
+        List<Project> queryResult=projectService.SelectByProjectIds(userRoles.keySet(),
+                                                                    pageSize,
+                                                                    currentPage);
         result.setStatus(ResponseContentStatus.SUCCESS);
         result.setResult(queryResult);
         return result;

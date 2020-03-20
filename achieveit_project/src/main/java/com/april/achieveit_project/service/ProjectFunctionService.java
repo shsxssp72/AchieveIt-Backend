@@ -1,8 +1,10 @@
 package com.april.achieveit_project.service;
 
+import com.april.achieveit_common.utility.RedisCacheUtility;
 import com.april.achieveit_common.utility.SnowFlakeIdGenerator;
 import com.april.achieveit_project.entity.ProjectFunction;
 import com.april.achieveit_project.mapper.ProjectFunctionMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -12,20 +14,43 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.StringReader;
+import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 @Service
-public class ProjectFunctionService
+public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCacheService
 {
     private static Logger logger=LoggerFactory.getLogger(ProjectFunctionService.class);
+
+    static
+    {
+        for(Method method: ProjectFunctionService.class.getDeclaredMethods())
+        {
+
+            reentrantLocks.computeIfAbsent(method.getName(),
+                                           f->new ReentrantLock());
+        }
+    }
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Value("${local.cache-valid-time}")
+    private Integer cacheValidTime;
+    @Value("${local.cache-concurrent-wait-time}")
+    private Integer cacheConcurrentWaitTime;
+
+
     @Autowired
     ProjectFunctionMapper projectFunctionMapper;
-
     @Value("${snowflake.datacenter-id}")
     private Long datacenterId;
     @Value("${snowflake.machine-id}")
@@ -54,9 +79,24 @@ public class ProjectFunctionService
         return snowFlakeIdGenerator.getNextId();
     }
 
+    private List<ProjectFunction> selectByProjectId(String projectId)
+    {
+        String currentMethodName=Thread.currentThread()
+                .getStackTrace()[1].getMethodName();
+        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<List<ProjectFunction>>(redisTemplate,
+                                                                                           objectMapper,
+                                                                                           reentrantLocks.get(currentMethodName),
+                                                                                           cacheValidTime,
+                                                                                           cacheConcurrentWaitTime);
+
+        String redisKey=currentMethodName+"_"+projectId;
+        return redisCacheHelper.QueryUsingCache(redisKey,
+                                                ()->projectFunctionMapper.selectByProjectId(projectId));
+    }
+
     public ImmutablePair<List<Map<String,String>>,List<Map<String,String>>> ClassifyFunctionByIsSuperior(String projectId)
     {
-        List<ProjectFunction> projectFunctions=projectFunctionMapper.selectByProjectId(projectId);
+        List<ProjectFunction> projectFunctions=selectByProjectId(projectId);
         Map<Long,String> displayIdMap=projectFunctions.parallelStream()
                 .collect(Collectors.toMap(ProjectFunction::getFunctionId,
                                           ProjectFunction::getIdForDisplay));
@@ -86,7 +126,8 @@ public class ProjectFunctionService
         }
         superiors.sort(Comparator.comparing(i->i.get("display_id")));
         inferiors.sort(Comparator.comparing(i->i.get("display_id")));
-        return new ImmutablePair<>(superiors,inferiors);
+        return new ImmutablePair<>(superiors,
+                                   inferiors);
     }
 
     public List<Map<String,String>> GetAllProjectFunctions(String projectId)
@@ -144,7 +185,7 @@ public class ProjectFunctionService
 
     private List<ProjectFunction> matchFunctionsToExistingOnes(String projectId,List<Map<String,String>> functions)
     {
-        Map<String,ProjectFunction> existingFunctions=projectFunctionMapper.selectByProjectId(projectId)
+        Map<String,ProjectFunction> existingFunctions=selectByProjectId(projectId)
                 .parallelStream()
                 .collect(Collectors.toMap(ProjectFunction::getIdForDisplay,
                                           i->i));

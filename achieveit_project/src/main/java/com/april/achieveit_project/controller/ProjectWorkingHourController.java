@@ -63,8 +63,8 @@ public class ProjectWorkingHourController
                                                 "JWT");
         String userId=JWTUtility.getSubjectFromJWT(jwt);
 
-        var queryResult=projectWorkingHourService.SelectByProjectId(projectId,
-                                                                    userId);
+        var queryResult=projectWorkingHourService.SelectByProjectIdAndUserId(projectId,
+                                                                             userId);
         result.setResult(queryResult);
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
