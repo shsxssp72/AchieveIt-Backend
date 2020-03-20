@@ -180,7 +180,6 @@ public class UrlPermissionVerificationHelper
 
     public String ParseProjectId(String requestPath,String requestMethod,String requestBody)
     {
-        //TODO Variable version
         Map<String,String> currentRequestPathProperty=getCurrentRequestPathProperty(requestPath,
                                                                                     requestMethod);
         String projectIdLocation=currentRequestPathProperty.get("projectIdLocation");

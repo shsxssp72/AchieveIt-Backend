@@ -57,7 +57,9 @@ public class ProjectRiskController
         serviceCaller.Invoke(risk,
                              riskRelatedPerson);
 
-        result.setMessage(dependencyService.sendEmail());
+        result.setMessage(dependencyService.sendEmail("",
+                                                      params.get("risk_responsible_person"),
+                                                      ""));
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
     }

@@ -50,7 +50,7 @@ public class ProjectController
         project.setStatus(ProjectStateTransition.ProjectState.Applied);
         projectService.NewProject(project);
 
-        result.setMessage(dependencyService.sendEmail());
+        result.setMessage(dependencyService.sendEmail("","",""));
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
     }
