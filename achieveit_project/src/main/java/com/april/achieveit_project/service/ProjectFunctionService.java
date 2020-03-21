@@ -141,9 +141,10 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
     }
 
     @SneakyThrows
-    public String GetFunctionCsv(String projectId)//TODO Change id to displayId
+    public String GetFunctionCsv(String projectId)
     {
         List<Map<String,String>> functions=GetAllProjectFunctions(projectId);
+        Map<String,Map<String,String>> displayIdFunctionMap=functions.parallelStream().collect(Collectors.toMap(i->i.get("id_for_display"),i->i));
         StringBuilder csvBuilder=new StringBuilder();
 
         CSVPrinter printer=new CSVPrinter(csvBuilder,
@@ -151,17 +152,16 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
 
         for(Map<String,String> item: functions)
         {
-            printer.printRecord(item.get("function_id"),
-                                item.get("superior_function_id"),
+            printer.printRecord(item.get("id_for_display"),
+                                displayIdFunctionMap.get(item.get("superior_function_id")),
                                 item.get("description"));
         }
         return csvBuilder.toString();
     }
 
     @SneakyThrows
-    public List<ProjectFunction> ParseFunctionCsv(String projectId,String csvContent)//TODO Change id to displayId
+    public List<ProjectFunction> ParseFunctionCsv(String projectId,String csvContent)
     {
-
         Iterable<CSVRecord> records=CSVFormat.DEFAULT.withHeader(CsvHeaders)
                 .withFirstRecordAsHeader()
                 .parse(new StringReader(csvContent));

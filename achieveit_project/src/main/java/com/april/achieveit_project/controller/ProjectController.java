@@ -168,5 +168,3 @@ public class ProjectController
     }
 
 }
-//TODO Add Redis support for search and other getter
-//TODO Add JsonProperty for frontend data mapping(camelCase to snake_case)
