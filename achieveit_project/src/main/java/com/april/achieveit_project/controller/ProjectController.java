@@ -5,11 +5,11 @@ import com.april.achieveit_common.bean.ResponseContentStatus;
 import com.april.achieveit_common.utility.CookieUtility;
 import com.april.achieveit_common.utility.JWTUtility;
 import com.april.achieveit_common.utility.JsonVisibilityLevel;
+import com.april.achieveit_project.client.RoleServiceClient;
 import com.april.achieveit_project.config.ProjectStateTransition;
 import com.april.achieveit_project.entity.Project;
 import com.april.achieveit_project.service.DependencyService;
 import com.april.achieveit_project.service.ProjectService;
-import com.april.achieveit_userinfo_interface.api.RoleServiceApi;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @RestController
-@RequestMapping(path="/project")
+@RequestMapping(path="/")
 public class ProjectController
 {
     private static Logger logger=LoggerFactory.getLogger(ProjectController.class);
@@ -37,7 +37,7 @@ public class ProjectController
     @Autowired
     ProjectService projectService;
     @Autowired
-    RoleServiceApi roleServiceApi;
+    RoleServiceClient roleServiceClient;
     @Autowired
     ObjectMapper objectMapper;
 
@@ -50,7 +50,7 @@ public class ProjectController
         project.setStatus(ProjectStateTransition.ProjectState.Applied);
         projectService.NewProject(project);
 
-        result.setMessage(dependencyService.sendEmail());
+        result.setMessage(dependencyService.sendEmail("","",""));
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
     }
@@ -91,7 +91,7 @@ public class ProjectController
         String userId=JWTUtility.getSubjectFromJWT(jwt);
 
         //TODO Code below not tested, should be tested when userinfo is complete
-        ResponseContent roleQueryResult=roleServiceApi.GetUserProjectRole(new HashMap<>()
+        ResponseContent roleQueryResult=roleServiceClient.GetUserProjectRole(new HashMap<>()
         {{
             put("user_id",
                 userId);
@@ -101,9 +101,9 @@ public class ProjectController
                                                                      {
                                                                      });
 
-        List<Project> queryResult=projectService.ListRelativeProject(userRoles.keySet(),
-                                                                     pageSize,
-                                                                     currentPage);
+        List<Project> queryResult=projectService.SelectByProjectIds(userRoles.keySet(),
+                                                                    pageSize,
+                                                                    currentPage);
         result.setStatus(ResponseContentStatus.SUCCESS);
         result.setResult(queryResult);
         return result;
@@ -168,4 +168,3 @@ public class ProjectController
     }
 
 }
-//TODO Add Redis support for search and other getter

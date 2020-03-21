@@ -1,0 +1,94 @@
+{
+  "/project/detail/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "project_info_access",
+      "projectIdLocation": "url"
+    },
+    "POST": {
+      "permission": "project_info_modification",
+      "projectIdLocation": "url"
+    }
+  },
+  "/project/memberConf/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "member_list_access",
+      "projectIdLocation": "url"
+    },
+    "POST": {
+      "permission": "member_list_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/project/function/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "function_list_access",
+      "projectIdLocation": "url"
+    },
+    "POST": {
+      "permission": "function_list_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/project/function/download/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "function_list_access",
+      "projectIdLocation": "url"
+    }
+  },
+  "/project/status/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "project_status_access",
+      "projectIdLocation": "url"
+    },
+    "POST": {
+      "permission": "project_status_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/project/issue/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "issue_tracker_access",
+      "projectIdLocation": "url"
+    },
+    "POST": {
+      "permission": "issue_tracker_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/project/workingHour/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "working_hour_access",
+      "projectIdLocation": "url"
+    },
+    "POST": {
+      "permission": "working_hour_modification",
+      "projectIdLocation": "url"
+    }
+  },
+  "/project/workingHour/([A-Z0-9\\-]+)/[A-Z0-9]+": {
+    "GET": {
+      "permission": "working_hour_access",
+      "projectIdLocation": "url"
+    },
+    "POST": {
+      "permission": "working_hour_modification",
+      "projectIdLocation": "url"
+    }
+  },
+  "/project/risk/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "risk_access",
+      "projectIdLocation": "url"
+    },
+    "POST": {
+      "permission": "risk_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/project/risk/([A-Z0-9\\-]+)/[A-Z0-9]+": {
+    "POST": {
+      "permission": "risk_modification",
+      "projectIdLocation": "global"
+    }
+  }
+}

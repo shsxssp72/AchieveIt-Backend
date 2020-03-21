@@ -26,11 +26,15 @@
         from Project
         where project_id = #{projectId,jdbcType=CHAR}
     </select>
-    <select id="selectByProjectName" resultMap="BaseResultMap">
+    <select id="selectByProjectNameAndStatus" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from Project
         where project_name like concat('%',{#projectName},'%')
+        and status in
+        <foreach collection="validStatus" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
         order by project_id
     </select>
     <select id="selectByProjectIds" resultMap="BaseResultMap">
@@ -38,7 +42,7 @@
         <include refid="Base_Column_List"/>
         from Project
         where project_id in
-        <foreach collection="set" item="item" index="index" open="(" separator="," close=")">
+        <foreach collection="projectIds" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>

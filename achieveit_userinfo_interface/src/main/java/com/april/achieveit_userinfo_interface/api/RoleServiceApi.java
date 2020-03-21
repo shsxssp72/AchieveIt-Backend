@@ -5,28 +5,38 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public interface RoleServiceApi
 {
-    @PostMapping(path="/user/userProjectRole")
+    @PostMapping(path="/userProjectRole")
     ResponseContent UpdateUserProjectRole(@RequestBody Map<String,String> params);
 
-    @GetMapping(path="/user/userProjectRole")
+    @GetMapping(path="/userProjectRole")
     ResponseContent GetUserProjectRole(@RequestBody Map<String,String> params);
 
-    @PostMapping(path="/user/userProjectRole/batch")
+    @PostMapping(path="/userProjectRole/batch")
     ResponseContent BatchGetUserProjectRole(@RequestBody Map<String,String> params);
 
-    @PostMapping(path="/user/projectRole")
+    @PostMapping(path="/projectMember")
     ResponseContent UpdateProjectMember(@RequestBody Map<String,String> params);
 
-    @GetMapping(path="/user/projectRole")
+    @GetMapping(path="/projectMember")
     ResponseContent GetProjectMember(@RequestBody Map<String,String> params);
 
-    @GetMapping(path="/user/globalRole")
+    @GetMapping(path="/globalRole")
     ResponseContent GetUserGlobalRole(@RequestBody Map<String,String> params);
 
-    @GetMapping(path="/user/inferior")
+    @GetMapping(path="/globalRole/self")
+    ResponseContent GetSelfGlobalRole(HttpServletRequest request);
+
+    @GetMapping(path="/inferior")
     ResponseContent GetInferior(@RequestBody Map<String,String> params);
+
+    @GetMapping(path="/permission")
+    ResponseContent GetUserPermission(@RequestBody Map<String,String> params);
+
+    @PostMapping(path="/permission")
+    ResponseContent UpdateUserPermission(Map<String,String> params);
 }

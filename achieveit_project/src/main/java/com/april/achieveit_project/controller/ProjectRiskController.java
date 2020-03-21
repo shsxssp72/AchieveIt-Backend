@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/project/risk")
+@RequestMapping(path="/risk")
 public class ProjectRiskController
 {
     private static Logger logger=LoggerFactory.getLogger(ProjectRiskController.class);
@@ -57,7 +57,9 @@ public class ProjectRiskController
         serviceCaller.Invoke(risk,
                              riskRelatedPerson);
 
-        result.setMessage(dependencyService.sendEmail());
+        result.setMessage(dependencyService.sendEmail("",
+                                                      params.get("risk_responsible_person"),
+                                                      ""));
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
     }

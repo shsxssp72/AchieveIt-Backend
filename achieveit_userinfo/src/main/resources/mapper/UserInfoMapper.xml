@@ -15,17 +15,23 @@
     user_id, referred_outer_user_id, user_name, user_password, user_salt, referred_user_global_role_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from UserInfo
     where user_id = #{userId,jdbcType=CHAR}
+  </select>
+  <select id="selectByUsername" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from UserInfo
+    where user_name=#{username,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from UserInfo
     where user_id = #{userId,jdbcType=CHAR}
   </delete>
   <insert id="insert" parameterType="com.april.achieveit_userinfo_interface.entity.UserInfo">
-    insert into UserInfo (user_id, referred_outer_user_id, user_name, 
+    insert into UserInfo (user_id, referred_outer_user_id, user_name,
       user_password, user_salt, referred_user_global_role_id
       )
     values (#{userId,jdbcType=CHAR}, #{referredOuterUserId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR},

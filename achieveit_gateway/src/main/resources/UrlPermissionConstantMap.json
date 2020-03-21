@@ -1,0 +1,130 @@
+{
+  "/user/userProjectRole": {
+    "GET": {
+      "permission": "member_list_access",
+      "projectIdLocation": "body"
+    },
+    "POST": {
+      "permission": "member_list_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/user/userProjectRole/batch": {
+    "POST": {
+      "permission": "member_list_access",
+      "projectIdLocation": "global"
+    }
+  },
+  "/user/projectMember": {
+    "GET": {
+      "permission": "member_list_access",
+      "projectIdLocation": "body"
+    },
+    "POST": {
+      "permission": "member_list_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/user/globalRole": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/user/globalRole/self": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/user/permission": {
+    "GET": {
+      "permission": "member_list_access",
+      "projectIdLocation": "body"
+    },
+    "POST": {
+      "permission": "member_list_modification",
+      "projectIdLocation": "body"
+    }
+  },
+  "/project/setUp": {
+    "POST": {
+      "permission": "project_info_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/project/search": {
+    "POST": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/project/listRelative": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/project/functionParse": {
+    "POST": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/project/function/newId": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/project/workingHour/activityType": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/project/workingHour/verify": {
+    "GET": {
+      "permission": "working_hour_verification",
+      "projectIdLocation": "body"
+    },
+    "POST": {
+      "permission": "working_hour_verification",
+      "projectIdLocation": "body"
+    }
+  },
+  "/project/risk/riskType": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/project/device": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/project/device/${device_id}": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    },
+    "POST": {
+      "permission": "project_device_modification",
+      "projectIdLocation": "body"
+    }
+  },
+  "/project/device/tenancy": {
+    "POST": {
+      "permission": "project_device_tenancy",
+      "projectIdLocation": "body"
+    }
+  },
+  "/project/device/check": {
+    "POST": {
+      "permission": "project_device_check",
+      "projectIdLocation": "global"
+    }
+  }
+}
