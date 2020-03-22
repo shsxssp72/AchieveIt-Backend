@@ -1,5 +1,5 @@
 server:
-  port: 7803
+  port: 7804
 spring:
   application.name: dependency-service
   profiles.include: dependency

@@ -2,6 +2,7 @@ package com.april.achieveit_project.mapper;
 
 import com.april.achieveit_project.entity.ProjectFunction;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,19 +11,19 @@ import java.util.List;
 @Component
 public interface ProjectFunctionMapper
 {
-    int deleteByPrimaryKey(Long functionId);
+    int deleteByPrimaryKey(@Param(value="functionId") Long functionId);
 
-    int insert(ProjectFunction record);
+    int insert(@Param(value="record") ProjectFunction record);
 
-    int insertSelective(ProjectFunction record);
+    int insertSelective(@Param(value="record") ProjectFunction record);
 
-    ProjectFunction selectByPrimaryKey(Long functionId);
+    ProjectFunction selectByPrimaryKey(@Param(value="functionId") Long functionId);
 
-    List<ProjectFunction> selectByProjectId(String projectId);
+    List<ProjectFunction> selectByProjectId(@Param(value="projectId") String projectId);
 
-    int updateByPrimaryKeySelective(ProjectFunction record);
+    int updateByPrimaryKeySelective(@Param(value="record") ProjectFunction record);
 
-    int updateByPrimaryKey(ProjectFunction record);
+    int updateByPrimaryKey(@Param(value="record") ProjectFunction record);
 
-    int deleteByProjectId(String projectId);
+    int deleteByProjectId(@Param(value="projectId") String projectId);
 }

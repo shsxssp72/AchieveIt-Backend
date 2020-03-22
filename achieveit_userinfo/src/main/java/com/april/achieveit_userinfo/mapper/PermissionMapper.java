@@ -2,23 +2,24 @@ package com.april.achieveit_userinfo.mapper;
 
 import com.april.achieveit_userinfo_interface.entity.Permission;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 @Mapper
 @Component
 public interface PermissionMapper
 {
-    int deleteByPrimaryKey(Long permissionId);
+    int deleteByPrimaryKey(@Param(value="permissionId") Long permissionId);
 
-    int insert(Permission record);
+    int insert(@Param(value="record") Permission record);
 
-    int insertSelective(Permission record);
+    int insertSelective(@Param(value="record") Permission record);
 
-    Permission selectByPrimaryKey(Long permissionId);
+    Permission selectByPrimaryKey(@Param(value="permissionId") Long permissionId);
 
-    Permission selectByPermissionName(String permissionName);
+    Permission selectByPermissionName(@Param(value="permissionName") String permissionName);
 
-    int updateByPrimaryKeySelective(Permission record);
+    int updateByPrimaryKeySelective(@Param(value="record") Permission record);
 
-    int updateByPrimaryKey(Permission record);
+    int updateByPrimaryKey(@Param(value="record") Permission record);
 }

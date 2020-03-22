@@ -1,5 +1,5 @@
 {
-  "/user/userProjectRole": {
+  "/api/user/userProjectRole": {
     "GET": {
       "permission": "member_list_access",
       "projectIdLocation": "body"
@@ -9,13 +9,13 @@
       "projectIdLocation": "global"
     }
   },
-  "/user/userProjectRole/batch": {
+  "/api/user/userProjectRole/batch": {
     "POST": {
       "permission": "member_list_access",
       "projectIdLocation": "global"
     }
   },
-  "/user/projectMember": {
+  "/api/user/projectMember": {
     "GET": {
       "permission": "member_list_access",
       "projectIdLocation": "body"
@@ -25,19 +25,19 @@
       "projectIdLocation": "global"
     }
   },
-  "/user/globalRole": {
+  "/api/user/globalRole": {
     "GET": {
       "permission": "",
       "projectIdLocation": "global"
     }
   },
-  "/user/globalRole/self": {
+  "/api/user/globalRole/self": {
     "GET": {
       "permission": "",
       "projectIdLocation": "global"
     }
   },
-  "/user/permission": {
+  "/api/user/permission": {
     "GET": {
       "permission": "member_list_access",
       "projectIdLocation": "body"
@@ -47,43 +47,43 @@
       "projectIdLocation": "body"
     }
   },
-  "/project/setUp": {
+  "/api/project/setUp": {
     "POST": {
       "permission": "project_info_modification",
       "projectIdLocation": "global"
     }
   },
-  "/project/search": {
+  "/api/project/search": {
     "POST": {
       "permission": "",
       "projectIdLocation": "global"
     }
   },
-  "/project/listRelative": {
+  "/api/project/listRelative": {
     "GET": {
       "permission": "",
       "projectIdLocation": "global"
     }
   },
-  "/project/functionParse": {
+  "/api/project/functionParse": {
     "POST": {
       "permission": "",
       "projectIdLocation": "global"
     }
   },
-  "/project/function/newId": {
+  "/api/project/function/newId": {
     "GET": {
       "permission": "",
       "projectIdLocation": "global"
     }
   },
-  "/project/workingHour/activityType": {
+  "/api/project/workingHour/activityType": {
     "GET": {
       "permission": "",
       "projectIdLocation": "global"
     }
   },
-  "/project/workingHour/verify": {
+  "/api/project/workingHour/verify": {
     "GET": {
       "permission": "working_hour_verification",
       "projectIdLocation": "body"
@@ -93,19 +93,19 @@
       "projectIdLocation": "body"
     }
   },
-  "/project/risk/riskType": {
+  "/api/project/risk/riskType": {
     "GET": {
       "permission": "",
       "projectIdLocation": "global"
     }
   },
-  "/project/device": {
+  "/api/project/device": {
     "GET": {
       "permission": "",
       "projectIdLocation": "global"
     }
   },
-  "/project/device/${device_id}": {
+  "/api/project/device/${device_id}": {
     "GET": {
       "permission": "",
       "projectIdLocation": "global"
@@ -115,13 +115,13 @@
       "projectIdLocation": "body"
     }
   },
-  "/project/device/tenancy": {
+  "/api/project/device/tenancy": {
     "POST": {
       "permission": "project_device_tenancy",
       "projectIdLocation": "body"
     }
   },
-  "/project/device/check": {
+  "/api/project/device/check": {
     "POST": {
       "permission": "project_device_check",
       "projectIdLocation": "global"

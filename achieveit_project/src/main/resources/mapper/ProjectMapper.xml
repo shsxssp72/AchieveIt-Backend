@@ -30,7 +30,7 @@
         select
         <include refid="Base_Column_List"/>
         from Project
-        where project_name like concat('%',{#projectName},'%')
+        where project_name like concat('%',#{projectName},'%')
         and status in
         <foreach collection="validStatus" item="item" index="index" open="(" separator="," close=")">
             #{item}

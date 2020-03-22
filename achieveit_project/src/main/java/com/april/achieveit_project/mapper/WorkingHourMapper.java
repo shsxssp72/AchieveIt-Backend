@@ -2,6 +2,7 @@ package com.april.achieveit_project.mapper;
 
 import com.april.achieveit_project.entity.WorkingHour;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,17 +11,17 @@ import java.util.List;
 @Component
 public interface WorkingHourMapper
 {
-    int deleteByPrimaryKey(Long workingHourId);
+    int deleteByPrimaryKey(@Param(value="workingHourId")Long workingHourId);
 
-    int insert(WorkingHour record);
+    int insert(@Param(value="record")WorkingHour record);
 
-    int insertSelective(WorkingHour record);
+    int insertSelective(@Param(value="record")WorkingHour record);
 
-    WorkingHour selectByPrimaryKey(Long workingHourId);
+    WorkingHour selectByPrimaryKey(@Param(value="workingHourId")Long workingHourId);
 
-    List<WorkingHour> selectByProjectIdAndUserIds(String projectId,List<String> userId);
+    List<WorkingHour> selectByProjectIdAndUserIds(@Param(value="projectId")String projectId,@Param(value="userId")List<String> userId);
 
-    int updateByPrimaryKeySelective(WorkingHour record);
+    int updateByPrimaryKeySelective(@Param(value="record")WorkingHour record);
 
-    int updateByPrimaryKey(WorkingHour record);
+    int updateByPrimaryKey(@Param(value="record")WorkingHour record);
 }

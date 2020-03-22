@@ -2,6 +2,7 @@ package com.april.achieveit_project.mapper;
 
 import com.april.achieveit_project.entity.Project;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,19 +12,19 @@ import java.util.Set;
 @Component
 public interface ProjectMapper
 {
-    int deleteByPrimaryKey(String projectId);
+    int deleteByPrimaryKey(@Param(value="projectId") String projectId);
 
-    int insert(Project record);
+    int insert(@Param(value="record") Project record);
 
-    int insertSelective(Project record);
+    int insertSelective(@Param(value="record")Project record);
 
-    Project selectByPrimaryKey(String projectId);
+    Project selectByPrimaryKey(@Param(value="projectId") String projectId);
 
-    List<Project> selectByProjectNameAndStatus(String projectName,Set<String> validStatus);
+    List<Project> selectByProjectNameAndStatus(@Param(value="projectName") String projectName,@Param("validStatus") Set<String> validStatus);
 
-    List<Project> selectByProjectIds(Set<String> projectIds);
+    List<Project> selectByProjectIds(@Param(value="projectIds") Set<String> projectIds);
 
-    int updateByPrimaryKeySelective(Project record);
+    int updateByPrimaryKeySelective(@Param(value="record") Project record);
 
-    int updateByPrimaryKey(Project record);
+    int updateByPrimaryKey(@Param(value="record") Project record);
 }

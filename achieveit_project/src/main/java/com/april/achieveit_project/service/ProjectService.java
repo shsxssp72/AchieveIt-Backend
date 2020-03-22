@@ -88,7 +88,7 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
                                                 {
                                                     PageHelper.startPage(currentPage,
                                                                          pageSize);
-                                                    return projectMapper.selectByProjectNameAndStatus(projectName,
+                                                    return projectMapper.selectByProjectNameAndStatus(projectName!=null?projectName:"",
                                                                                                       Set.of(ProjectStateTransition.ProjectState.Initiated.name(),
                                                                                                              ProjectStateTransition.ProjectState.Developing.name(),
                                                                                                              ProjectStateTransition.ProjectState.Delivered.name(),
