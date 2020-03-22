@@ -47,7 +47,6 @@ public class ProjectRiskController
                            params.get("risk_impact"),
                            params.get("risk_countermeasure"),
                            params.get("risk_status"),
-                           null,
                            params.get("risk_track_frequency"));
         List<String> riskRelatedPerson=objectMapper.readValue(params.get("risk_responsible_person"),
                                                               new TypeReference<List<String>>()
