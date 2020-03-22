@@ -11,9 +11,9 @@ import java.util.List;
 @Component
 public interface ProjectUserPermissionRelationMapper
 {
-    int insert(@Param(value="record") ProjectUserPermissionRelation record);
+    int insert(ProjectUserPermissionRelation record);
 
-    int insertSelective(@Param(value="record") ProjectUserPermissionRelation record);
+    int insertSelective(ProjectUserPermissionRelation record);
 
     List<ProjectUserPermissionRelation> selectByProjectIdAndUserId(@Param(value="projectId") String projectId,@Param(value="userId") String userId);
 

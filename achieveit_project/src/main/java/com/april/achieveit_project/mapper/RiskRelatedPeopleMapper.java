@@ -11,9 +11,9 @@ import java.util.List;
 @Component
 public interface RiskRelatedPeopleMapper
 {
-    int insert(@Param(value="record") RiskRelatedPeople record);
+    int insert(RiskRelatedPeople record);
 
-    int insertSelective(@Param(value="record") RiskRelatedPeople record);
+    int insertSelective(RiskRelatedPeople record);
 
     List<RiskRelatedPeople> selectByRiskId(@Param(value="riskId") String riskId);
 

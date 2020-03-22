@@ -11,13 +11,13 @@ public interface DeviceExaminationMapper
 {
     int deleteByPrimaryKey(@Param(value="examinationId") Long examinationId);
 
-    int insert(@Param(value="record") DeviceExamination record);
+    int insert(DeviceExamination record);
 
-    int insertSelective(@Param(value="record") DeviceExamination record);
+    int insertSelective(DeviceExamination record);
 
     DeviceExamination selectByPrimaryKey(@Param(value="examinationId") Long examinationId);
 
-    int updateByPrimaryKeySelective(@Param(value="record") DeviceExamination record);
+    int updateByPrimaryKeySelective(DeviceExamination record);
 
-    int updateByPrimaryKey(@Param(value="record") DeviceExamination record);
+    int updateByPrimaryKey(DeviceExamination record);
 }

@@ -13,9 +13,9 @@ public interface ProjectMiscellaneousMapper
 {
     int deleteByPrimaryKey(@Param(value="miscId") Long miscId);
 
-    int insert(@Param(value="record") ProjectMiscellaneous record);
+    int insert(ProjectMiscellaneous record);
 
-    int insertSelective(@Param(value="record") ProjectMiscellaneous record);
+    int insertSelective(ProjectMiscellaneous record);
 
     ProjectMiscellaneous selectByPrimaryKey(@Param(value="miscId") Long miscId);
 
@@ -23,7 +23,7 @@ public interface ProjectMiscellaneousMapper
 
     ProjectMiscellaneous selectByProjectIdAndKey(@Param(value="projectId") String projectId,@Param(value="key") String key);
 
-    int updateByPrimaryKeySelective(@Param(value="record") ProjectMiscellaneous record);
+    int updateByPrimaryKeySelective(ProjectMiscellaneous record);
 
-    int updateByPrimaryKey(@Param(value="record") ProjectMiscellaneous record);
+    int updateByPrimaryKey(ProjectMiscellaneous record);
 }

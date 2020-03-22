@@ -13,17 +13,17 @@ public interface ProjectFunctionMapper
 {
     int deleteByPrimaryKey(@Param(value="functionId") Long functionId);
 
-    int insert(@Param(value="record") ProjectFunction record);
+    int insert(ProjectFunction record);
 
-    int insertSelective(@Param(value="record") ProjectFunction record);
+    int insertSelective(ProjectFunction record);
 
     ProjectFunction selectByPrimaryKey(@Param(value="functionId") Long functionId);
 
     List<ProjectFunction> selectByProjectId(@Param(value="projectId") String projectId);
 
-    int updateByPrimaryKeySelective(@Param(value="record") ProjectFunction record);
+    int updateByPrimaryKeySelective(ProjectFunction record);
 
-    int updateByPrimaryKey(@Param(value="record") ProjectFunction record);
+    int updateByPrimaryKey(ProjectFunction record);
 
     int deleteByProjectId(@Param(value="projectId") String projectId);
 }

@@ -86,7 +86,7 @@ public class LoginController
         CookieUtility.CreateCookieBuilder(response)
                 .request(request)
                 .build("JWT",
-                       jwt);
+                       renewedToken);
         return content;
     }
 

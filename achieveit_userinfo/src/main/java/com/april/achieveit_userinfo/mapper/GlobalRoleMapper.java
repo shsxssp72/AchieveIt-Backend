@@ -11,13 +11,13 @@ public interface GlobalRoleMapper
 {
     int deleteByPrimaryKey(@Param(value="globalRoleId") Long globalRoleId);
 
-    int insert(@Param(value="record") GlobalRole record);
+    int insert(GlobalRole record);
 
-    int insertSelective(@Param(value="record") GlobalRole record);
+    int insertSelective(GlobalRole record);
 
     GlobalRole selectByPrimaryKey(@Param(value="globalRoleId") Long globalRoleId);
 
-    int updateByPrimaryKeySelective(@Param(value="record") GlobalRole record);
+    int updateByPrimaryKeySelective(GlobalRole record);
 
-    int updateByPrimaryKey(@Param(value="record") GlobalRole record);
+    int updateByPrimaryKey(GlobalRole record);
 }

@@ -11,17 +11,17 @@ import java.util.List;
 @Component
 public interface ActivityTypeMapper
 {
-    int deleteByPrimaryKey(@Param(value="activityTypeId")Long activityTypeId);
+    int deleteByPrimaryKey(@Param(value="activityTypeId") Long activityTypeId);
 
-    int insert(@Param(value="record")ActivityType record);
+    int insert(ActivityType record);
 
-    int insertSelective(@Param(value="record")ActivityType record);
+    int insertSelective(ActivityType record);
 
-    ActivityType selectByPrimaryKey(@Param(value="activityTypeId")Long activityTypeId);
+    ActivityType selectByPrimaryKey(@Param(value="activityTypeId") Long activityTypeId);
 
     List<ActivityType> selectAll();
 
-    int updateByPrimaryKeySelective(@Param(value="record")ActivityType record);
+    int updateByPrimaryKeySelective(ActivityType record);
 
-    int updateByPrimaryKey(@Param(value="record")ActivityType record);
+    int updateByPrimaryKey(ActivityType record);
 }

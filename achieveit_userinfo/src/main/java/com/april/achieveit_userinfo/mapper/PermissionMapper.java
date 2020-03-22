@@ -11,15 +11,15 @@ public interface PermissionMapper
 {
     int deleteByPrimaryKey(@Param(value="permissionId") Long permissionId);
 
-    int insert(@Param(value="record") Permission record);
+    int insert(Permission record);
 
-    int insertSelective(@Param(value="record") Permission record);
+    int insertSelective(Permission record);
 
     Permission selectByPrimaryKey(@Param(value="permissionId") Long permissionId);
 
     Permission selectByPermissionName(@Param(value="permissionName") String permissionName);
 
-    int updateByPrimaryKeySelective(@Param(value="record") Permission record);
+    int updateByPrimaryKeySelective(Permission record);
 
-    int updateByPrimaryKey(@Param(value="record") Permission record);
+    int updateByPrimaryKey(Permission record);
 }

@@ -11,9 +11,9 @@ import java.util.List;
 @Component
 public interface ProjectRolePermissionRelationMapper
 {
-    int insert(@Param(value="record") ProjectRolePermissionRelation record);
+    int insert(ProjectRolePermissionRelation record);
 
-    int insertSelective(@Param(value="record") ProjectRolePermissionRelation record);
+    int insertSelective(ProjectRolePermissionRelation record);
 
     List<ProjectRolePermissionRelation> selectByProjectRoleId(@Param(value="projectRoleId") Long projectRoleId);
 }

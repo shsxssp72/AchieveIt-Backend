@@ -11,17 +11,17 @@ import java.util.List;
 @Component
 public interface WorkingHourMapper
 {
-    int deleteByPrimaryKey(@Param(value="workingHourId")Long workingHourId);
+    int deleteByPrimaryKey(@Param(value="workingHourId") Long workingHourId);
 
-    int insert(@Param(value="record")WorkingHour record);
+    int insert(WorkingHour record);
 
-    int insertSelective(@Param(value="record")WorkingHour record);
+    int insertSelective(WorkingHour record);
 
-    WorkingHour selectByPrimaryKey(@Param(value="workingHourId")Long workingHourId);
+    WorkingHour selectByPrimaryKey(@Param(value="workingHourId") Long workingHourId);
 
-    List<WorkingHour> selectByProjectIdAndUserIds(@Param(value="projectId")String projectId,@Param(value="userId")List<String> userId);
+    List<WorkingHour> selectByProjectIdAndUserIds(@Param(value="projectId") String projectId,@Param(value="userId") List<String> userId);
 
-    int updateByPrimaryKeySelective(@Param(value="record")WorkingHour record);
+    int updateByPrimaryKeySelective(WorkingHour record);
 
-    int updateByPrimaryKey(@Param(value="record")WorkingHour record);
+    int updateByPrimaryKey(WorkingHour record);
 }

@@ -13,15 +13,15 @@ public interface DeviceInfoMapper
 {
     int deleteByPrimaryKey(@Param(value="deviceId") Long deviceId);
 
-    int insert(@Param(value="record") DeviceInfo record);
+    int insert(DeviceInfo record);
 
-    int insertSelective(@Param(value="record") DeviceInfo record);
+    int insertSelective(DeviceInfo record);
 
     DeviceInfo selectByPrimaryKey(@Param(value="deviceId") Long deviceId);
 
     List<DeviceInfo> selectAll();
 
-    int updateByPrimaryKeySelective(@Param(value="record") DeviceInfo record);
+    int updateByPrimaryKeySelective(DeviceInfo record);
 
-    int updateByPrimaryKey(@Param(value="record") DeviceInfo record);
+    int updateByPrimaryKey(DeviceInfo record);
 }

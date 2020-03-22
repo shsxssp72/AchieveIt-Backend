@@ -31,7 +31,7 @@ public class RoleController implements RoleServiceApi
     @SneakyThrows
     @Override
     @PostMapping(path="/userProjectRole")
-    public ResponseContent UpdateUserProjectRole(@RequestBody Map<String,String> params)//TODO GET is mapped to POST by Feign
+    public ResponseContent UpdateUserProjectRole(@RequestBody Map<String,String> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());

@@ -14,9 +14,9 @@ public interface ProjectMapper
 {
     int deleteByPrimaryKey(@Param(value="projectId") String projectId);
 
-    int insert(@Param(value="record") Project record);
+    int insert(Project record);
 
-    int insertSelective(@Param(value="record")Project record);
+    int insertSelective(Project record);
 
     Project selectByPrimaryKey(@Param(value="projectId") String projectId);
 
@@ -24,7 +24,7 @@ public interface ProjectMapper
 
     List<Project> selectByProjectIds(@Param(value="projectIds") Set<String> projectIds);
 
-    int updateByPrimaryKeySelective(@Param(value="record") Project record);
+    int updateByPrimaryKeySelective(Project record);
 
-    int updateByPrimaryKey(@Param(value="record") Project record);
+    int updateByPrimaryKey(Project record);
 }

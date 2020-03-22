@@ -11,13 +11,13 @@ public interface ProjectRoleMapper
 {
     int deleteByPrimaryKey(@Param(value="projectRoleId") Long projectRoleId);
 
-    int insert(@Param(value="record") ProjectRole record);
+    int insert(ProjectRole record);
 
-    int insertSelective(@Param(value="record") ProjectRole record);
+    int insertSelective(ProjectRole record);
 
     ProjectRole selectByPrimaryKey(@Param(value="projectRoleId") Long projectRoleId);
 
-    int updateByPrimaryKeySelective(@Param(value="record") ProjectRole record);
+    int updateByPrimaryKeySelective(ProjectRole record);
 
-    int updateByPrimaryKey(@Param(value="record") ProjectRole record);
+    int updateByPrimaryKey(ProjectRole record);
 }

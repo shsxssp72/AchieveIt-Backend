@@ -11,13 +11,13 @@ public interface DeviceTenancyMapper
 {
     int deleteByPrimaryKey(@Param(value="tenancyId") Long tenancyId);
 
-    int insert(@Param(value="record") DeviceTenancy record);
+    int insert(DeviceTenancy record);
 
-    int insertSelective(@Param(value="record") DeviceTenancy record);
+    int insertSelective(DeviceTenancy record);
 
     DeviceTenancy selectByPrimaryKey(@Param(value="tenancyId") Long tenancyId);
 
-    int updateByPrimaryKeySelective(@Param(value="record") DeviceTenancy record);
+    int updateByPrimaryKeySelective(DeviceTenancy record);
 
-    int updateByPrimaryKey(@Param(value="record") DeviceTenancy record);
+    int updateByPrimaryKey(DeviceTenancy record);
 }
