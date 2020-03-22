@@ -6,6 +6,7 @@ common_modification_permissions: list = [
     'function_list_modification',
     'project_status_modification',
     'working_hour_verification',
+    'risk_modification'
 ]
 device_modification_permission: list = [
     'project_device_modification', 'project_device_check', 'project_device_tenancy',
@@ -13,7 +14,7 @@ device_modification_permission: list = [
 
 access_permission: list = [
     'user_role_access', 'user_privilege_access', 'project_info_access', 'member_list_access', 'function_list_access',
-    'project_status_access', 'project_device_access',
+    'project_status_access', 'project_device_access', 'risk_access'
 ]
 changeable_access_permission: list = [
     'issue_tracker_access', 'working_hour_access', 'project_git_access', 'mail_list_access', 'file_system_access'
@@ -75,6 +76,8 @@ permission_name_id_map: dict = {
     'mail_list_access': 294208740175904768,
     'file_system_modification': 294208748191219712,
     'file_system_access': 294208755745161216,
+    'risk_access': 294266309498109952,
+    'risk_modification': 294266312480260096
 }
 global_role_name_id_map: dict = {
     'ProjectManager': 290070571767562241,
@@ -119,6 +122,6 @@ def generate_global_role_permission_relation() -> None:
 
 
 if __name__ == '__main__':
-    # add_global_role_permission('SYKJ-20200101-0000', 'ProjectManager')
+    add_global_role_permission('SYKJ-20200101-0000', 'ProjectManager')
     # generate_project_role_permission_relation()
-    generate_global_role_permission_relation()
+    # generate_global_role_permission_relation()

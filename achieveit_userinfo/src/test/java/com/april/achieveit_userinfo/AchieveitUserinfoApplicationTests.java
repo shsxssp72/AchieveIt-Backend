@@ -30,7 +30,7 @@ class AchieveitUserinfoApplicationTests
         List<String> projectRoles=List.of(
                 "DevelopmentLeader","QaLeader","DevelopmentStaff","QaStaff","EPG","PropertyAdmin"
         );
-        List<String> permissions=List.of("user_role_modification",
+        List<String> permissions=List.of(/*"user_role_modification",
                                          "user_role_access",
                                          "user_privilege_modification",
                                          "user_privilege_access",
@@ -56,12 +56,14 @@ class AchieveitUserinfoApplicationTests
                                          "mail_list_modification",
                                          "mail_list_access",
                                          "file_system_modification",
-                                         "file_system_access");
+                                         "file_system_access",*/
+                                         "risk_access",
+                                         "risk_modification");
         String permissionSqlTemplate="INSERT INTO Permission\nVALUES (%d, '%s');";
 
-        for(var i: projectRoles)
+        for(var i: permissions)
         {
-            System.out.println(String.format(projectRoleGenerateSqlTemplate,
+            System.out.println(String.format(permissionSqlTemplate,
                                              snowFlakeIdGenerator.getNextId(),
                                              i));
             Thread.sleep(RandomUtils.nextInt(100, 2000));
