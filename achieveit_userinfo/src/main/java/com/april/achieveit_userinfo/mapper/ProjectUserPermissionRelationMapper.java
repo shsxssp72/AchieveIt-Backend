@@ -2,6 +2,7 @@ package com.april.achieveit_userinfo.mapper;
 
 import com.april.achieveit_userinfo_interface.entity.ProjectUserPermissionRelation;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,11 +15,11 @@ public interface ProjectUserPermissionRelationMapper
 
     int insertSelective(ProjectUserPermissionRelation record);
 
-    List<ProjectUserPermissionRelation> selectByProjectIdAndUserId(String projectId,String userId);
+    List<ProjectUserPermissionRelation> selectByProjectIdAndUserId(@Param(value="projectId") String projectId,@Param(value="userId") String userId);
 
-    ProjectUserPermissionRelation selectByProjectIdAndUserIdAndPermissionId(String projectId,String userId,Long permissionId);
+    ProjectUserPermissionRelation selectByProjectIdAndUserIdAndPermissionId(@Param(value="projectId") String projectId,@Param(value="userId") String userId,@Param(value="permissionId") Long permissionId);
 
-    int deleteByProjectIdAndUserIdAndPermissionId(String projectId,String userId,Long permissionId);
+    int deleteByProjectIdAndUserIdAndPermissionId(@Param(value="projectId") String projectId,@Param(value="userId") String userId,@Param(value="permissionId") Long permissionId);
 
-    int updateWeightByProjectIdAndUserIdAndPermissionId(int weight,String projectId,String userId,Long permissionId);
+    int updateWeightByProjectIdAndUserIdAndPermissionId(@Param(value="weight") int weight,@Param(value="projectId") String projectId,@Param(value="userId") String userId,@Param(value="permissionId") Long permissionId);
 }

@@ -60,7 +60,6 @@ public class AuthorizationPolicy
                                    userId);
     }
 
-    //TODO Make request re-readable (To be verified)
     public void Verify(String userId,RereadableRequestWrapper request) throws Exception
     {
         String requestMethod=request.getMethod();
@@ -72,6 +71,9 @@ public class AuthorizationPolicy
                                                                                                                    requestMethod);
         if(currentRequestUrlProperty==null)
             throw new IllegalAccessException("Invalid request url.");
+        if(currentRequestUrlProperty.get("permission")
+                .equals(""))
+            return;
 
         //Get global permission
         List<String> globalPermission=queryUserGlobalPermission(userId);

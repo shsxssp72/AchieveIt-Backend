@@ -2,6 +2,7 @@ package com.april.achieveit_userinfo.mapper;
 
 import com.april.achieveit_userinfo_interface.entity.ProjectUserRelation;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,9 +15,9 @@ public interface ProjectUserRelationMapper
 
     int insertSelective(ProjectUserRelation record);
 
-    List<ProjectUserRelation> selectByProjectIdAndUserId(String projectId,String userId);
+    List<ProjectUserRelation> selectByProjectIdAndUserId(@Param(value="projectId") String projectId,@Param(value="userId") String userId);
 
-    List<ProjectUserRelation> selectBySuperiorId(String projectId,String superiorId);
+    List<ProjectUserRelation> selectBySuperiorId(@Param(value="projectId") String projectId,@Param(value="superiorId") String superiorId);
 
-    int deleteByProjectIdAndUserId(String projectId,String userId);
+    int deleteByProjectIdAndUserId(@Param(value="projectId") String projectId,@Param(value="userId") String userId);
 }

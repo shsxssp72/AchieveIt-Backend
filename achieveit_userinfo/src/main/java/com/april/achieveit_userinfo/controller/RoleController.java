@@ -62,7 +62,7 @@ public class RoleController implements RoleServiceApi
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
 
-        String projectId=params.getOrDefault("projectId",
+        String projectId=params.getOrDefault("project_id",
                                              null);
         String userId=params.get("user_id");
 
@@ -190,7 +190,7 @@ public class RoleController implements RoleServiceApi
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
 
-        String projectId=params.getOrDefault("projectId",
+        String projectId=params.getOrDefault("project_id",
                                              null);
         String userId=params.get("user_id");
 

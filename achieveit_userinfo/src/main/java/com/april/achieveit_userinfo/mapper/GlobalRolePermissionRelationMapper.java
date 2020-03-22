@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Mapper
 @Component
-public interface GlobalRolePermissionRelationMapper {
+public interface GlobalRolePermissionRelationMapper
+{
     int insert(GlobalRolePermissionRelation record);
 
     int insertSelective(GlobalRolePermissionRelation record);

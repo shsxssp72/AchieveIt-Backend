@@ -21,10 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path="/")
@@ -90,18 +88,18 @@ public class ProjectController
                                                 "JWT");
         String userId=JWTUtility.getSubjectFromJWT(jwt);
 
-        //TODO Code below not tested, should be tested when userinfo is complete
         ResponseContent roleQueryResult=roleServiceClient.GetUserProjectRole(new HashMap<>()
         {{
             put("user_id",
                 userId);
         }});
-        Map<String,List<String>> userRoles=objectMapper.convertValue(roleQueryResult.getResult(),
-                                                                     new TypeReference<TreeMap<String,List<String>>>()
+        List<Map<String,String>> userRoleInfo=objectMapper.convertValue(roleQueryResult.getResult(),
+                                                                     new TypeReference<List<Map<String,String>>>()
                                                                      {
                                                                      });
+        Set<String> relatedProjectIds=userRoleInfo.parallelStream().map(i->i.get("project_id")).collect(Collectors.toSet());
 
-        List<Project> queryResult=projectService.SelectByProjectIds(userRoles.keySet(),
+        List<Project> queryResult=projectService.SelectByProjectIds(relatedProjectIds,
                                                                     pageSize,
                                                                     currentPage);
         result.setStatus(ResponseContentStatus.SUCCESS);
