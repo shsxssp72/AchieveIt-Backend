@@ -107,7 +107,7 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
             if(item.getSuperiorFunctionId()
                     .equals(item.getFunctionId()))
             {
-                superiors.add(Map.of("display_id",
+                superiors.add(Map.of("id_for_display",
                                      item.getIdForDisplay(),
                                      "function_description",
                                      item.getDescription(),
@@ -116,7 +116,7 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
             }
             else
             {
-                inferiors.add(Map.of("display_id",
+                inferiors.add(Map.of("id_for_display",
                                      item.getIdForDisplay(),
                                      "function_description",
                                      item.getDescription(),
@@ -124,8 +124,8 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
                                      displayIdMap.get(item.getSuperiorFunctionId())));
             }
         }
-        superiors.sort(Comparator.comparing(i->i.get("display_id")));
-        inferiors.sort(Comparator.comparing(i->i.get("display_id")));
+        superiors.sort(Comparator.comparing(i->i.get("id_for_display")));
+        inferiors.sort(Comparator.comparing(i->i.get("id_for_display")));
         return new ImmutablePair<>(superiors,
                                    inferiors);
     }
@@ -144,7 +144,9 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
     public String GetFunctionCsv(String projectId)
     {
         List<Map<String,String>> functions=GetAllProjectFunctions(projectId);
-        Map<String,Map<String,String>> displayIdFunctionMap=functions.parallelStream().collect(Collectors.toMap(i->i.get("id_for_display"),i->i));
+        Map<String,Map<String,String>> displayIdFunctionMap=functions.parallelStream()
+                .collect(Collectors.toMap(i->i.get("id_for_display"),
+                                          i->i));
         StringBuilder csvBuilder=new StringBuilder();
 
         CSVPrinter printer=new CSVPrinter(csvBuilder,
@@ -152,9 +154,9 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
 
         for(Map<String,String> item: functions)
         {
-            printer.printRecord(item.get("id_for_display"),
-                                displayIdFunctionMap.get(item.get("superior_function_id")),
-                                item.get("description"));
+            printer.printRecord(List.of(item.get("id_for_display"),
+                                        displayIdFunctionMap.get(item.get("superior_display_id")).get("id_for_display"),
+                                        item.get("function_description")));
         }
         return csvBuilder.toString();
     }
@@ -185,8 +187,7 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
 
     private List<ProjectFunction> matchFunctionsToExistingOnes(String projectId,List<Map<String,String>> functions)
     {
-        Map<String,ProjectFunction> existingFunctions=selectByProjectId(projectId)
-                .parallelStream()
+        Map<String,ProjectFunction> existingFunctions=selectByProjectId(projectId).parallelStream()
                 .collect(Collectors.toMap(ProjectFunction::getIdForDisplay,
                                           i->i));
         List<ProjectFunction> extractedFunctions=new LinkedList<>();
