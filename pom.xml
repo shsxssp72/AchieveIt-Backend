@@ -10,6 +10,7 @@
         <module>achieveit_userinfo</module>
         <module>achieveit_common</module>
         <module>achieveit_userinfo_interface</module>
+        <module>achieveit_dependency_wrapper</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
