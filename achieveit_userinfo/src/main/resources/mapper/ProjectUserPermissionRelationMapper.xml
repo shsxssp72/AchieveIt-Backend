@@ -88,8 +88,16 @@
     SELECT
     <include refid="Base_Column_List" />
     FROM ProjectUserPermissionRelation
-    WHERE referred_project_id=#{projectId,jdbcType=CHAR}
+    WHERE
+    <choose>
+      <when test="projectId != null">
+        referred_project_id=#{projectId,jdbcType=CHAR}
+      </when>
+      <otherwise>
+        referred_project_id IS NULL
+      </otherwise>
+    </choose>
     AND referred_user_id=#{userId,jdbcType=CHAR}
-    AND referred_permission_id=#{userId,jdbcType=BIGINT}
+    AND referred_permission_id=#{permissionId,jdbcType=BIGINT}
   </select>
 </mapper>
