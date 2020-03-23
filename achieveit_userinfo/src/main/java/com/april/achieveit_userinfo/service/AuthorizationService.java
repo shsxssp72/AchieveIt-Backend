@@ -468,6 +468,8 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
         for(String item: permissionList)
         {
             Permission permission=selectPermissionByPermissionName(item);
+            if(permission==null)
+                throw new IllegalArgumentException("Invalid permission name.");
             userPermissionRelationMapper.insert(new ProjectUserPermissionRelation(projectId,
                                                                                   userId,
                                                                                   permission.getPermissionId(),
