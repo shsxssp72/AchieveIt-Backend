@@ -64,7 +64,7 @@ public class ProjectRiskController
     }
 
     @SneakyThrows
-    @PostMapping(path="/{project_id}")
+    @PutMapping(path="/{project_id}")
     public ResponseContent AddRisk(@PathVariable(name="project_id") String projectId,@RequestBody Map<String,String> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -90,7 +90,7 @@ public class ProjectRiskController
         return result;
     }
 
-    @PostMapping(path="/{project_id}/{risk_id}")
+    @PutMapping(path="/{project_id}/{risk_id}")
     public ResponseContent UpdateRisk(@PathVariable(name="project_id") String projectId,@PathVariable(name="risk_id") String riskId,@RequestBody Map<String,String> params)
     {
         logger.info("Invoking :"+Thread.currentThread()

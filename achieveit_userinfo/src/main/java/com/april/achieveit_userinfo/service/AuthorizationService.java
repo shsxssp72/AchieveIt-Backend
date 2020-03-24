@@ -377,6 +377,11 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
             ProjectUserPermissionRelation currentUserPermission=selectUserPermissionRelationByProjectIdAndUserIdAndPermissionId(projectId,
                                                                                                                                 userId,
                                                                                                                                 permissionId);
+            if(currentUserPermission==null)
+            {
+                logger.warn("Permission not exist, database may be in an inconsistent state.");
+                continue;
+            }
             userPermissionRelationMapper.updateWeightByProjectIdAndUserIdAndPermissionId(currentUserPermission.getPermitWeight()-1,
                                                                                          projectId,
                                                                                          userId,

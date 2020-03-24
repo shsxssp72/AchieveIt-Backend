@@ -28,7 +28,7 @@ public class ProjectWorkingHourController
     private ProjectWorkingHourService projectWorkingHourService;
 
     @SneakyThrows
-    @PostMapping(path="/{project_id}")
+    @PutMapping(path="/{project_id}")
     public ResponseContent AddWorkingHour(@PathVariable(name="project_id") String projectId,@RequestBody WorkingHour workingHour,HttpServletRequest request)
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -71,7 +71,7 @@ public class ProjectWorkingHourController
     }
 
     @SneakyThrows
-    @PostMapping(path="/{project_id}/{working_hour_id}")
+    @PutMapping(path="/{project_id}/{working_hour_id}")
     public ResponseContent UpdateWorkingHour(@PathVariable(name="project_id") String projectId,@PathVariable(name="working_hour_id") String workingHourId,@RequestBody WorkingHour workingHour,HttpServletRequest request)
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -111,7 +111,7 @@ public class ProjectWorkingHourController
     }
 
     @SneakyThrows
-    @PostMapping(path="/verify")
+    @PutMapping(path="/verify")
     public ResponseContent VerifyWorkingHour(@RequestBody Map<String,String> params,HttpServletRequest request)
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -134,7 +134,7 @@ public class ProjectWorkingHourController
     }
 
     @SneakyThrows
-    @GetMapping(path="/verify")
+    @PostMapping(path="/verify")
     public ResponseContent GetToBeVerifiedWorkingHour(@RequestBody Map<String,String> params,HttpServletRequest request)
     {
         logger.info("Invoking :"+Thread.currentThread()

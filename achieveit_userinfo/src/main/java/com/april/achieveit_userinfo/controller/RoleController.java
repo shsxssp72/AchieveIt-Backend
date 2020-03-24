@@ -30,7 +30,7 @@ public class RoleController implements RoleServiceApi
 
     @SneakyThrows
     @Override
-    @PostMapping(path="/userProjectRole")
+    @PutMapping(path="/userProjectRole")
     public ResponseContent UpdateUserProjectRole(@RequestBody Map<String,String> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -55,7 +55,7 @@ public class RoleController implements RoleServiceApi
      * When project_id is not null, return user's role under the specific project, otherwise the user's role under all project
      */
     @Override
-    @GetMapping(path="/userProjectRole")
+    @PostMapping(path="/userProjectRole")
     public ResponseContent GetUserProjectRole(@RequestBody Map<String,String> params)//! Different behavior with/without project_id
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -100,7 +100,7 @@ public class RoleController implements RoleServiceApi
      */
     @SneakyThrows
     @Override
-    @PostMapping(path="/projectMember")
+    @PutMapping(path="/projectMember")
     public ResponseContent UpdateProjectMember(@RequestBody Map<String,String> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -120,7 +120,7 @@ public class RoleController implements RoleServiceApi
     }
 
     @Override
-    @GetMapping(path="/projectMember")
+    @PostMapping(path="/projectMember")
     public ResponseContent GetProjectMember(@RequestBody Map<String,String> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -135,7 +135,7 @@ public class RoleController implements RoleServiceApi
     }
 
     @Override
-    @GetMapping(path="/globalRole")
+    @PostMapping(path="/globalRole")
     public ResponseContent GetUserGlobalRole(@RequestBody Map<String,String> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -165,8 +165,8 @@ public class RoleController implements RoleServiceApi
     }
 
     @Override
-    @GetMapping(path="/inferior")
-    public ResponseContent GetInferior(Map<String,String> params)
+    @PostMapping(path="/inferior")
+    public ResponseContent GetInferior(@RequestBody Map<String,String> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
@@ -183,8 +183,8 @@ public class RoleController implements RoleServiceApi
     }
 
     @Override
-    @GetMapping(path="/permission")
-    public ResponseContent GetUserPermission(Map<String,String> params)
+    @PostMapping(path="/permission")
+    public ResponseContent GetUserPermission(@RequestBody Map<String,String> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
@@ -203,8 +203,8 @@ public class RoleController implements RoleServiceApi
 
     @SneakyThrows
     @Override
-    @PostMapping(path="/permission")
-    public ResponseContent UpdateUserPermission(Map<String,String> params)
+    @PutMapping(path="/permission")
+    public ResponseContent UpdateUserPermission(@RequestBody Map<String,String> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());

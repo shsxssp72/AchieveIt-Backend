@@ -31,7 +31,7 @@ public class ProjectMemberController
     ProjectService projectService;
 
     @SneakyThrows
-    @PostMapping(path="/{project_id}")
+    @PutMapping(path="/{project_id}")
     public ResponseContent UpdateProjectMemberInfo(@PathVariable(name="project_id") String projectId,@RequestBody Map<String,String> params,HttpServletRequest request)
     {
         logger.info("Invoking :"+Thread.currentThread()
