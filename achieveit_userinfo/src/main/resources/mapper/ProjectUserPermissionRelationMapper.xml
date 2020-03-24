@@ -51,7 +51,7 @@
     set permit_weight = #{weight,jdbcType=INTEGER}
     where referred_project_id=#{projectId,jdbcType=CHAR}
     and referred_user_id=#{userId,jdbcType=CHAR}
-    and permissionId=#{userId,jdbcType=BIGINT}
+    and permissionId=#{permissionId,jdbcType=BIGINT}
   </update>
 
   <sql id="Base_Column_List">
@@ -69,7 +69,7 @@
       AND referred_user_id=#{userId,jdbcType=CHAR}
     </if>
     <if test="permissionId != null">
-      AND referred_permission_id=#{userId,jdbcType=BIGINT}
+      AND referred_permission_id=#{permissionId,jdbcType=BIGINT}
     </if>
   </delete>
   <select id="selectByProjectIdAndUserId" resultMap="BaseResultMap">
