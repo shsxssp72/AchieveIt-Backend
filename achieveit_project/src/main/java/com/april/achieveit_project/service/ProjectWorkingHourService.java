@@ -5,7 +5,6 @@ import com.april.achieveit_common.utility.RedisCacheUtility;
 import com.april.achieveit_common.utility.SnowFlakeIdGenerator;
 import com.april.achieveit_project.client.RoleServiceClient;
 import com.april.achieveit_project.entity.ActivityType;
-import com.april.achieveit_project.entity.Project;
 import com.april.achieveit_project.entity.ProjectFunction;
 import com.april.achieveit_project.entity.WorkingHour;
 import com.april.achieveit_project.mapper.ActivityTypeMapper;
@@ -87,10 +86,10 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
         String currentMethodName=Thread.currentThread()
                 .getStackTrace()[1].getMethodName();
         var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<List<WorkingHour>>(redisTemplate,
-                                                                             objectMapper,
-                                                                             reentrantLocks.get(currentMethodName),
-                                                                             cacheValidTime,
-                                                                             cacheConcurrentWaitTime);
+                                                                                       objectMapper,
+                                                                                       reentrantLocks.get(currentMethodName),
+                                                                                       cacheValidTime,
+                                                                                       cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+projectId+"_"+userId;
         return redisCacheHelper.QueryUsingCache(redisKey,
@@ -103,10 +102,10 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
         String currentMethodName=Thread.currentThread()
                 .getStackTrace()[1].getMethodName();
         var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<WorkingHour>(redisTemplate,
-                                                                                       objectMapper,
-                                                                                       reentrantLocks.get(currentMethodName),
-                                                                                       cacheValidTime,
-                                                                                       cacheConcurrentWaitTime);
+                                                                                 objectMapper,
+                                                                                 reentrantLocks.get(currentMethodName),
+                                                                                 cacheValidTime,
+                                                                                 cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+workingHourId;
         return redisCacheHelper.QueryUsingCache(redisKey,
@@ -121,15 +120,16 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
             throw new IllegalArgumentException("User can only view his own working hour");
         return queryResult;
     }
+
     public ProjectFunction selectProjectFunctionByPrimaryKey(Long functionId)
     {
         String currentMethodName=Thread.currentThread()
                 .getStackTrace()[1].getMethodName();
         var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<ProjectFunction>(redisTemplate,
-                                                                                 objectMapper,
-                                                                                 reentrantLocks.get(currentMethodName),
-                                                                                 cacheValidTime,
-                                                                                 cacheConcurrentWaitTime);
+                                                                                     objectMapper,
+                                                                                     reentrantLocks.get(currentMethodName),
+                                                                                     cacheValidTime,
+                                                                                     cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+functionId;
         return redisCacheHelper.QueryUsingCache(redisKey,
@@ -188,6 +188,8 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
                                                            new TypeReference<List<String>>()
                                                            {
                                                            });
+        if(queryResult==null||queryResult.isEmpty())
+            return null;
         return workingHourMapper.selectByProjectIdAndUserIds(projectId,
                                                              queryResult);
     }

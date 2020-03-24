@@ -101,6 +101,8 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
 
     public List<Project> SelectByProjectIds(Set<String> projectIds,int pageSize,int currentPage)
     {
+        if(projectIds==null||projectIds.isEmpty())
+            return null;
         PageHelper.startPage(currentPage,
                              pageSize);
         return projectMapper.selectByProjectIds(projectIds);
