@@ -9,6 +9,16 @@ zuul:
     project-service: /project/**
     userinfo-service: /user/**
   sensitive-headers:
+ribbon:
+  ConnectTimeout: 4000
+  ReadTimeout: 4000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
 local:
   filter:
     allowPaths:

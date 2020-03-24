@@ -101,7 +101,10 @@ public class AuthenticationService extends RedisCacheUtility.AbstractRedisCacheS
     @SneakyThrows
     public String Login(String username,String password)
     {
-        String userId=queryByUsername(username).getUserId();
+        UserInfo userInfo=queryByUsername(username);
+        if(userInfo==null)
+            throw new IllegalArgumentException("User not existing.");
+        String userId=userInfo.getUserId();
 
         if(password==null)
             throw new IllegalArgumentException("password should not be null");
