@@ -32,7 +32,7 @@ public class ProjectIssueController
         return result;
     }
 
-    @PostMapping(path="/{project_id}")
+    @PutMapping(path="/{project_id}")
     public ResponseContent GetProjectIssueTrackerUrl(@PathVariable(name="project_id") String projectId,@RequestBody Map<String,String> params)
     {
         logger.info("Invoking :"+Thread.currentThread()

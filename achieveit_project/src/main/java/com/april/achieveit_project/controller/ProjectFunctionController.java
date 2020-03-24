@@ -55,7 +55,7 @@ public class ProjectFunctionController
     }
 
     @SneakyThrows
-    @PostMapping(path="/function/{project_id}")
+    @PutMapping(path="/function/{project_id}")
     public ResponseContent UpdateProjectFunctions(@PathVariable(name="project_id") String projectId,@RequestBody Map<String,String> params)
     {
         logger.info("Invoking :"+Thread.currentThread()

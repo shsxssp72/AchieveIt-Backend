@@ -10,10 +10,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,7 +48,7 @@ public class LoginController
     }
 
     @SneakyThrows
-    @PostMapping(path="/info")
+    @PutMapping(path="/info")
     public ResponseContent UpdateCredential(@RequestBody Map<String,String> params,HttpServletRequest request,HttpServletResponse response)
     {
         logger.info("Invoking :"+Thread.currentThread()

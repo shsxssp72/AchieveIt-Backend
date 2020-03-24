@@ -23,7 +23,7 @@ public class ProjectDeviceController
     @Autowired
     private ProjectDeviceService projectDeviceService;
 
-    @GetMapping(path="/")
+    @PostMapping(path="/")
     @JsonView(value=JsonVisibilityLevel.BasicViewLevel.class)
     public ResponseContent GetDevices(@RequestBody Map<String,String> params)
     {
@@ -57,7 +57,7 @@ public class ProjectDeviceController
         return result;
     }
 
-    @PostMapping(path="/{device_id}")
+    @PutMapping(path="/{device_id}")
     public ResponseContent UpdateDeviceInfo(@PathVariable(name="device_id") String deviceId,@RequestBody Map<String,String> params)//TODO Check Role
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -72,7 +72,7 @@ public class ProjectDeviceController
         return result;
     }
 
-    @PostMapping(path="/tenancy")
+    @PutMapping(path="/tenancy")
     public ResponseContent NewTenancy(@RequestBody DeviceTenancy tenancy)
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -84,7 +84,7 @@ public class ProjectDeviceController
         return result;
     }
 
-    @PostMapping(path="/check")
+    @PutMapping(path="/check")
     public ResponseContent CheckDevice(@RequestBody DeviceExamination examination)
     {
         logger.info("Invoking :"+Thread.currentThread()

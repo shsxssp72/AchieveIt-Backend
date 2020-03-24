@@ -39,7 +39,7 @@ public class ProjectController
     @Autowired
     ObjectMapper objectMapper;
 
-    @PostMapping(path="/setUp")
+    @PutMapping(path="/setUp")
     public ResponseContent SetUpProject(@RequestBody Project project)//TODO Check if projectId valid
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -75,7 +75,7 @@ public class ProjectController
 
     @SneakyThrows
     @JsonView(value=JsonVisibilityLevel.BasicViewLevel.class)
-    @GetMapping(path="/listRelative")
+    @PostMapping(path="/listRelative")
     public ResponseContent ListRelativeProject(@RequestBody Map<String,String> params,HttpServletRequest request)
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -107,7 +107,7 @@ public class ProjectController
         return result;
     }
 
-    @PostMapping(path="/detail/{project_id}")
+    @PutMapping(path="/detail/{project_id}")
     public ResponseContent UpdateProjectInformation(@PathVariable(name="project_id") String projectId,@RequestBody Project project)
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -135,7 +135,7 @@ public class ProjectController
         return result;
     }
 
-    @PostMapping(path="/status/{project_id}")
+    @PutMapping(path="/status/{project_id}")
     public ResponseContent UpdateProjectStatus(@PathVariable(name="project_id") String projectId,@RequestBody Map<String,String> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
