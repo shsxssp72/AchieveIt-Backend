@@ -213,7 +213,7 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
             {
                 function.setFunctionId(getNewId());
             }
-            submittedDisplayIdMap.put(function.getIdForDisplay(),
+            submittedDisplayIdMap.put(idForDisplay,
                                       function.getFunctionId());
             function.setDescription(functionDescription);
             function.setReferredProjectId(projectId);
@@ -234,6 +234,7 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
         {
             ProjectFunction function=item.getValue();
             function.setSuperiorFunctionId(submittedDisplayIdMap.get(item.getKey()));
+            extractedFunctions.add(item.getValue());
         }
         return extractedFunctions;
     }
