@@ -1,10 +1,10 @@
 {
   "/api/user/userProjectRole": {
-    "GET": {
+    "POST": {
       "permission": "member_list_access",
       "projectIdLocation": "body"
     },
-    "POST": {
+    "PUT": {
       "permission": "member_list_modification",
       "projectIdLocation": "global"
     }
@@ -16,17 +16,17 @@
     }
   },
   "/api/user/projectMember": {
-    "GET": {
+    "POST": {
       "permission": "member_list_access",
       "projectIdLocation": "body"
     },
-    "POST": {
+    "PUT": {
       "permission": "member_list_modification",
       "projectIdLocation": "global"
     }
   },
   "/api/user/globalRole": {
-    "GET": {
+    "POST": {
       "permission": "",
       "projectIdLocation": "global"
     }
@@ -38,17 +38,17 @@
     }
   },
   "/api/user/permission": {
-    "GET": {
+    "POST": {
       "permission": "member_list_access",
       "projectIdLocation": "body"
     },
-    "POST": {
+    "PUT": {
       "permission": "member_list_modification",
       "projectIdLocation": "body"
     }
   },
   "/api/project/setUp": {
-    "POST": {
+    "PUT": {
       "permission": "project_info_modification",
       "projectIdLocation": "global"
     }
@@ -60,7 +60,7 @@
     }
   },
   "/api/project/listRelative": {
-    "GET": {
+    "POST": {
       "permission": "",
       "projectIdLocation": "global"
     }
@@ -84,11 +84,11 @@
     }
   },
   "/api/project/workingHour/verify": {
-    "GET": {
+    "POST": {
       "permission": "working_hour_verification",
       "projectIdLocation": "body"
     },
-    "POST": {
+    "PUT": {
       "permission": "working_hour_verification",
       "projectIdLocation": "body"
     }
@@ -100,7 +100,7 @@
     }
   },
   "/api/project/device": {
-    "GET": {
+    "POST": {
       "permission": "",
       "projectIdLocation": "global"
     }
@@ -110,19 +110,19 @@
       "permission": "",
       "projectIdLocation": "global"
     },
-    "POST": {
+    "PUT": {
       "permission": "project_device_modification",
       "projectIdLocation": "body"
     }
   },
   "/api/project/device/tenancy": {
-    "POST": {
+    "PUT": {
       "permission": "project_device_tenancy",
       "projectIdLocation": "body"
     }
   },
   "/api/project/device/check": {
-    "POST": {
+    "PUT": {
       "permission": "project_device_check",
       "projectIdLocation": "global"
     }
