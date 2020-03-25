@@ -193,16 +193,16 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
         ProjectStateTransition transition=ProjectStateTransition.getInstance();
 
         boolean isValidTransition=transition.isValidTransition(ProjectStateTransition.ProjectState.valueOf(currentState),
-                                                               ProjectStateTransition.ProjectState.valueOf(status));
-        if(!isValidTransition&&!additionalProjectStateTransitionCheck(projectId,
+                                                               state);
+        if(!isValidTransition||!additionalProjectStateTransitionCheck(projectId,
                                                                       ProjectStateTransition.ProjectState.valueOf(currentState)))
             throw new IllegalArgumentException("Invalid transition from: "+currentState+" to: "+status);
 
         Project toUpdateProject=new Project();
         toUpdateProject.setProjectId(projectId);
-        toUpdateProject.setStatus(ProjectStateTransition.ProjectState.valueOf(status));
+        toUpdateProject.setStatus(state);
 
-        projectMapper.updateByPrimaryKeySelective(project);
+        projectMapper.updateByPrimaryKeySelective(toUpdateProject);
     }
 
     public void UpdateProjectMiscWhenMemberUpdated(String projectId,String global_role_name)
