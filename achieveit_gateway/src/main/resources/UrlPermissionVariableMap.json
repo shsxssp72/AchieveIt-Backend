@@ -4,7 +4,7 @@
       "permission": "project_info_access",
       "projectIdLocation": "url"
     },
-    "POST": {
+    "PUT": {
       "permission": "project_info_modification",
       "projectIdLocation": "url"
     }
@@ -14,7 +14,7 @@
       "permission": "member_list_access",
       "projectIdLocation": "url"
     },
-    "POST": {
+    "PUT": {
       "permission": "member_list_modification",
       "projectIdLocation": "global"
     }
@@ -24,7 +24,7 @@
       "permission": "function_list_access",
       "projectIdLocation": "url"
     },
-    "POST": {
+    "PUT": {
       "permission": "function_list_modification",
       "projectIdLocation": "global"
     }
@@ -40,7 +40,7 @@
       "permission": "project_status_access",
       "projectIdLocation": "url"
     },
-    "POST": {
+    "PUT": {
       "permission": "project_status_modification",
       "projectIdLocation": "global"
     }
@@ -50,7 +50,7 @@
       "permission": "issue_tracker_access",
       "projectIdLocation": "url"
     },
-    "POST": {
+    "PUT": {
       "permission": "issue_tracker_modification",
       "projectIdLocation": "global"
     }
@@ -60,7 +60,7 @@
       "permission": "working_hour_access",
       "projectIdLocation": "url"
     },
-    "POST": {
+    "PUT": {
       "permission": "working_hour_modification",
       "projectIdLocation": "url"
     }
@@ -70,7 +70,7 @@
       "permission": "working_hour_access",
       "projectIdLocation": "url"
     },
-    "POST": {
+    "PUT": {
       "permission": "working_hour_modification",
       "projectIdLocation": "url"
     }
@@ -80,13 +80,13 @@
       "permission": "risk_access",
       "projectIdLocation": "url"
     },
-    "POST": {
+    "PUT": {
       "permission": "risk_modification",
       "projectIdLocation": "global"
     }
   },
   "/api/project/risk/([A-Z0-9\\-]+)/[A-Z0-9]+": {
-    "POST": {
+    "PUT": {
       "permission": "risk_modification",
       "projectIdLocation": "global"
     }
