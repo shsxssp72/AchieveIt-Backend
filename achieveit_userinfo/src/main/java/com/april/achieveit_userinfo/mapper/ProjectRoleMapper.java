@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper
 @Component
 public interface ProjectRoleMapper
@@ -14,6 +16,8 @@ public interface ProjectRoleMapper
     int insert(ProjectRole record);
 
     int insertSelective(ProjectRole record);
+
+    List<ProjectRole> selectAll();
 
     ProjectRole selectByPrimaryKey(@Param(value="projectRoleId") Long projectRoleId);
 
