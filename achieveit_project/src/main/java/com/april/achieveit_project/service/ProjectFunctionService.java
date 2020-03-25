@@ -155,7 +155,8 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
         for(Map<String,String> item: functions)
         {
             printer.printRecord(List.of(item.get("id_for_display"),
-                                        displayIdFunctionMap.get(item.get("superior_display_id")).get("id_for_display"),
+                                        displayIdFunctionMap.get(item.get("superior_display_id"))
+                                                .get("id_for_display"),
                                         item.get("function_description")));
         }
         return csvBuilder.toString();
@@ -193,6 +194,8 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
         List<ProjectFunction> extractedFunctions=new LinkedList<>();
         Map<String,Long> submittedDisplayIdMap=new HashMap<String,Long>();
 
+        Map<String,ProjectFunction> toSetSuperiorFunctions=new HashMap<>();
+
         for(Map<String,String> item: functions)
         {
             String idForDisplay=item.get("id_for_display");
@@ -212,11 +215,25 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
             }
             submittedDisplayIdMap.put(function.getIdForDisplay(),
                                       function.getFunctionId());
-            function.setSuperiorFunctionId(submittedDisplayIdMap.get(superiorFunctionId));
             function.setDescription(functionDescription);
             function.setReferredProjectId(projectId);
+            function.setIdForDisplay(idForDisplay);
 
-            extractedFunctions.add(function);
+            if(submittedDisplayIdMap.containsKey(superiorFunctionId))
+            {
+                function.setSuperiorFunctionId(submittedDisplayIdMap.get(superiorFunctionId));
+                extractedFunctions.add(function);
+            }
+            else
+            {
+                toSetSuperiorFunctions.put(superiorFunctionId,
+                                           function);
+            }
+        }
+        for(Map.Entry<String,ProjectFunction> item: toSetSuperiorFunctions.entrySet())
+        {
+            ProjectFunction function=item.getValue();
+            function.setSuperiorFunctionId(submittedDisplayIdMap.get(item.getKey()));
         }
         return extractedFunctions;
     }
