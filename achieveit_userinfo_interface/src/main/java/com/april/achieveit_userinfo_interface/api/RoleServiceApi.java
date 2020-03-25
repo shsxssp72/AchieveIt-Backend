@@ -40,4 +40,10 @@ public interface RoleServiceApi
 
     @PutMapping(path="/permission")
     ResponseContent UpdateUserPermission(@RequestBody Map<String,String> params);
+
+    @GetMapping(path="/listProjectRole")
+    ResponseContent ListProjectRole();
+
+    @GetMapping(path="/listEditablePermission")
+    ResponseContent ListEditablePermission();
 }

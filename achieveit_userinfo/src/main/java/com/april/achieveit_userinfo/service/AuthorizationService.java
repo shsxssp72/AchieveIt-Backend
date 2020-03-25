@@ -486,4 +486,17 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
     {
         return EDITABLE_PERMISSIONS;
     }
+
+    public List<ProjectRole> getAllProjectRoles()
+    {
+        String currentMethodName=Thread.currentThread()
+                .getStackTrace()[1].getMethodName();
+        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<List<ProjectRole>>(redisTemplate,
+                                                                                 objectMapper,
+                                                                                 reentrantLocks.get(currentMethodName),
+                                                                                 cacheValidTime,
+                                                                                 cacheConcurrentWaitTime);
+
+        return redisCacheHelper.QueryUsingCache(currentMethodName,()->projectRoleMapper.selectAll());
+    }
 }

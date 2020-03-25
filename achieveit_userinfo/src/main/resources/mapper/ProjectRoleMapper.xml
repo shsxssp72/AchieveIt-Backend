@@ -16,7 +16,12 @@
     from ProjectRole
     where project_role_id = #{projectRoleId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <select id="selectAll" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from ProjectRole
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from ProjectRole
     where project_role_id = #{projectRoleId,jdbcType=BIGINT}
   </delete>

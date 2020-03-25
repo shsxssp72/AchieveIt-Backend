@@ -29,7 +29,7 @@ public class ProjectWorkingHourController
 
     @SneakyThrows
     @PutMapping(path="/{project_id}")
-    public ResponseContent AddWorkingHour(@PathVariable(name="project_id") String projectId,@RequestBody WorkingHour workingHour,HttpServletRequest request)
+    public ResponseContent AddWorkingHour(@PathVariable(name="project_id") String projectId,@RequestBody Map<String,String> params,HttpServletRequest request)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
@@ -38,8 +38,10 @@ public class ProjectWorkingHourController
         String jwt=CookieUtility.getCookieValue(request,
                                                 "JWT");
         String userId=JWTUtility.getSubjectFromJWT(jwt);
-        workingHour.setReferredProjectId(projectId);
-        workingHour.setReferredUserId(userId);
+
+        params.put("referred_user_id", userId);
+        WorkingHour workingHour=projectWorkingHourService.assembleWorkingHour(projectId,params);
+
 
         projectWorkingHourService.NewWorkingHour(workingHour);
 
@@ -72,7 +74,7 @@ public class ProjectWorkingHourController
 
     @SneakyThrows
     @PutMapping(path="/{project_id}/{working_hour_id}")
-    public ResponseContent UpdateWorkingHour(@PathVariable(name="project_id") String projectId,@PathVariable(name="working_hour_id") String workingHourId,@RequestBody WorkingHour workingHour,HttpServletRequest request)
+    public ResponseContent UpdateWorkingHour(@PathVariable(name="project_id") String projectId,@PathVariable(name="working_hour_id") String workingHourId,@RequestBody Map<String,String> params,HttpServletRequest request)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
@@ -82,8 +84,10 @@ public class ProjectWorkingHourController
                                                 "JWT");
         String userId=JWTUtility.getSubjectFromJWT(jwt);
 
-        workingHour.setReferredProjectId(projectId);
-        workingHour.setWorkingHourId(Long.parseLong(workingHourId));
+        params.put("referred_user_id", userId);
+        params.put("working_hour_id", workingHourId);
+        WorkingHour workingHour=projectWorkingHourService.assembleWorkingHour(projectId,params);
+
         projectWorkingHourService.UpdateWorkingHour(workingHour,
                                                     userId);
 

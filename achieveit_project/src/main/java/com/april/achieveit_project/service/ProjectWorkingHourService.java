@@ -12,6 +12,7 @@ import com.april.achieveit_project.mapper.ProjectFunctionMapper;
 import com.april.achieveit_project.mapper.WorkingHourMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +73,50 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
     {
         snowFlakeIdGenerator=new SnowFlakeIdGenerator(datacenterId,
                                                       machineId);
+    }
+
+    @SneakyThrows
+    public WorkingHour assembleWorkingHour(String projectId,Map<String,String> params)
+    {
+        WorkingHour workingHour=new WorkingHour();
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        workingHour.setReferredProjectId(projectId);
+
+        if(params.containsKey("working_hour_id"))
+        {
+            workingHour.setWorkingHourId(Long.parseLong(params.get("working_hour_id")));
+        }
+        if(params.containsKey("function_description_snapshot"))
+        {
+            workingHour.setFunctionDescriptionSnapshot(params.get("function_description_snapshot"));
+        }
+        if(params.containsKey("referred_user_id"))
+        {
+            workingHour.setReferredUserId(params.get("referred_user_id"));
+        }
+        if(params.containsKey("referred_activity_type_id"))
+        {
+            workingHour.setReferredActivityTypeId(Long.parseLong(params.get("referred_activity_type_id")));
+        }
+        if(params.containsKey("referred_function_id"))
+        {
+            ProjectFunction referredFunction=projectFunctionMapper.selectByProjectIdAndDisplayId(projectId,
+                                                                                                 params.get("referred_function_id"));
+            workingHour.setReferredFunctionId(referredFunction.getFunctionId());
+        }
+        if(params.containsKey("start_time"))
+        {
+            workingHour.setStartTime(dateFormat.parse(params.get("start_time")));
+        }
+        if(params.containsKey("end_time"))
+        {
+            workingHour.setEndTime(dateFormat.parse(params.get("end_time")));
+        }
+        if(params.containsKey("verified"))
+        {
+            workingHour.setVerified(Boolean.parseBoolean(params.get("verified")));
+        }
+        return workingHour;
     }
 
     public void NewWorkingHour(WorkingHour workingHour)

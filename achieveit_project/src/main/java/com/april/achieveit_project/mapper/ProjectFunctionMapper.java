@@ -19,6 +19,8 @@ public interface ProjectFunctionMapper
 
     ProjectFunction selectByPrimaryKey(@Param(value="functionId") Long functionId);
 
+    ProjectFunction selectByProjectIdAndDisplayId(@Param(value="projectId") String projectId,@Param(value="displayId") String displayId);
+
     List<ProjectFunction> selectByProjectId(@Param(value="projectId") String projectId);
 
     int updateByPrimaryKeySelective(ProjectFunction record);

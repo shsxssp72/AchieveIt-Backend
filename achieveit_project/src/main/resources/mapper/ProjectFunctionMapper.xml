@@ -25,6 +25,13 @@
         from ProjectFunction
         where referred_project_id = #{projectId,jdbcType=CHAR}
     </select>
+    <select id="selectByProjectIdAndDisplayId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ProjectFunction
+        where referred_project_id = #{projectId,jdbcType=CHAR}
+        and id_for_display = #{displayId,jdbcType=VARCHAR}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         DELETE
         FROM ProjectFunction

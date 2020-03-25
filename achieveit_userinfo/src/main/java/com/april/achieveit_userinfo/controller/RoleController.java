@@ -224,4 +224,32 @@ public class RoleController implements RoleServiceApi
         return result;
     }
 
+    @Override
+    @GetMapping(path="/listProjectRole")
+    public ResponseContent ListProjectRole()
+    {
+        logger.info("Invoking :"+Thread.currentThread()
+                .getStackTrace()[1].getMethodName());
+        ResponseContent result=new ResponseContent();
+
+        result.setResult(authorizationService.getAllProjectRoles());
+
+        result.setStatus(ResponseContentStatus.SUCCESS);
+        return result;
+    }
+
+    @Override
+    @GetMapping(path="/listEditablePermission")
+    public ResponseContent ListEditablePermission()
+    {
+        logger.info("Invoking :"+Thread.currentThread()
+                .getStackTrace()[1].getMethodName());
+        ResponseContent result=new ResponseContent();
+
+        result.setResult(authorizationService.getEditablePermissions());
+
+        result.setStatus(ResponseContentStatus.SUCCESS);
+        return result;
+    }
+
 }

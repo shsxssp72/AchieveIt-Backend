@@ -76,10 +76,15 @@
     SELECT
     <include refid="Base_Column_List" />
     FROM ProjectUserPermissionRelation
-    WHERE 1=1
-    <if test="projectId != null">
-      AND referred_project_id=#{projectId,jdbcType=CHAR}
-    </if>
+    WHERE
+    <choose>
+      <when test="projectId != null">
+        referred_project_id=#{projectId,jdbcType=CHAR}
+      </when>
+      <otherwise>
+        referred_project_id IS NULL
+      </otherwise>
+    </choose>
     <if test="userId != null">
       AND referred_user_id=#{userId,jdbcType=CHAR}
     </if>
