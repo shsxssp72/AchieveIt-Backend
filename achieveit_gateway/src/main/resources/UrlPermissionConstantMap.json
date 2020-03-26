@@ -47,6 +47,18 @@
       "projectIdLocation": "body"
     }
   },
+  "/api/user/listProjectRole": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/user/listEditablePermission": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
   "/api/project/setUp": {
     "PUT": {
       "permission": "project_info_modification",
