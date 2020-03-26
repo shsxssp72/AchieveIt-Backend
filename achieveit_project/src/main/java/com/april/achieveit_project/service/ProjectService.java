@@ -158,7 +158,7 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
                 .equals(ProjectStateTransition.ProjectState.Rejected.name()))
             currentProject.setStatus(ProjectStateTransition.ProjectState.Applied);
 
-        projectMapper.updateByPrimaryKey(project);
+        projectMapper.updateByPrimaryKey(currentProject);
     }
 
     /**
