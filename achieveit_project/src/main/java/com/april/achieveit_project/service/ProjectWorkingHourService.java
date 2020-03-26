@@ -121,7 +121,7 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
 
     public void NewWorkingHour(WorkingHour workingHour)
     {
-        workingHour.setReferredFunctionId(snowFlakeIdGenerator.getNextId());
+        workingHour.setWorkingHourId(snowFlakeIdGenerator.getNextId());
         ProjectFunction referredWorkingHour=projectFunctionMapper.selectByPrimaryKey(workingHour.getReferredFunctionId());
         workingHour.setFunctionDescriptionSnapshot(referredWorkingHour.getDescription());
         workingHourMapper.insert(workingHour);
