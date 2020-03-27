@@ -101,21 +101,22 @@ public class RoleController implements RoleServiceApi
     @SneakyThrows
     @Override
     @PutMapping(path="/projectMember")
-    public ResponseContent UpdateProjectMember(@RequestBody Map<String,String> params)
+    public ResponseContent UpdateProjectMember(@RequestBody Map<String,Object> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
 
         ResponseContent result=new ResponseContent();
 
-        String projectId=params.get("project_id");
-        String members=params.get("members");
-        List<Map<String,String>> memberList=objectMapper.readValue(members,
+        String projectId=(String)params.get("project_id");
+        Object members=params.get("members");
+        List<Map<String,String>> memberList=objectMapper.convertValue(members,
                                                                    new TypeReference<List<Map<String,String>>>()
                                                                    {
                                                                    });
         authorizationService.UpdateProjectMember(projectId,
                                                  memberList);
+        result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
     }
 
@@ -204,15 +205,15 @@ public class RoleController implements RoleServiceApi
     @SneakyThrows
     @Override
     @PutMapping(path="/permission")
-    public ResponseContent UpdateUserPermission(@RequestBody Map<String,String> params)
+    public ResponseContent UpdateUserPermission(@RequestBody Map<String,Object> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
 
-        String userId=params.get("user_id");
-        String projectId=params.get("project_id");
-        List<String> permissionList=objectMapper.readValue(params.get("privilege_list"),
+        String userId=(String)params.get("user_id");
+        String projectId=(String)params.get("project_id");
+        List<String> permissionList=objectMapper.convertValue(params.get("privilege_list"),
                                                            new TypeReference<List<String>>()
                                                            {
                                                            });

@@ -15,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class WorkingHour
 {
+    @JsonFormat(shape=JsonFormat.Shape.STRING)
     @JsonProperty(value="working_hour_id")
     @JsonView(value=JsonVisibilityLevel.BasicViewLevel.class)
     private Long workingHourId;
@@ -27,9 +28,11 @@ public class WorkingHour
     @JsonProperty(value="referred_project_id")
     @JsonView(value=JsonVisibilityLevel.AuthenticatedViewLevel.class)
     private String referredProjectId;
+    @JsonFormat(shape=JsonFormat.Shape.STRING)
     @JsonProperty(value="referred_activity_type_id")
     @JsonView(value=JsonVisibilityLevel.BasicViewLevel.class)
     private Long referredActivityTypeId;
+    @JsonFormat(shape=JsonFormat.Shape.STRING)
     @JsonProperty(value="referred_function_id")
     @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
     private Long referredFunctionId;

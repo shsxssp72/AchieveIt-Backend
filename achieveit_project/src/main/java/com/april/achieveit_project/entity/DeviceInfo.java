@@ -1,6 +1,7 @@
 package com.april.achieveit_project.entity;
 
 import com.april.achieveit_common.utility.JsonVisibilityLevel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeviceInfo
 {
+    @JsonFormat(shape=JsonFormat.Shape.STRING)
     @JsonProperty(value="device_id")
     @JsonView(value=JsonVisibilityLevel.BasicViewLevel.class)
     private Long deviceId;

@@ -34,30 +34,31 @@ public class ProjectRiskController
     }
 
     @SneakyThrows
-    private ResponseContent assembleRiskAndSendEmail(String projectId,Map<String,String> params,ServiceCaller serviceCaller)
+    private ResponseContent assembleRiskAndSendEmail(String projectId,Map<String,Object> params,ServiceCaller serviceCaller)
     {
         ResponseContent result=new ResponseContent();
 
-        Risk risk=new Risk(params.getOrDefault("risk_id",
-                                               null),
+        Risk risk=new Risk((String)params.getOrDefault("risk_id",
+                                                       null),
                            projectId,
-                           params.get("risk_type"),
-                           params.get("risk_description"),
-                           params.get("risk_level"),
-                           params.get("risk_impact"),
-                           params.get("risk_countermeasure"),
-                           params.get("risk_status"),
-                           params.get("risk_track_frequency"));
-        List<String> riskRelatedPerson=objectMapper.readValue(params.get("risk_responsible_person"),
-                                                              new TypeReference<List<String>>()
-                                                              {
-                                                              });
+                           (String)params.get("risk_type"),
+                           (String)params.get("risk_description"),
+                           (String)params.get("risk_level"),
+                           (String)params.get("risk_impact"),
+                           (String)params.get("risk_countermeasure"),
+                           (String)params.get("risk_status"),
+                           (String)params.get("risk_track_frequency"));
+        List<String> riskRelatedPerson=objectMapper.convertValue(params.get("risk_responsible_person"),
+                                                                 new TypeReference<List<String>>()
+                                                                 {
+                                                                 });
 
         serviceCaller.Invoke(risk,
                              riskRelatedPerson);
 
         result.setMessage(dependencyService.sendEmail("",
-                                                      params.get("risk_responsible_person"),
+                                                      String.join(";",
+                                                                  riskRelatedPerson),
                                                       ""));
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
@@ -65,7 +66,7 @@ public class ProjectRiskController
 
     @SneakyThrows
     @PutMapping(path="/{project_id}")
-    public ResponseContent AddRisk(@PathVariable(name="project_id") String projectId,@RequestBody Map<String,String> params)
+    public ResponseContent AddRisk(@PathVariable(name="project_id") String projectId,@RequestBody Map<String,Object> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
@@ -91,7 +92,7 @@ public class ProjectRiskController
     }
 
     @PutMapping(path="/{project_id}/{risk_id}")
-    public ResponseContent UpdateRisk(@PathVariable(name="project_id") String projectId,@PathVariable(name="risk_id") String riskId,@RequestBody Map<String,String> params)
+    public ResponseContent UpdateRisk(@PathVariable(name="project_id") String projectId,@PathVariable(name="risk_id") String riskId,@RequestBody Map<String,Object> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
