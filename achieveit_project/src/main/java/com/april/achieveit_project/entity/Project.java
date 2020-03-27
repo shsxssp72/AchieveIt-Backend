@@ -25,7 +25,7 @@ public class Project
     @JsonProperty(value="project_name")
     @JsonView(value=JsonVisibilityLevel.BasicViewLevel.class)
     private String projectName;
-    @JsonProperty(value="referred_customer_id")
+    @JsonProperty(value="referred_outer_customer_id")
     @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
     private String referredOuterCustomerId;
     @JsonProperty(value="scheduled_start_time")
@@ -39,7 +39,7 @@ public class Project
     @JsonProperty("referred_superior_id")
     @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
     private String referredSuperiorId;
-    @JsonProperty(value="mile_stone")
+    @JsonProperty(value="milestone")
     @JsonView(value=JsonVisibilityLevel.AuthenticatedViewLevel.class)
     private String mileStone;
     @JsonProperty(value="technology")
