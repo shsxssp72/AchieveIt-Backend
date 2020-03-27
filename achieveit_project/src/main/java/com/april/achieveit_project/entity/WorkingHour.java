@@ -27,10 +27,10 @@ public class WorkingHour
     @JsonProperty(value="referred_project_id")
     @JsonView(value=JsonVisibilityLevel.AuthenticatedViewLevel.class)
     private String referredProjectId;
-    @JsonProperty(value="referred_activity_type_id")
+    @JsonProperty(value="activity_type_id")
     @JsonView(value=JsonVisibilityLevel.BasicViewLevel.class)
     private Long referredActivityTypeId;
-    @JsonProperty(value="referred_function_id")
+    @JsonProperty(value="function_id")
     @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
     private Long referredFunctionId;
     @JsonProperty(value="start_time")
