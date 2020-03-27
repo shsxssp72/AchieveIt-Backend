@@ -45,6 +45,7 @@ public class Project
     @JsonProperty(value="technology")
     @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
     private String technology;
+    @JsonFormat(shape=JsonFormat.Shape.STRING)
     @JsonProperty("referred_business_field_id")
     @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
     private Long referredBusinessFieldId;

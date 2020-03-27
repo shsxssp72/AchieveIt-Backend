@@ -13,8 +13,10 @@ import java.util.Date;
 @NoArgsConstructor
 public class DeviceExamination
 {
+    @JsonFormat(shape=JsonFormat.Shape.STRING)
     @JsonProperty(value="examination_id")
     private Long examinationId;
+    @JsonFormat(shape=JsonFormat.Shape.STRING)
     @JsonProperty(value="referred_device_id")
     private Long referredDeviceId;
     @JsonProperty(value="examination_time")

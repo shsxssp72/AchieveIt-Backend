@@ -56,13 +56,13 @@ public class ProjectFunctionController
 
     @SneakyThrows
     @PutMapping(path="/function/{project_id}")
-    public ResponseContent UpdateProjectFunctions(@PathVariable(name="project_id") String projectId,@RequestBody Map<String,String> params)
+    public ResponseContent UpdateProjectFunctions(@PathVariable(name="project_id") String projectId,@RequestBody Map<String,Object> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
 
-        List<Map<String,String>> functions=objectMapper.readValue(params.get("functions"),
+        List<Map<String,String>> functions=objectMapper.convertValue(params.get("functions"),
                                                                   new TypeReference<List<Map<String,String>>>()
                                                                   {
                                                                   });
@@ -82,7 +82,7 @@ public class ProjectFunctionController
         ResponseContent result=new ResponseContent();
 
         ImmutablePair<List<Map<String,String>>,List<Map<String,String>>> queryResult=projectFunctionService.ClassifyFunctionByIsSuperior(projectId);
-        result.setResult(Map.of("first_level_functions:",
+        result.setResult(Map.of("first_level_functions",
                                 queryResult.left,
                                 "second_level_functions",
                                 queryResult.right));

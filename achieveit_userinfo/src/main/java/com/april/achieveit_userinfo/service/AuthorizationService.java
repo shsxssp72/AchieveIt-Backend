@@ -3,7 +3,6 @@ package com.april.achieveit_userinfo.service;
 import com.april.achieveit_common.utility.RedisCacheUtility;
 import com.april.achieveit_userinfo.mapper.*;
 import com.april.achieveit_userinfo_interface.entity.*;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
@@ -446,17 +445,29 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
     @Transactional
     public void UpdateProjectMember(@NotNull String projectId,List<Map<String,String>> members)
     {
+        Map<String,List<Map<String,String>>> userProjectRoleMap=new HashMap<>();
         for(Map<String,String> member: members)
         {
             String userId=member.get("user_id");
-            List<Map<String,String>> projectRoleIdList=objectMapper.readValue(member.get("project_role_id_list"),
-                                                                              new TypeReference<List<Map<String,String>>>()
-                                                                              {
-                                                                              });
-            UpdateUserProjectRole(projectId,
-                                  userId,
-                                  projectRoleIdList);
+            String projectRoleId=member.get("project_role_id");
+            String superiorId=member.get("superior_id");
+
+            if(!userProjectRoleMap.containsKey(userId))
+                userProjectRoleMap.put(userId,
+                                       new LinkedList<>());
+            userProjectRoleMap.get(userId)
+                    .add(Map.of("project_role_id",
+                                projectRoleId,
+                                "superior_id",
+                                superiorId));
         }
+        for(Map.Entry<String,List<Map<String,String>>> item: userProjectRoleMap.entrySet())
+        {
+            UpdateUserProjectRole(projectId,
+                                  item.getKey(),
+                                  item.getValue());
+        }
+
     }
 
     @Transactional
@@ -492,11 +503,12 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
         String currentMethodName=Thread.currentThread()
                 .getStackTrace()[1].getMethodName();
         var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<List<ProjectRole>>(redisTemplate,
-                                                                                 objectMapper,
-                                                                                 reentrantLocks.get(currentMethodName),
-                                                                                 cacheValidTime,
-                                                                                 cacheConcurrentWaitTime);
+                                                                                       objectMapper,
+                                                                                       reentrantLocks.get(currentMethodName),
+                                                                                       cacheValidTime,
+                                                                                       cacheConcurrentWaitTime);
 
-        return redisCacheHelper.QueryUsingCache(currentMethodName,()->projectRoleMapper.selectAll());
+        return redisCacheHelper.QueryUsingCache(currentMethodName,
+                                                ()->projectRoleMapper.selectAll());
     }
 }

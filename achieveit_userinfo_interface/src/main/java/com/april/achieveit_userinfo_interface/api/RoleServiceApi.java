@@ -21,7 +21,7 @@ public interface RoleServiceApi
     ResponseContent BatchGetUserProjectRole(@RequestBody Map<String,String> params);
 
     @PutMapping(path="/projectMember")
-    ResponseContent UpdateProjectMember(@RequestBody Map<String,String> params);
+    ResponseContent UpdateProjectMember(@RequestBody Map<String,Object> params);
 
     @PostMapping(path="/projectMember")
     ResponseContent GetProjectMember(@RequestBody Map<String,String> params);
@@ -39,7 +39,7 @@ public interface RoleServiceApi
     ResponseContent GetUserPermission(@RequestBody Map<String,String> params);
 
     @PutMapping(path="/permission")
-    ResponseContent UpdateUserPermission(@RequestBody Map<String,String> params);
+    ResponseContent UpdateUserPermission(@RequestBody Map<String,Object> params);
 
     @GetMapping(path="/listProjectRole")
     ResponseContent ListProjectRole();
