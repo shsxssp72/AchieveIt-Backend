@@ -1,0 +1,243 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AuthenticationService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.april.achieveit_userinfo.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AuthenticationService (com.april.achieveit_userinfo.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AuthenticationService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.1%
+  </span>
+  <span class="absValue">
+    (52/ 59)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.april.achieveit_userinfo.service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.april.achieveit_common.utility.CryptoUtility;
+<i>4</i>&nbsp;import com.april.achieveit_common.utility.JWTUtility;
+<i>5</i>&nbsp;import com.april.achieveit_common.utility.RedisCacheUtility;
+<i>6</i>&nbsp;import com.april.achieveit_userinfo.mapper.UserInfoMapper;
+<i>7</i>&nbsp;import com.april.achieveit_userinfo_interface.entity.UserInfo;
+<i>8</i>&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+<i>9</i>&nbsp;import lombok.SneakyThrows;
+<i>10</i>&nbsp;import org.apache.commons.lang3.RandomStringUtils;
+<i>11</i>&nbsp;import org.apache.commons.lang3.StringUtils;
+<i>12</i>&nbsp;import org.apache.tomcat.websocket.AuthenticationException;
+<i>13</i>&nbsp;import org.slf4j.Logger;
+<i>14</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>15</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>16</i>&nbsp;import org.springframework.beans.factory.annotation.Value;
+<i>17</i>&nbsp;import org.springframework.data.redis.core.StringRedisTemplate;
+<i>18</i>&nbsp;import org.springframework.stereotype.Service;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;import java.lang.reflect.Method;
+<i>21</i>&nbsp;import java.util.concurrent.locks.ReentrantLock;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;@Service
+<b class="fc"><i>24</i>&nbsp;public class AuthenticationService extends RedisCacheUtility.AbstractRedisCacheService</b>
+<i>25</i>&nbsp;{
+<b class="fc"><i>26</i>&nbsp;    private Logger logger=LoggerFactory.getLogger(AuthenticationService.class);</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    static
+<i>29</i>&nbsp;    {
+<b class="fc"><i>30</i>&nbsp;        for(Method method: AuthenticationService.class.getDeclaredMethods())</b>
+<i>31</i>&nbsp;        {
+<i>32</i>&nbsp;
+<b class="fc"><i>33</i>&nbsp;            reentrantLocks.computeIfAbsent(method.getName(),</b>
+<b class="fc"><i>34</i>&nbsp;                                           f-&gt;new ReentrantLock());</b>
+<i>35</i>&nbsp;        }
+<b class="fc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    @Autowired
+<i>39</i>&nbsp;    private StringRedisTemplate redisTemplate;
+<i>40</i>&nbsp;    @Autowired
+<i>41</i>&nbsp;    private ObjectMapper objectMapper;
+<i>42</i>&nbsp;    @Value(&quot;${local.cache-valid-time}&quot;)
+<i>43</i>&nbsp;    private Integer cacheValidTime;
+<i>44</i>&nbsp;    @Value(&quot;${local.cache-concurrent-wait-time}&quot;)
+<i>45</i>&nbsp;    private Integer cacheConcurrentWaitTime;
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    @Value(&quot;${local.server-identity}&quot;)
+<i>48</i>&nbsp;    String SERVER_IDENTITY;
+<i>49</i>&nbsp;    @Value(&quot;${local.shared-secret}&quot;)
+<i>50</i>&nbsp;    String SHARED_SECRET;
+<i>51</i>&nbsp;    @Value(&quot;${local.default-jwt-expire-seconds}&quot;)
+<i>52</i>&nbsp;    Integer DEFAULT_JWT_EXPIRE_SECONDS;
+<i>53</i>&nbsp;    @Value(&quot;${local.user-related-cache-valid-duration}&quot;)
+<i>54</i>&nbsp;    Integer USER_RELATED_CACHE_VALID_DURATION;
+<i>55</i>&nbsp;    @Value(&quot;${local.user-related-concurrent-wait-period}&quot;)
+<i>56</i>&nbsp;    Integer USER_RELATED_CONCURRENT_WAIT_PERIOD;
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    @Autowired
+<i>59</i>&nbsp;    UserInfoMapper userInfoMapper;
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    UserInfo queryByUserId(String userId)
+<i>62</i>&nbsp;    {
+<b class="fc"><i>63</i>&nbsp;        String currentMethodName=Thread.currentThread()</b>
+<b class="fc"><i>64</i>&nbsp;                .getStackTrace()[1].getMethodName();</b>
+<b class="fc"><i>65</i>&nbsp;        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper&lt;UserInfo&gt;(redisTemplate,</b>
+<i>66</i>&nbsp;                                                                              objectMapper,
+<b class="fc"><i>67</i>&nbsp;                                                                              reentrantLocks.get(currentMethodName),</b>
+<b class="fc"><i>68</i>&nbsp;                                                                              cacheValidTime,</b>
+<b class="fc"><i>69</i>&nbsp;                                                                              cacheConcurrentWaitTime);</b>
+<i>70</i>&nbsp;
+<b class="fc"><i>71</i>&nbsp;        String redisKey=currentMethodName+&quot;_&quot;+userId;</b>
+<b class="fc"><i>72</i>&nbsp;        return redisCacheHelper.QueryUsingCache(redisKey,</b>
+<b class="fc"><i>73</i>&nbsp;                                                ()-&gt;userInfoMapper.selectByPrimaryKey(userId));</b>
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    private UserInfo queryByUsername(String username)
+<i>77</i>&nbsp;    {
+<b class="fc"><i>78</i>&nbsp;        String currentMethodName=Thread.currentThread()</b>
+<b class="fc"><i>79</i>&nbsp;                .getStackTrace()[1].getMethodName();</b>
+<b class="fc"><i>80</i>&nbsp;        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper&lt;UserInfo&gt;(redisTemplate,</b>
+<i>81</i>&nbsp;                                                                              objectMapper,
+<b class="fc"><i>82</i>&nbsp;                                                                              reentrantLocks.get(currentMethodName),</b>
+<b class="fc"><i>83</i>&nbsp;                                                                              cacheValidTime,</b>
+<b class="fc"><i>84</i>&nbsp;                                                                              cacheConcurrentWaitTime);</b>
+<i>85</i>&nbsp;
+<b class="fc"><i>86</i>&nbsp;        String redisKey=currentMethodName+&quot;_&quot;+username;</b>
+<b class="fc"><i>87</i>&nbsp;        return redisCacheHelper.QueryUsingCache(redisKey,</b>
+<b class="fc"><i>88</i>&nbsp;                                                ()-&gt;userInfoMapper.selectByUsername(username));</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    public boolean VerifyIdentity(String userId,String password)
+<i>92</i>&nbsp;    {
+<b class="fc"><i>93</i>&nbsp;        UserInfo target=queryByUserId(userId);</b>
+<b class="fc"><i>94</i>&nbsp;        String challengePassphrase=CryptoUtility.HashPassword(password,</b>
+<b class="fc"><i>95</i>&nbsp;                                                              target.getUserName(),</b>
+<b class="fc"><i>96</i>&nbsp;                                                              target.getUserSalt());</b>
+<b class="fc"><i>97</i>&nbsp;        return target.getUserPassword()</b>
+<b class="fc"><i>98</i>&nbsp;                .equals(challengePassphrase);</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<b class="nc"><i>101</i>&nbsp;    @SneakyThrows</b>
+<i>102</i>&nbsp;    public String Login(String username,String password)
+<i>103</i>&nbsp;    {
+<b class="fc"><i>104</i>&nbsp;        UserInfo userInfo=queryByUsername(username);</b>
+<b class="fc"><i>105</i>&nbsp;        if(userInfo==null)</b>
+<b class="nc"><i>106</i>&nbsp;            throw new IllegalArgumentException(&quot;User not existing.&quot;);</b>
+<b class="fc"><i>107</i>&nbsp;        String userId=userInfo.getUserId();</b>
+<i>108</i>&nbsp;
+<b class="fc"><i>109</i>&nbsp;        if(password==null)</b>
+<b class="nc"><i>110</i>&nbsp;            throw new IllegalArgumentException(&quot;password should not be null&quot;);</b>
+<i>111</i>&nbsp;
+<b class="fc"><i>112</i>&nbsp;        if(!VerifyIdentity(userId,</b>
+<i>113</i>&nbsp;                           password))
+<b class="nc"><i>114</i>&nbsp;            throw new IllegalArgumentException(&quot;Invalid login credential&quot;);</b>
+<i>115</i>&nbsp;
+<b class="fc"><i>116</i>&nbsp;        return JWTUtility.SignJWT(String.valueOf(userId),</b>
+<b class="fc"><i>117</i>&nbsp;                                  DEFAULT_JWT_EXPIRE_SECONDS,</b>
+<i>118</i>&nbsp;                                  SERVER_IDENTITY,
+<i>119</i>&nbsp;                                  SHARED_SECRET);
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    }
+<i>122</i>&nbsp;
+<b class="nc"><i>123</i>&nbsp;    @SneakyThrows</b>
+<i>124</i>&nbsp;    public String RenewToken(String token)
+<i>125</i>&nbsp;    {
+<b class="fc"><i>126</i>&nbsp;        if(JWTUtility.VerifyJWT(token,</b>
+<i>127</i>&nbsp;                                SHARED_SECRET))
+<i>128</i>&nbsp;        {
+<b class="fc"><i>129</i>&nbsp;            String userId=JWTUtility.getSubjectFromJWT(token);</b>
+<b class="fc"><i>130</i>&nbsp;            logger.info(&quot;UserId: &quot;+userId+&quot; attempted to renew token.&quot;);</b>
+<i>131</i>&nbsp;
+<b class="fc"><i>132</i>&nbsp;            return JWTUtility.SignJWT(userId,</b>
+<b class="fc"><i>133</i>&nbsp;                                      DEFAULT_JWT_EXPIRE_SECONDS,</b>
+<i>134</i>&nbsp;                                      SERVER_IDENTITY,
+<i>135</i>&nbsp;                                      SHARED_SECRET);
+<i>136</i>&nbsp;        }
+<b class="nc"><i>137</i>&nbsp;        throw new IllegalArgumentException(&quot;Renewing JWT Error&quot;);</b>
+<i>138</i>&nbsp;    }
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;    /**
+<i>141</i>&nbsp;     * Will only update password
+<i>142</i>&nbsp;     */
+<b class="fc"><i>143</i>&nbsp;    @SneakyThrows</b>
+<i>144</i>&nbsp;    public void UpdateUserInfo(String userId,String originalPassword,String newPassword)
+<i>145</i>&nbsp;    {
+<b class="fc"><i>146</i>&nbsp;        if(!VerifyIdentity(userId,</b>
+<i>147</i>&nbsp;                           originalPassword))
+<b class="nc"><i>148</i>&nbsp;            throw new AuthenticationException(&quot;Invalid login credential.&quot;);</b>
+<b class="fc"><i>149</i>&nbsp;        UserInfo target=queryByUserId(userId);</b>
+<b class="fc"><i>150</i>&nbsp;        if(StringUtils.isNotEmpty(newPassword)&amp;&amp;StringUtils.isNotBlank(newPassword))</b>
+<i>151</i>&nbsp;        {
+<b class="fc"><i>152</i>&nbsp;            target.setUserSalt(RandomStringUtils.randomAlphabetic(64));</b>
+<b class="fc"><i>153</i>&nbsp;            target.setUserPassword(CryptoUtility.HashPassword(newPassword,</b>
+<b class="fc"><i>154</i>&nbsp;                                                              target.getUserName(),</b>
+<b class="fc"><i>155</i>&nbsp;                                                              target.getUserSalt()));</b>
+<i>156</i>&nbsp;        }
+<b class="fc"><i>157</i>&nbsp;        userInfoMapper.updateByPrimaryKey(target);</b>
+<b class="fc"><i>158</i>&nbsp;    }</b>
+<i>159</i>&nbsp;
+<i>160</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-03-28 15:47</div>
+</div>
+</body>
+</html>
