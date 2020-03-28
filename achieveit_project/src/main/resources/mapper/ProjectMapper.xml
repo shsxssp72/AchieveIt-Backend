@@ -153,7 +153,7 @@
                 scheduled_end_time = #{scheduledEndTime,jdbcType=TIMESTAMP},
             </if>
             <if test="referredSuperiorId != null">
-                referred_superior_id = #{referredSuperiorId,jdbcType=CHAR}
+                referred_superior_id = #{referredSuperiorId,jdbcType=CHAR},
             </if>
             <if test="mileStone != null">
                 mile_stone = #{mileStone,jdbcType=VARCHAR},

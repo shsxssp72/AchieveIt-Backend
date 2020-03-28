@@ -1,0 +1,111 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: DependencyService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.april.achieveit_project.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: DependencyService (com.april.achieveit_project.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DependencyService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.april.achieveit_project.service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.april.achieveit_common.bean.ResponseContent;
+<i>4</i>&nbsp;import com.april.achieveit_project.client.DependencyServiceClient;
+<i>5</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>6</i>&nbsp;import org.springframework.stereotype.Service;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.util.Map;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;@Service
+<b class="fc"><i>11</i>&nbsp;public class DependencyService</b>
+<i>12</i>&nbsp;{
+<i>13</i>&nbsp;    @Autowired
+<i>14</i>&nbsp;    private DependencyServiceClient dependencyServiceClient;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    public String sendEmail(String topic,String receiver,String content)
+<i>17</i>&nbsp;    {
+<b class="fc"><i>18</i>&nbsp;        Map&lt;String,String&gt; params=Map.of(&quot;topic&quot;,</b>
+<i>19</i>&nbsp;                                         topic,
+<i>20</i>&nbsp;                                         &quot;receiver&quot;,
+<i>21</i>&nbsp;                                         receiver,
+<i>22</i>&nbsp;                                         &quot;content&quot;,
+<i>23</i>&nbsp;                                         content);
+<b class="fc"><i>24</i>&nbsp;        ResponseContent response=dependencyServiceClient.EmailService(params);</b>
+<i>25</i>&nbsp;
+<b class="fc"><i>26</i>&nbsp;        return response.getMessage();</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-03-28 15:47</div>
+</div>
+</body>
+</html>
