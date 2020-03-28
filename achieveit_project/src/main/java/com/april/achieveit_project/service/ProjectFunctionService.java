@@ -194,7 +194,7 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
         List<ProjectFunction> extractedFunctions=new LinkedList<>();
         Map<String,Long> submittedDisplayIdMap=new HashMap<String,Long>();
 
-        Map<String,ProjectFunction> toSetSuperiorFunctions=new HashMap<>();
+        Map<String,Set<ProjectFunction>> toSetSuperiorFunctions=new HashMap<>();
 
         for(Map<String,String> item: functions)
         {
@@ -226,15 +226,19 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
             }
             else
             {
-                toSetSuperiorFunctions.put(superiorFunctionId,
-                                           function);
+                toSetSuperiorFunctions.computeIfAbsent(superiorFunctionId,
+                                                       f->new HashSet<>());
+                toSetSuperiorFunctions.get(superiorFunctionId)
+                        .add(function);
             }
         }
-        for(Map.Entry<String,ProjectFunction> item: toSetSuperiorFunctions.entrySet())
+        for(var item: toSetSuperiorFunctions.entrySet())
         {
-            ProjectFunction function=item.getValue();
-            function.setSuperiorFunctionId(submittedDisplayIdMap.get(item.getKey()));
-            extractedFunctions.add(item.getValue());
+            for(ProjectFunction function: item.getValue())
+            {
+                function.setSuperiorFunctionId(submittedDisplayIdMap.get(item.getKey()));
+                extractedFunctions.add(function);
+            }
         }
         return extractedFunctions;
     }
