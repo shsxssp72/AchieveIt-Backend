@@ -57,7 +57,7 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
     private Long machineId;
     private SnowFlakeIdGenerator snowFlakeIdGenerator;
 
-    private static final String[] CsvHeaders={"function_id","superior_function_id","function_description"};
+    private static final String[] CsvHeaders={"id_for_display","superior_display_id","function_description"};
 
     @PostConstruct
     private void init()
@@ -175,9 +175,9 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
                             functions.add(new HashMap<>()
                             {{
                                 put("id_for_display",
-                                    i.get("function_id"));
-                                put("superior_function_id",
-                                    i.get("superior_function_id"));
+                                    i.get("id_for_display"));
+                                put("superior_display_id",
+                                    i.get("superior_display_id"));
                                 put("function_description",
                                     i.get("function_description"));
                             }});
@@ -199,7 +199,7 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
         for(Map<String,String> item: functions)
         {
             String idForDisplay=item.get("id_for_display");
-            String superiorFunctionId=item.get("superior_function_id");//DisplayId version
+            String superiorFunctionId=item.get("superior_display_id");//DisplayId version
             String functionDescription=item.get("function_description");
 
             ProjectFunction function=new ProjectFunction();
