@@ -51,7 +51,7 @@
     set permit_weight = #{weight,jdbcType=INTEGER}
     where referred_project_id=#{projectId,jdbcType=CHAR}
     and referred_user_id=#{userId,jdbcType=CHAR}
-    and permissionId=#{permissionId,jdbcType=BIGINT}
+    and referred_permission_id=#{permissionId,jdbcType=BIGINT}
   </update>
 
   <sql id="Base_Column_List">
