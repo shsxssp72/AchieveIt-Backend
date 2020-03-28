@@ -1,13 +1,21 @@
 package com.april.achieveit_project.service;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+@SpringBootTest
+class DependencyServiceTest
+{
 
-class DependencyServiceTest {
+    @Autowired
+    private DependencyService dependencyService;
 
     @Test
-    void sendEmail() {
-        //Nothing to Test
+    void sendEmail()
+    {
+        System.out.println(dependencyService.sendEmail("",
+                                                       "",
+                                                       ""));
     }
 }

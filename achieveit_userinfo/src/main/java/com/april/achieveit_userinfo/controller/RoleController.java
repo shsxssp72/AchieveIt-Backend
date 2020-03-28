@@ -69,8 +69,8 @@ public class RoleController implements RoleServiceApi
         if(projectId==null)
             result.setResult(authorizationService.GetUserRoleFromMultipleProject(userId));
         else
-            result.setResult(authorizationService.GetUserProjectRole(projectId,
-                                                                     userId));
+            result.setResult(List.of(authorizationService.GetUserProjectRole(projectId,
+                                                                     userId)));
 
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
