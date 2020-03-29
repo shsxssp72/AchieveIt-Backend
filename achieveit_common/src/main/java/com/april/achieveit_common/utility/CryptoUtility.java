@@ -25,6 +25,10 @@ public class CryptoUtility
     {
         return DigestUtils.sha3_512Hex(input+salt);
     }
+    public static String Md5Encoder(String input,String salt)
+    {
+        return DigestUtils.md5Hex(input+salt);
+    }
 
     public static String HashPassword(String password,String username,String salt)
     {

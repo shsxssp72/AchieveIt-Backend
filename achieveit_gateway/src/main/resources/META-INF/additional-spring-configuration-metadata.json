@@ -14,5 +14,15 @@
       "name": "local.shared-secret",
       "type": "java.lang.String",
       "description": "Description for local.shared-secret."
+    },
+    {
+      "name": "local.url-permission-variable-map-file",
+      "type": "java.lang.String",
+      "description": "Description for local.url-permission-variable-map-file."
+    },
+    {
+      "name": "local.url-permission-constant-map-file",
+      "type": "java.lang.String",
+      "description": "Description for local.url-permission-constant-map-file."
     }
   ] }

@@ -1,43 +1,26 @@
 package com.april.achieveit_project.entity;
 
-public class DeviceInfo {
-    private Integer deviceId;
+import com.april.achieveit_common.utility.JsonVisibilityLevel;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class DeviceInfo
+{
+    @JsonFormat(shape=JsonFormat.Shape.STRING)
+    @JsonProperty(value="device_id")
+    @JsonView(value=JsonVisibilityLevel.BasicViewLevel.class)
+    private Long deviceId;
+    @JsonProperty(value="device_name")
+    @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
     private String deviceName;
-
+    @JsonProperty(value="device_status")
+    @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
     private String deviceStatus;
-
-    public DeviceInfo(Integer deviceId, String deviceName, String deviceStatus) {
-        this.deviceId = deviceId;
-        this.deviceName = deviceName;
-        this.deviceStatus = deviceStatus;
-    }
-
-    public DeviceInfo() {
-        super();
-    }
-
-    public Integer getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(Integer deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public String getDeviceName() {
-        return deviceName;
-    }
-
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName == null ? null : deviceName.trim();
-    }
-
-    public String getDeviceStatus() {
-        return deviceStatus;
-    }
-
-    public void setDeviceStatus(String deviceStatus) {
-        this.deviceStatus = deviceStatus == null ? null : deviceStatus.trim();
-    }
 }

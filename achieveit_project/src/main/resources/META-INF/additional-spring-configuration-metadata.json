@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "snowflake.datacenter-id",
+      "type": "java.lang.String",
+      "description": "Description for snowflake.datacenter-id."
+    },
+    {
+      "name": "snowflake.machine-id",
+      "type": "java.lang.String",
+      "description": "Description for snowflake.machine-id."
+    },
+    {
+      "name": "local.cache-valid-time",
+      "type": "java.lang.String",
+      "description": "Description for local.cache-valid-time."
+    },
+    {
+      "name": "local.cache-concurrent-wait-time",
+      "type": "java.lang.String",
+      "description": "Description for local.cache-concurrent-wait-time."
+    }
+  ] }

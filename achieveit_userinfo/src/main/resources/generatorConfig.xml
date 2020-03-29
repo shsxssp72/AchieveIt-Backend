@@ -49,6 +49,9 @@
         <table tableName="ProjectRolePermissionRelation" domainObjectName="ProjectRolePermissionRelation" enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" enableUpdateByExample="false">
         </table>
+        <table tableName="ProjectUserPermissionRelation" domainObjectName="ProjectUserPermissionRelation" enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+        </table>
 
     </context>
 </generatorConfiguration>

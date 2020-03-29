@@ -1,0 +1,132 @@
+{
+  "/api/user/userProjectRole": {
+    "POST": {
+      "permission": "member_list_access",
+      "projectIdLocation": "body"
+    },
+    "PUT": {
+      "permission": "member_list_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/user/userProjectRole/batch": {
+    "POST": {
+      "permission": "member_list_access",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/user/projectMember": {
+    "POST": {
+      "permission": "member_list_access",
+      "projectIdLocation": "body"
+    },
+    "PUT": {
+      "permission": "member_list_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/user/globalRole": {
+    "POST": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/user/globalRole/self": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/user/permission": {
+    "POST": {
+      "permission": "member_list_access",
+      "projectIdLocation": "body"
+    },
+    "PUT": {
+      "permission": "member_list_modification",
+      "projectIdLocation": "body"
+    }
+  },
+  "/api/user/listProjectRole": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/user/listEditablePermission": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/setUp": {
+    "PUT": {
+      "permission": "project_info_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/search": {
+    "POST": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/listRelative": {
+    "POST": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/functionParse": {
+    "POST": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/function/newId": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/workingHour/activityType": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/workingHour/verify": {
+    "POST": {
+      "permission": "working_hour_verification",
+      "projectIdLocation": "body"
+    },
+    "PUT": {
+      "permission": "working_hour_verification",
+      "projectIdLocation": "body"
+    }
+  },
+  "/api/project/risk/riskType": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/device": {
+    "POST": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/device/tenancy": {
+    "PUT": {
+      "permission": "project_device_tenancy",
+      "projectIdLocation": "body"
+    }
+  },
+  "/api/project/device/check": {
+    "PUT": {
+      "permission": "project_device_check",
+      "projectIdLocation": "global"
+    }
+  }
+}

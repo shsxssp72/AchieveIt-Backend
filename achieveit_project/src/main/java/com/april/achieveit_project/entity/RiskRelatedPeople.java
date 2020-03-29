@@ -1,32 +1,17 @@
 package com.april.achieveit_project.entity;
 
-public class RiskRelatedPeople {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class RiskRelatedPeople
+{
+    @JsonProperty(value="referred_risk_id")
     private String referredRiskId;
-
+    @JsonProperty(value="referred_related_person_id")
     private String referredRelatedPersonId;
-
-    public RiskRelatedPeople(String referredRiskId, String referredRelatedPersonId) {
-        this.referredRiskId = referredRiskId;
-        this.referredRelatedPersonId = referredRelatedPersonId;
-    }
-
-    public RiskRelatedPeople() {
-        super();
-    }
-
-    public String getReferredRiskId() {
-        return referredRiskId;
-    }
-
-    public void setReferredRiskId(String referredRiskId) {
-        this.referredRiskId = referredRiskId == null ? null : referredRiskId.trim();
-    }
-
-    public String getReferredRelatedPersonId() {
-        return referredRelatedPersonId;
-    }
-
-    public void setReferredRelatedPersonId(String referredRelatedPersonId) {
-        this.referredRelatedPersonId = referredRelatedPersonId == null ? null : referredRelatedPersonId.trim();
-    }
 }

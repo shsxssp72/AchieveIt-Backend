@@ -3,9 +3,9 @@
 <mapper namespace="com.april.achieveit_project.mapper.DeviceTenancyMapper">
   <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.DeviceTenancy">
     <constructor>
-      <idArg column="tenancy_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="tenancy_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="referred_project_id" javaType="java.lang.String" jdbcType="CHAR" />
-      <arg column="referred_device_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="referred_device_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="tenancy_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="scheduled_return_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="referred_device_manager_id" javaType="java.lang.String" jdbcType="CHAR" />
@@ -15,21 +15,21 @@
     tenancy_id, referred_project_id, referred_device_id, tenancy_time, scheduled_return_time, 
     referred_device_manager_id
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from DeviceTenancy
-    where tenancy_id = #{tenancyId,jdbcType=INTEGER}
+    where tenancy_id = #{tenancyId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from DeviceTenancy
-    where tenancy_id = #{tenancyId,jdbcType=INTEGER}
+    where tenancy_id = #{tenancyId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.april.achieveit_project.entity.DeviceTenancy">
     insert into DeviceTenancy (tenancy_id, referred_project_id, referred_device_id, 
       tenancy_time, scheduled_return_time, referred_device_manager_id
       )
-    values (#{tenancyId,jdbcType=INTEGER}, #{referredProjectId,jdbcType=CHAR}, #{referredDeviceId,jdbcType=INTEGER}, 
+    values (#{tenancyId,jdbcType=BIGINT}, #{referredProjectId,jdbcType=CHAR}, #{referredDeviceId,jdbcType=BIGINT},
       #{tenancyTime,jdbcType=TIMESTAMP}, #{scheduledReturnTime,jdbcType=TIMESTAMP}, #{referredDeviceManagerId,jdbcType=CHAR}
       )
   </insert>
@@ -57,13 +57,13 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="tenancyId != null">
-        #{tenancyId,jdbcType=INTEGER},
+        #{tenancyId,jdbcType=BIGINT},
       </if>
       <if test="referredProjectId != null">
         #{referredProjectId,jdbcType=CHAR},
       </if>
       <if test="referredDeviceId != null">
-        #{referredDeviceId,jdbcType=INTEGER},
+        #{referredDeviceId,jdbcType=BIGINT},
       </if>
       <if test="tenancyTime != null">
         #{tenancyTime,jdbcType=TIMESTAMP},
@@ -83,7 +83,7 @@
         referred_project_id = #{referredProjectId,jdbcType=CHAR},
       </if>
       <if test="referredDeviceId != null">
-        referred_device_id = #{referredDeviceId,jdbcType=INTEGER},
+        referred_device_id = #{referredDeviceId,jdbcType=BIGINT},
       </if>
       <if test="tenancyTime != null">
         tenancy_time = #{tenancyTime,jdbcType=TIMESTAMP},
@@ -95,15 +95,15 @@
         referred_device_manager_id = #{referredDeviceManagerId,jdbcType=CHAR},
       </if>
     </set>
-    where tenancy_id = #{tenancyId,jdbcType=INTEGER}
+    where tenancy_id = #{tenancyId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.DeviceTenancy">
     update DeviceTenancy
     set referred_project_id = #{referredProjectId,jdbcType=CHAR},
-      referred_device_id = #{referredDeviceId,jdbcType=INTEGER},
+      referred_device_id = #{referredDeviceId,jdbcType=BIGINT},
       tenancy_time = #{tenancyTime,jdbcType=TIMESTAMP},
       scheduled_return_time = #{scheduledReturnTime,jdbcType=TIMESTAMP},
       referred_device_manager_id = #{referredDeviceManagerId,jdbcType=CHAR}
-    where tenancy_id = #{tenancyId,jdbcType=INTEGER}
+    where tenancy_id = #{tenancyId,jdbcType=BIGINT}
   </update>
 </mapper>

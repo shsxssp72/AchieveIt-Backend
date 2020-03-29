@@ -1,5 +1,6 @@
 server:
   port: 7801
+  address: 0.0.0.0
 spring:
   application:
     name: gateway

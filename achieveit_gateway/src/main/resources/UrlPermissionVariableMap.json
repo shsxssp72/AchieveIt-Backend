@@ -1,0 +1,104 @@
+{
+  "/api/project/detail/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "project_info_access",
+      "projectIdLocation": "url"
+    },
+    "PUT": {
+      "permission": "project_info_modification",
+      "projectIdLocation": "url"
+    }
+  },
+  "/api/project/memberConf/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "member_list_access",
+      "projectIdLocation": "url"
+    },
+    "PUT": {
+      "permission": "member_list_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/function/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "function_list_access",
+      "projectIdLocation": "url"
+    },
+    "PUT": {
+      "permission": "function_list_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/function/download/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "function_list_access",
+      "projectIdLocation": "url"
+    }
+  },
+  "/api/project/status/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "project_status_access",
+      "projectIdLocation": "url"
+    },
+    "PUT": {
+      "permission": "project_status_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/issue/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "issue_tracker_access",
+      "projectIdLocation": "url"
+    },
+    "PUT": {
+      "permission": "issue_tracker_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/workingHour/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "working_hour_access",
+      "projectIdLocation": "url"
+    },
+    "PUT": {
+      "permission": "working_hour_modification",
+      "projectIdLocation": "url"
+    }
+  },
+  "/api/project/workingHour/([A-Z0-9\\-]+)/[A-Z0-9]+": {
+    "GET": {
+      "permission": "working_hour_access",
+      "projectIdLocation": "url"
+    },
+    "PUT": {
+      "permission": "working_hour_modification",
+      "projectIdLocation": "url"
+    }
+  },
+  "/api/project/risk/([A-Z0-9\\-]+)": {
+    "GET": {
+      "permission": "risk_access",
+      "projectIdLocation": "url"
+    },
+    "PUT": {
+      "permission": "risk_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/risk/([A-Z0-9\\-]+)/[A-Z0-9]+": {
+    "PUT": {
+      "permission": "risk_modification",
+      "projectIdLocation": "global"
+    }
+  },
+  "/api/project/device/[A-Z0-9]+": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    },
+    "PUT": {
+      "permission": "project_device_modification",
+      "projectIdLocation": "body"
+    }
+  }
+}

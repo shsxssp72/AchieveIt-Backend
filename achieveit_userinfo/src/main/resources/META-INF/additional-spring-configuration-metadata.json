@@ -1,0 +1,28 @@
+{
+  "properties": [
+    {
+      "name": "local.server-identity",
+      "type": "java.lang.String",
+      "description": "Description for local.server-identity."
+    },
+    {
+      "name": "local.shared-secret",
+      "type": "java.lang.String",
+      "description": "Description for local.shared-secret."
+    },
+    {
+      "name": "local.user-related-concurrent-wait-period",
+      "type": "java.lang.String",
+      "description": "Description for local.user-related-concurrent-wait-period."
+    },
+    {
+      "name": "local.user-related-cache-valid-duration",
+      "type": "java.lang.String",
+      "description": "Description for local.user-related-cache-valid-duration."
+    },
+    {
+      "name": "local.default-jwt-expire-seconds",
+      "type": "java.lang.String",
+      "description": "Description for local.default-jwt-expire-seconds."
+    }
+  ] }

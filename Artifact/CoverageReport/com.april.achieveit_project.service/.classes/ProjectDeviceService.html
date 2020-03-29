@@ -1,0 +1,222 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ProjectDeviceService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.april.achieveit_project.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ProjectDeviceService (com.april.achieveit_project.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProjectDeviceService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.3%
+  </span>
+  <span class="absValue">
+    (52/ 54)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.april.achieveit_project.service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.april.achieveit_common.utility.RedisCacheUtility;
+<i>4</i>&nbsp;import com.april.achieveit_common.utility.SnowFlakeIdGenerator;
+<i>5</i>&nbsp;import com.april.achieveit_project.config.DeviceStateTransition;
+<i>6</i>&nbsp;import com.april.achieveit_project.entity.DeviceExamination;
+<i>7</i>&nbsp;import com.april.achieveit_project.entity.DeviceInfo;
+<i>8</i>&nbsp;import com.april.achieveit_project.entity.DeviceTenancy;
+<i>9</i>&nbsp;import com.april.achieveit_project.mapper.DeviceExaminationMapper;
+<i>10</i>&nbsp;import com.april.achieveit_project.mapper.DeviceInfoMapper;
+<i>11</i>&nbsp;import com.april.achieveit_project.mapper.DeviceTenancyMapper;
+<i>12</i>&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+<i>13</i>&nbsp;import com.github.pagehelper.PageHelper;
+<i>14</i>&nbsp;import org.slf4j.Logger;
+<i>15</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>16</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>17</i>&nbsp;import org.springframework.beans.factory.annotation.Value;
+<i>18</i>&nbsp;import org.springframework.data.redis.core.StringRedisTemplate;
+<i>19</i>&nbsp;import org.springframework.stereotype.Service;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;import javax.annotation.PostConstruct;
+<i>22</i>&nbsp;import java.lang.reflect.Method;
+<i>23</i>&nbsp;import java.util.List;
+<i>24</i>&nbsp;import java.util.concurrent.locks.ReentrantLock;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;@Service
+<b class="fc"><i>27</i>&nbsp;public class ProjectDeviceService extends RedisCacheUtility.AbstractRedisCacheService</b>
+<i>28</i>&nbsp;{
+<b class="fc"><i>29</i>&nbsp;    private static Logger logger=LoggerFactory.getLogger(ProjectDeviceService.class);</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    static
+<i>32</i>&nbsp;    {
+<b class="fc"><i>33</i>&nbsp;        for(Method method: ProjectDeviceService.class.getDeclaredMethods())</b>
+<i>34</i>&nbsp;        {
+<i>35</i>&nbsp;
+<b class="fc"><i>36</i>&nbsp;            reentrantLocks.computeIfAbsent(method.getName(),</b>
+<b class="fc"><i>37</i>&nbsp;                                           f-&gt;new ReentrantLock());</b>
+<i>38</i>&nbsp;        }
+<b class="fc"><i>39</i>&nbsp;    }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    @Autowired
+<i>42</i>&nbsp;    private StringRedisTemplate redisTemplate;
+<i>43</i>&nbsp;    @Autowired
+<i>44</i>&nbsp;    private ObjectMapper objectMapper;
+<i>45</i>&nbsp;    @Value(&quot;${local.cache-valid-time}&quot;)
+<i>46</i>&nbsp;    private Integer cacheValidTime;
+<i>47</i>&nbsp;    @Value(&quot;${local.cache-concurrent-wait-time}&quot;)
+<i>48</i>&nbsp;    private Integer cacheConcurrentWaitTime;
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    @Autowired
+<i>51</i>&nbsp;    DeviceInfoMapper deviceInfoMapper;
+<i>52</i>&nbsp;    @Autowired
+<i>53</i>&nbsp;    DeviceExaminationMapper deviceExaminationMapper;
+<i>54</i>&nbsp;    @Autowired
+<i>55</i>&nbsp;    DeviceTenancyMapper deviceTenancyMapper;
+<i>56</i>&nbsp;    @Value(&quot;${snowflake.datacenter-id}&quot;)
+<i>57</i>&nbsp;    private Long datacenterId;
+<i>58</i>&nbsp;    @Value(&quot;${snowflake.machine-id}&quot;)
+<i>59</i>&nbsp;    private Long machineId;
+<i>60</i>&nbsp;    private SnowFlakeIdGenerator snowFlakeIdGenerator;
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    @PostConstruct
+<i>63</i>&nbsp;    private void init()
+<i>64</i>&nbsp;    {
+<b class="fc"><i>65</i>&nbsp;        snowFlakeIdGenerator=new SnowFlakeIdGenerator(datacenterId,</b>
+<b class="fc"><i>66</i>&nbsp;                                                      machineId);</b>
+<b class="fc"><i>67</i>&nbsp;    }</b>
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    public List&lt;DeviceInfo&gt; ListAllDevices(int pageSize,int currentPage)
+<i>70</i>&nbsp;    {
+<b class="fc"><i>71</i>&nbsp;        String currentMethodName=Thread.currentThread()</b>
+<b class="fc"><i>72</i>&nbsp;                .getStackTrace()[1].getMethodName();</b>
+<b class="fc"><i>73</i>&nbsp;        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper&lt;List&lt;DeviceInfo&gt;&gt;(redisTemplate,</b>
+<i>74</i>&nbsp;                                                                                      objectMapper,
+<b class="fc"><i>75</i>&nbsp;                                                                                      reentrantLocks.get(currentMethodName),</b>
+<b class="fc"><i>76</i>&nbsp;                                                                                      cacheValidTime,</b>
+<b class="fc"><i>77</i>&nbsp;                                                                                      cacheConcurrentWaitTime);</b>
+<i>78</i>&nbsp;
+<b class="fc"><i>79</i>&nbsp;        String redisKey=currentMethodName+&quot;_&quot;+pageSize+&quot;_&quot;+currentPage;</b>
+<b class="fc"><i>80</i>&nbsp;        return redisCacheHelper.QueryUsingCache(redisKey,</b>
+<i>81</i>&nbsp;                                                ()-&gt;
+<i>82</i>&nbsp;                                                {
+<b class="fc"><i>83</i>&nbsp;                                                    PageHelper.startPage(currentPage,</b>
+<i>84</i>&nbsp;                                                                         pageSize);
+<b class="fc"><i>85</i>&nbsp;                                                    return deviceInfoMapper.selectAll();</b>
+<i>86</i>&nbsp;                                                });
+<i>87</i>&nbsp;    }
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    public DeviceInfo SelectDeviceInfoById(Long deviceId)
+<i>90</i>&nbsp;    {
+<b class="fc"><i>91</i>&nbsp;        String currentMethodName=Thread.currentThread()</b>
+<b class="fc"><i>92</i>&nbsp;                .getStackTrace()[1].getMethodName();</b>
+<b class="fc"><i>93</i>&nbsp;        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper&lt;DeviceInfo&gt;(redisTemplate,</b>
+<i>94</i>&nbsp;                                                                                objectMapper,
+<b class="fc"><i>95</i>&nbsp;                                                                                reentrantLocks.get(currentMethodName),</b>
+<b class="fc"><i>96</i>&nbsp;                                                                                cacheValidTime,</b>
+<b class="fc"><i>97</i>&nbsp;                                                                                cacheConcurrentWaitTime);</b>
+<i>98</i>&nbsp;
+<b class="fc"><i>99</i>&nbsp;        String redisKey=currentMethodName+&quot;_&quot;+deviceId;</b>
+<b class="fc"><i>100</i>&nbsp;        return redisCacheHelper.QueryUsingCache(redisKey,</b>
+<b class="fc"><i>101</i>&nbsp;                                                ()-&gt;deviceInfoMapper.selectByPrimaryKey(deviceId));</b>
+<i>102</i>&nbsp;    }
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    public void UpdateDeviceStatus(Long deviceId,String status)
+<i>105</i>&nbsp;    {
+<b class="fc"><i>106</i>&nbsp;        DeviceInfo deviceInfo=SelectDeviceInfoById(deviceId);</b>
+<b class="fc"><i>107</i>&nbsp;        String currentStatus=deviceInfo.getDeviceStatus();</b>
+<b class="fc"><i>108</i>&nbsp;        DeviceStateTransition transition=DeviceStateTransition.getInstance();</b>
+<b class="fc"><i>109</i>&nbsp;        if(!transition.isValidTransition(DeviceStateTransition.DeviceState.valueOf(currentStatus),</b>
+<b class="fc"><i>110</i>&nbsp;                                         DeviceStateTransition.DeviceState.valueOf(status)))</b>
+<b class="nc"><i>111</i>&nbsp;            throw new IllegalArgumentException(&quot;Invalid transition from: &quot;+currentStatus+&quot; to: &quot;+status);</b>
+<b class="fc"><i>112</i>&nbsp;        var toUpdateDevice=new DeviceInfo();</b>
+<b class="fc"><i>113</i>&nbsp;        toUpdateDevice.setDeviceId(deviceId);</b>
+<b class="fc"><i>114</i>&nbsp;        toUpdateDevice.setDeviceStatus(status);</b>
+<b class="fc"><i>115</i>&nbsp;        deviceInfoMapper.updateByPrimaryKeySelective(toUpdateDevice);</b>
+<b class="fc"><i>116</i>&nbsp;    }</b>
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    public void NewTenancy(DeviceTenancy tenancy)
+<i>119</i>&nbsp;    {
+<b class="fc"><i>120</i>&nbsp;        Long deviceId=tenancy.getReferredDeviceId();</b>
+<b class="fc"><i>121</i>&nbsp;        DeviceInfo deviceInfo=SelectDeviceInfoById(deviceId);</b>
+<b class="fc"><i>122</i>&nbsp;        if(!deviceInfo.getDeviceStatus()</b>
+<b class="fc"><i>123</i>&nbsp;                .equals(DeviceStateTransition.DeviceState.Available.name()))</b>
+<b class="nc"><i>124</i>&nbsp;            throw new IllegalArgumentException(&quot;Device not available&quot;);</b>
+<b class="fc"><i>125</i>&nbsp;        tenancy.setTenancyId(snowFlakeIdGenerator.getNextId());</b>
+<b class="fc"><i>126</i>&nbsp;        deviceTenancyMapper.insert(tenancy);</b>
+<i>127</i>&nbsp;
+<b class="fc"><i>128</i>&nbsp;        var toUpdateDevice=new DeviceInfo();</b>
+<b class="fc"><i>129</i>&nbsp;        toUpdateDevice.setDeviceId(deviceId);</b>
+<b class="fc"><i>130</i>&nbsp;        toUpdateDevice.setDeviceStatus(DeviceStateTransition.DeviceState.LentOut.name());</b>
+<b class="fc"><i>131</i>&nbsp;        deviceInfoMapper.updateByPrimaryKeySelective(toUpdateDevice);</b>
+<b class="fc"><i>132</i>&nbsp;    }</b>
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    public void CheckDevice(DeviceExamination deviceExamination)
+<i>135</i>&nbsp;    {
+<b class="fc"><i>136</i>&nbsp;        deviceExamination.setExaminationId(snowFlakeIdGenerator.getNextId());</b>
+<b class="fc"><i>137</i>&nbsp;        deviceExaminationMapper.insert(deviceExamination);</b>
+<b class="fc"><i>138</i>&nbsp;    }</b>
+<i>139</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-03-28 15:47</div>
+</div>
+</body>
+</html>

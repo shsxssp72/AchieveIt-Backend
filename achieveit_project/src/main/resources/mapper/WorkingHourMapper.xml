@@ -1,133 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.april.achieveit_project.mapper.WorkingHourMapper">
-  <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.WorkingHour">
-    <constructor>
-      <idArg column="working_hour_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="referred_user_id" javaType="java.lang.String" jdbcType="CHAR" />
-      <arg column="referred_project_id" javaType="java.lang.String" jdbcType="CHAR" />
-      <arg column="referred_activity_type_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="referred_function_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="start_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="verified" javaType="java.lang.Boolean" jdbcType="BIT" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
-    working_hour_id, referred_user_id, referred_project_id, referred_activity_type_id, 
+    <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.WorkingHour">
+        <constructor>
+            <idArg column="working_hour_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="function_description_snapshot" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="referred_user_id" javaType="java.lang.String" jdbcType="CHAR"/>
+            <arg column="referred_project_id" javaType="java.lang.String" jdbcType="CHAR"/>
+            <arg column="referred_activity_type_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="referred_function_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="start_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="end_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="verified" javaType="java.lang.Boolean" jdbcType="BIT"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+        working_hour_id, function_description_snapshot, referred_user_id, referred_project_id, referred_activity_type_id,
     referred_function_id, start_time, end_time, verified
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from WorkingHour
-    where working_hour_id = #{workingHourId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from WorkingHour
-    where working_hour_id = #{workingHourId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.april.achieveit_project.entity.WorkingHour">
-    insert into WorkingHour (working_hour_id, referred_user_id, referred_project_id, 
-      referred_activity_type_id, referred_function_id, 
-      start_time, end_time, verified
-      )
-    values (#{workingHourId,jdbcType=INTEGER}, #{referredUserId,jdbcType=CHAR}, #{referredProjectId,jdbcType=CHAR}, 
-      #{referredActivityTypeId,jdbcType=INTEGER}, #{referredFunctionId,jdbcType=INTEGER}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{verified,jdbcType=BIT}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.WorkingHour">
-    insert into WorkingHour
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="workingHourId != null">
-        working_hour_id,
-      </if>
-      <if test="referredUserId != null">
-        referred_user_id,
-      </if>
-      <if test="referredProjectId != null">
-        referred_project_id,
-      </if>
-      <if test="referredActivityTypeId != null">
-        referred_activity_type_id,
-      </if>
-      <if test="referredFunctionId != null">
-        referred_function_id,
-      </if>
-      <if test="startTime != null">
-        start_time,
-      </if>
-      <if test="endTime != null">
-        end_time,
-      </if>
-      <if test="verified != null">
-        verified,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="workingHourId != null">
-        #{workingHourId,jdbcType=INTEGER},
-      </if>
-      <if test="referredUserId != null">
-        #{referredUserId,jdbcType=CHAR},
-      </if>
-      <if test="referredProjectId != null">
-        #{referredProjectId,jdbcType=CHAR},
-      </if>
-      <if test="referredActivityTypeId != null">
-        #{referredActivityTypeId,jdbcType=INTEGER},
-      </if>
-      <if test="referredFunctionId != null">
-        #{referredFunctionId,jdbcType=INTEGER},
-      </if>
-      <if test="startTime != null">
-        #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null">
-        #{endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="verified != null">
-        #{verified,jdbcType=BIT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_project.entity.WorkingHour">
-    update WorkingHour
-    <set>
-      <if test="referredUserId != null">
-        referred_user_id = #{referredUserId,jdbcType=CHAR},
-      </if>
-      <if test="referredProjectId != null">
-        referred_project_id = #{referredProjectId,jdbcType=CHAR},
-      </if>
-      <if test="referredActivityTypeId != null">
-        referred_activity_type_id = #{referredActivityTypeId,jdbcType=INTEGER},
-      </if>
-      <if test="referredFunctionId != null">
-        referred_function_id = #{referredFunctionId,jdbcType=INTEGER},
-      </if>
-      <if test="startTime != null">
-        start_time = #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null">
-        end_time = #{endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="verified != null">
-        verified = #{verified,jdbcType=BIT},
-      </if>
-    </set>
-    where working_hour_id = #{workingHourId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.WorkingHour">
-    update WorkingHour
-    set referred_user_id = #{referredUserId,jdbcType=CHAR},
-      referred_project_id = #{referredProjectId,jdbcType=CHAR},
-      referred_activity_type_id = #{referredActivityTypeId,jdbcType=INTEGER},
-      referred_function_id = #{referredFunctionId,jdbcType=INTEGER},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      verified = #{verified,jdbcType=BIT}
-    where working_hour_id = #{workingHourId,jdbcType=INTEGER}
-  </update>
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from WorkingHour
+        where working_hour_id = #{workingHourId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByProjectIdAndUserIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from WorkingHour
+        where 1=1
+        <if test="projectId != null">
+            and referred_project_id = #{projectId,jdbcType=CHAR}
+        </if>
+        <if test="userId != null">
+            and referred_user_id in
+            <foreach collection="userId" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE
+        FROM WorkingHour
+        WHERE working_hour_id = #{workingHourId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.april.achieveit_project.entity.WorkingHour">
+        INSERT INTO WorkingHour (working_hour_id, function_description_snapshot, referred_user_id, referred_project_id,
+                                 referred_activity_type_id, referred_function_id,
+                                 start_time, end_time, verified)
+        VALUES (#{workingHourId,jdbcType=BIGINT}, #{functionDescriptionSnapshot,jdbcType=VARCHAR},
+                #{referredUserId,jdbcType=CHAR}, #{referredProjectId,jdbcType=CHAR},
+                #{referredActivityTypeId,jdbcType=BIGINT}, #{referredFunctionId,jdbcType=BIGINT},
+                #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{verified,jdbcType=BIT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.WorkingHour">
+        insert into WorkingHour
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="workingHourId != null">
+                working_hour_id,
+            </if>
+            <if test="functionDescriptionSnapshot != null">
+                function_description_snapshot,
+            </if>
+            <if test="referredUserId != null">
+                referred_user_id,
+            </if>
+            <if test="referredProjectId != null">
+                referred_project_id,
+            </if>
+            <if test="referredActivityTypeId != null">
+                referred_activity_type_id,
+            </if>
+            <if test="referredFunctionId != null">
+                referred_function_id,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="verified != null">
+                verified,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="workingHourId != null">
+                #{workingHourId,jdbcType=BIGINT},
+            </if>
+            <if test="functionDescriptionSnapshot != null">
+                #{functionDescriptionSnapshot,jdbcType=VARCHAR},
+            </if>
+            <if test="referredUserId != null">
+                #{referredUserId,jdbcType=CHAR},
+            </if>
+            <if test="referredProjectId != null">
+                #{referredProjectId,jdbcType=CHAR},
+            </if>
+            <if test="referredActivityTypeId != null">
+                #{referredActivityTypeId,jdbcType=BIGINT},
+            </if>
+            <if test="referredFunctionId != null">
+                #{referredFunctionId,jdbcType=BIGINT},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="verified != null">
+                #{verified,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_project.entity.WorkingHour">
+        update WorkingHour
+        <set>
+            <if test="functionDescriptionSnapshot != null">
+                function_description_snapshot = #{functionDescriptionSnapshot,jdbcType=VARCHAR},
+            </if>
+            <if test="referredUserId != null">
+                referred_user_id = #{referredUserId,jdbcType=CHAR},
+            </if>
+            <if test="referredProjectId != null">
+                referred_project_id = #{referredProjectId,jdbcType=CHAR},
+            </if>
+            <if test="referredActivityTypeId != null">
+                referred_activity_type_id = #{referredActivityTypeId,jdbcType=BIGINT},
+            </if>
+            <if test="referredFunctionId != null">
+                referred_function_id = #{referredFunctionId,jdbcType=BIGINT},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="verified != null">
+                verified = #{verified,jdbcType=BIT},
+            </if>
+        </set>
+        where working_hour_id = #{workingHourId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.WorkingHour">
+        UPDATE WorkingHour
+        SET function_description_snapshot = #{functionDescriptionSnapshot,jdbcType=VARCHAR},
+            referred_user_id              = #{referredUserId,jdbcType=CHAR},
+            referred_project_id           = #{referredProjectId,jdbcType=CHAR},
+            referred_activity_type_id     = #{referredActivityTypeId,jdbcType=BIGINT},
+            referred_function_id          = #{referredFunctionId,jdbcType=BIGINT},
+            start_time                    = #{startTime,jdbcType=TIMESTAMP},
+            end_time                      = #{endTime,jdbcType=TIMESTAMP},
+            verified                      = #{verified,jdbcType=BIT}
+        WHERE working_hour_id = #{workingHourId,jdbcType=BIGINT}
+    </update>
 </mapper>

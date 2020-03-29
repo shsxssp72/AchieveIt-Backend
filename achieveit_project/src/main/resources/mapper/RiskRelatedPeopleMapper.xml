@@ -7,6 +7,9 @@
       <arg column="referred_related_person_id" javaType="java.lang.String" jdbcType="CHAR" />
     </constructor>
   </resultMap>
+  <sql id="Base_Column_List">
+    referred_risk_id,referred_related_person_id
+  </sql>
   <insert id="insert" parameterType="com.april.achieveit_project.entity.RiskRelatedPeople">
     insert into RiskRelatedPeople (referred_risk_id, referred_related_person_id
       )
@@ -32,4 +35,15 @@
       </if>
     </trim>
   </insert>
+  <delete id="deleteByRiskId">
+    delete
+    from RiskRelatedPeople
+    where referred_risk_id =#{riskId,jdbcType=CHAR}
+  </delete>
+  <select id="selectByRiskId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from RiskRelatedPeople
+    where referred_risk_id =#{riskId,jdbcType=CHAR}
+  </select>
 </mapper>

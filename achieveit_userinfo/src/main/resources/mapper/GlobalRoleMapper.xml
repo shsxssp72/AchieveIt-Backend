@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.april.achieveit_userinfo.mapper.GlobalRoleMapper">
-  <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo.entity.GlobalRole">
+  <resultMap id="BaseResultMap" type="com.april.achieveit_userinfo_interface.entity.GlobalRole">
     <constructor>
-      <idArg column="global_role_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="global_role_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="global_role_name" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
     global_role_id, global_role_name
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from GlobalRole
-    where global_role_id = #{globalRoleId,jdbcType=INTEGER}
+    where global_role_id = #{globalRoleId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from GlobalRole
-    where global_role_id = #{globalRoleId,jdbcType=INTEGER}
+    where global_role_id = #{globalRoleId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.april.achieveit_userinfo.entity.GlobalRole">
+  <insert id="insert" parameterType="com.april.achieveit_userinfo_interface.entity.GlobalRole">
     insert into GlobalRole (global_role_id, global_role_name)
-    values (#{globalRoleId,jdbcType=INTEGER}, #{globalRoleName,jdbcType=VARCHAR})
+    values (#{globalRoleId,jdbcType=BIGINT}, #{globalRoleName,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.april.achieveit_userinfo.entity.GlobalRole">
+  <insert id="insertSelective" parameterType="com.april.achieveit_userinfo_interface.entity.GlobalRole">
     insert into GlobalRole
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="globalRoleId != null">
@@ -36,25 +36,25 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="globalRoleId != null">
-        #{globalRoleId,jdbcType=INTEGER},
+        #{globalRoleId,jdbcType=BIGINT},
       </if>
       <if test="globalRoleName != null">
         #{globalRoleName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_userinfo.entity.GlobalRole">
+  <update id="updateByPrimaryKeySelective" parameterType="com.april.achieveit_userinfo_interface.entity.GlobalRole">
     update GlobalRole
     <set>
       <if test="globalRoleName != null">
         global_role_name = #{globalRoleName,jdbcType=VARCHAR},
       </if>
     </set>
-    where global_role_id = #{globalRoleId,jdbcType=INTEGER}
+    where global_role_id = #{globalRoleId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_userinfo.entity.GlobalRole">
+  <update id="updateByPrimaryKey" parameterType="com.april.achieveit_userinfo_interface.entity.GlobalRole">
     update GlobalRole
     set global_role_name = #{globalRoleName,jdbcType=VARCHAR}
-    where global_role_id = #{globalRoleId,jdbcType=INTEGER}
+    where global_role_id = #{globalRoleId,jdbcType=BIGINT}
   </update>
 </mapper>

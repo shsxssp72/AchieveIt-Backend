@@ -1,120 +1,31 @@
 package com.april.achieveit_project.entity;
 
-public class Risk {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Risk
+{
+    @JsonProperty(value="risk_id")
     private String riskId;
-
+    @JsonProperty(value="referred_project_id")
     private String referredProjectId;
-
+    @JsonProperty(value="risk_type")
     private String riskType;
-
+    @JsonProperty(value="risk_description")
     private String riskDescription;
-
+    @JsonProperty(value="risk_level")
     private String riskLevel;
-
+    @JsonProperty(value="risk_impact")
     private String riskImpact;
-
+    @JsonProperty(value="risk_countermeasure")
     private String riskCountermeasure;
-
+    @JsonProperty(value="risk_status")
     private String riskStatus;
-
-    private String referredRiskResponsiblePersonId;
-
+    @JsonProperty(value="risk_track_frequency")
     private String riskTrackFrequency;
-
-    public Risk(String riskId, String referredProjectId, String riskType, String riskDescription, String riskLevel, String riskImpact, String riskCountermeasure, String riskStatus, String referredRiskResponsiblePersonId, String riskTrackFrequency) {
-        this.riskId = riskId;
-        this.referredProjectId = referredProjectId;
-        this.riskType = riskType;
-        this.riskDescription = riskDescription;
-        this.riskLevel = riskLevel;
-        this.riskImpact = riskImpact;
-        this.riskCountermeasure = riskCountermeasure;
-        this.riskStatus = riskStatus;
-        this.referredRiskResponsiblePersonId = referredRiskResponsiblePersonId;
-        this.riskTrackFrequency = riskTrackFrequency;
-    }
-
-    public Risk() {
-        super();
-    }
-
-    public String getRiskId() {
-        return riskId;
-    }
-
-    public void setRiskId(String riskId) {
-        this.riskId = riskId == null ? null : riskId.trim();
-    }
-
-    public String getReferredProjectId() {
-        return referredProjectId;
-    }
-
-    public void setReferredProjectId(String referredProjectId) {
-        this.referredProjectId = referredProjectId == null ? null : referredProjectId.trim();
-    }
-
-    public String getRiskType() {
-        return riskType;
-    }
-
-    public void setRiskType(String riskType) {
-        this.riskType = riskType == null ? null : riskType.trim();
-    }
-
-    public String getRiskDescription() {
-        return riskDescription;
-    }
-
-    public void setRiskDescription(String riskDescription) {
-        this.riskDescription = riskDescription == null ? null : riskDescription.trim();
-    }
-
-    public String getRiskLevel() {
-        return riskLevel;
-    }
-
-    public void setRiskLevel(String riskLevel) {
-        this.riskLevel = riskLevel == null ? null : riskLevel.trim();
-    }
-
-    public String getRiskImpact() {
-        return riskImpact;
-    }
-
-    public void setRiskImpact(String riskImpact) {
-        this.riskImpact = riskImpact == null ? null : riskImpact.trim();
-    }
-
-    public String getRiskCountermeasure() {
-        return riskCountermeasure;
-    }
-
-    public void setRiskCountermeasure(String riskCountermeasure) {
-        this.riskCountermeasure = riskCountermeasure == null ? null : riskCountermeasure.trim();
-    }
-
-    public String getRiskStatus() {
-        return riskStatus;
-    }
-
-    public void setRiskStatus(String riskStatus) {
-        this.riskStatus = riskStatus == null ? null : riskStatus.trim();
-    }
-
-    public String getReferredRiskResponsiblePersonId() {
-        return referredRiskResponsiblePersonId;
-    }
-
-    public void setReferredRiskResponsiblePersonId(String referredRiskResponsiblePersonId) {
-        this.referredRiskResponsiblePersonId = referredRiskResponsiblePersonId == null ? null : referredRiskResponsiblePersonId.trim();
-    }
-
-    public String getRiskTrackFrequency() {
-        return riskTrackFrequency;
-    }
-
-    public void setRiskTrackFrequency(String riskTrackFrequency) {
-        this.riskTrackFrequency = riskTrackFrequency == null ? null : riskTrackFrequency.trim();
-    }
 }

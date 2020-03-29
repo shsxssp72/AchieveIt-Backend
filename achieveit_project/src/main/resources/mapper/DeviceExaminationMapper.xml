@@ -3,8 +3,8 @@
 <mapper namespace="com.april.achieveit_project.mapper.DeviceExaminationMapper">
   <resultMap id="BaseResultMap" type="com.april.achieveit_project.entity.DeviceExamination">
     <constructor>
-      <idArg column="examination_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="referred_device_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="examination_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="referred_device_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="examination_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="referred_tester_id" javaType="java.lang.String" jdbcType="CHAR" />
       <arg column="test_result" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -13,21 +13,21 @@
   <sql id="Base_Column_List">
     examination_id, referred_device_id, examination_time, referred_tester_id, test_result
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from DeviceExamination
-    where examination_id = #{examinationId,jdbcType=INTEGER}
+    where examination_id = #{examinationId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from DeviceExamination
-    where examination_id = #{examinationId,jdbcType=INTEGER}
+    where examination_id = #{examinationId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.april.achieveit_project.entity.DeviceExamination">
     insert into DeviceExamination (examination_id, referred_device_id, 
       examination_time, referred_tester_id, test_result
       )
-    values (#{examinationId,jdbcType=INTEGER}, #{referredDeviceId,jdbcType=INTEGER}, 
+    values (#{examinationId,jdbcType=BIGINT}, #{referredDeviceId,jdbcType=BIGINT},
       #{examinationTime,jdbcType=TIMESTAMP}, #{referredTesterId,jdbcType=CHAR}, #{testResult,jdbcType=VARCHAR}
       )
   </insert>
@@ -52,10 +52,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="examinationId != null">
-        #{examinationId,jdbcType=INTEGER},
+        #{examinationId,jdbcType=BIGINT},
       </if>
       <if test="referredDeviceId != null">
-        #{referredDeviceId,jdbcType=INTEGER},
+        #{referredDeviceId,jdbcType=BIGINT},
       </if>
       <if test="examinationTime != null">
         #{examinationTime,jdbcType=TIMESTAMP},
@@ -72,7 +72,7 @@
     update DeviceExamination
     <set>
       <if test="referredDeviceId != null">
-        referred_device_id = #{referredDeviceId,jdbcType=INTEGER},
+        referred_device_id = #{referredDeviceId,jdbcType=BIGINT},
       </if>
       <if test="examinationTime != null">
         examination_time = #{examinationTime,jdbcType=TIMESTAMP},
@@ -84,14 +84,14 @@
         test_result = #{testResult,jdbcType=VARCHAR},
       </if>
     </set>
-    where examination_id = #{examinationId,jdbcType=INTEGER}
+    where examination_id = #{examinationId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.april.achieveit_project.entity.DeviceExamination">
     update DeviceExamination
-    set referred_device_id = #{referredDeviceId,jdbcType=INTEGER},
+    set referred_device_id = #{referredDeviceId,jdbcType=BIGINT},
       examination_time = #{examinationTime,jdbcType=TIMESTAMP},
       referred_tester_id = #{referredTesterId,jdbcType=CHAR},
       test_result = #{testResult,jdbcType=VARCHAR}
-    where examination_id = #{examinationId,jdbcType=INTEGER}
+    where examination_id = #{examinationId,jdbcType=BIGINT}
   </update>
 </mapper>

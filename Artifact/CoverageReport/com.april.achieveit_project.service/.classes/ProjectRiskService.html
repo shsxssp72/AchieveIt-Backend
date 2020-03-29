@@ -1,0 +1,253 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ProjectRiskService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.april.achieveit_project.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ProjectRiskService (com.april.achieveit_project.service)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProjectRiskService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.4%
+  </span>
+  <span class="absValue">
+    (54/ 56)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ProjectRiskService$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.5%
+  </span>
+  <span class="absValue">
+    (55/ 57)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.april.achieveit_project.service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.april.achieveit_common.utility.RedisCacheUtility;
+<i>4</i>&nbsp;import com.april.achieveit_project.entity.Risk;
+<i>5</i>&nbsp;import com.april.achieveit_project.entity.RiskRelatedPeople;
+<i>6</i>&nbsp;import com.april.achieveit_project.mapper.RiskMapper;
+<i>7</i>&nbsp;import com.april.achieveit_project.mapper.RiskRelatedPeopleMapper;
+<i>8</i>&nbsp;import com.fasterxml.jackson.core.type.TypeReference;
+<i>9</i>&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+<i>10</i>&nbsp;import lombok.SneakyThrows;
+<i>11</i>&nbsp;import org.apache.commons.lang3.RandomUtils;
+<i>12</i>&nbsp;import org.slf4j.Logger;
+<i>13</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>14</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>15</i>&nbsp;import org.springframework.beans.factory.annotation.Value;
+<i>16</i>&nbsp;import org.springframework.data.redis.core.StringRedisTemplate;
+<i>17</i>&nbsp;import org.springframework.stereotype.Service;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;import java.lang.reflect.Method;
+<i>20</i>&nbsp;import java.text.SimpleDateFormat;
+<i>21</i>&nbsp;import java.util.ArrayList;
+<i>22</i>&nbsp;import java.util.Date;
+<i>23</i>&nbsp;import java.util.List;
+<i>24</i>&nbsp;import java.util.Map;
+<i>25</i>&nbsp;import java.util.concurrent.locks.ReentrantLock;
+<i>26</i>&nbsp;import java.util.stream.Collectors;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;@Service
+<b class="fc"><i>29</i>&nbsp;public class ProjectRiskService extends RedisCacheUtility.AbstractRedisCacheService</b>
+<i>30</i>&nbsp;{
+<b class="fc"><i>31</i>&nbsp;    private static Logger logger=LoggerFactory.getLogger(ProjectRiskService.class);</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    static
+<i>34</i>&nbsp;    {
+<b class="fc"><i>35</i>&nbsp;        for(Method method: ProjectRiskService.class.getDeclaredMethods())</b>
+<i>36</i>&nbsp;        {
+<i>37</i>&nbsp;
+<b class="fc"><i>38</i>&nbsp;            reentrantLocks.computeIfAbsent(method.getName(),</b>
+<b class="fc"><i>39</i>&nbsp;                                           f-&gt;new ReentrantLock());</b>
+<i>40</i>&nbsp;        }
+<b class="fc"><i>41</i>&nbsp;    }</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    @Autowired
+<i>44</i>&nbsp;    private StringRedisTemplate redisTemplate;
+<i>45</i>&nbsp;    @Autowired
+<i>46</i>&nbsp;    private ObjectMapper objectMapper;
+<i>47</i>&nbsp;    @Value(&quot;${local.cache-valid-time}&quot;)
+<i>48</i>&nbsp;    private Integer cacheValidTime;
+<i>49</i>&nbsp;    @Value(&quot;${local.cache-concurrent-wait-time}&quot;)
+<i>50</i>&nbsp;    private Integer cacheConcurrentWaitTime;
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    @Autowired
+<i>53</i>&nbsp;    private RiskMapper riskMapper;
+<i>54</i>&nbsp;    @Autowired
+<i>55</i>&nbsp;    private RiskRelatedPeopleMapper riskRelatedPeopleMapper;
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    private List&lt;Risk&gt; selectRiskByProjectId(String projectId)
+<i>59</i>&nbsp;    {
+<b class="fc"><i>60</i>&nbsp;        String currentMethodName=Thread.currentThread()</b>
+<b class="fc"><i>61</i>&nbsp;                .getStackTrace()[1].getMethodName();</b>
+<b class="fc"><i>62</i>&nbsp;        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper&lt;List&lt;Risk&gt;&gt;(redisTemplate,</b>
+<i>63</i>&nbsp;                                                                                objectMapper,
+<b class="fc"><i>64</i>&nbsp;                                                                                reentrantLocks.get(currentMethodName),</b>
+<b class="fc"><i>65</i>&nbsp;                                                                                cacheValidTime,</b>
+<b class="fc"><i>66</i>&nbsp;                                                                                cacheConcurrentWaitTime);</b>
+<i>67</i>&nbsp;
+<b class="fc"><i>68</i>&nbsp;        String redisKey=currentMethodName+&quot;_&quot;+projectId;</b>
+<b class="fc"><i>69</i>&nbsp;        return redisCacheHelper.QueryUsingCache(redisKey,</b>
+<b class="fc"><i>70</i>&nbsp;                                                ()-&gt;riskMapper.selectByProjectId(projectId));</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    }
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    private List&lt;RiskRelatedPeople&gt; selectRiskRelatedPeopleByRiskId(String riskId)
+<i>75</i>&nbsp;    {
+<b class="fc"><i>76</i>&nbsp;        String currentMethodName=Thread.currentThread()</b>
+<b class="fc"><i>77</i>&nbsp;                .getStackTrace()[1].getMethodName();</b>
+<b class="fc"><i>78</i>&nbsp;        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper&lt;List&lt;RiskRelatedPeople&gt;&gt;(redisTemplate,</b>
+<i>79</i>&nbsp;                                                                                             objectMapper,
+<b class="fc"><i>80</i>&nbsp;                                                                                             reentrantLocks.get(currentMethodName),</b>
+<b class="fc"><i>81</i>&nbsp;                                                                                             cacheValidTime,</b>
+<b class="fc"><i>82</i>&nbsp;                                                                                             cacheConcurrentWaitTime);</b>
+<i>83</i>&nbsp;
+<b class="fc"><i>84</i>&nbsp;        String redisKey=currentMethodName+&quot;_&quot;+riskId;</b>
+<b class="fc"><i>85</i>&nbsp;        return redisCacheHelper.QueryUsingCache(redisKey,</b>
+<b class="fc"><i>86</i>&nbsp;                                                ()-&gt;riskRelatedPeopleMapper.selectByRiskId(riskId));</b>
+<i>87</i>&nbsp;    }
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    private static String generateNewRiskId()
+<i>90</i>&nbsp;    {
+<b class="fc"><i>91</i>&nbsp;        SimpleDateFormat simpleDateFormat=new SimpleDateFormat(&quot;yyyyMMdd-&quot;);</b>
+<b class="fc"><i>92</i>&nbsp;        return &quot;RS-&quot;+simpleDateFormat.format(new Date())+Integer.parseInt(new SimpleDateFormat(&quot;HH&quot;).format(new Date()))%10+RandomUtils.nextInt(0,</b>
+<b class="fc"><i>93</i>&nbsp;                                                                                                                                                100)+new Date().getTime()%10;</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    public void NewRisk(Risk risk,List&lt;String&gt; relatedPerson)
+<i>97</i>&nbsp;    {
+<b class="fc"><i>98</i>&nbsp;        String newId=generateNewRiskId();</b>
+<b class="fc"><i>99</i>&nbsp;        for(;riskMapper.selectByPrimaryKey(newId)!=null;)</b>
+<b class="nc"><i>100</i>&nbsp;            newId=generateNewRiskId();</b>
+<b class="fc"><i>101</i>&nbsp;        risk.setRiskId(newId);</b>
+<i>102</i>&nbsp;
+<b class="fc"><i>103</i>&nbsp;        for(String personId: relatedPerson)</b>
+<i>104</i>&nbsp;        {
+<b class="fc"><i>105</i>&nbsp;            riskRelatedPeopleMapper.insert(new RiskRelatedPeople(newId,</b>
+<i>106</i>&nbsp;                                                                 personId));
+<b class="fc"><i>107</i>&nbsp;        }</b>
+<b class="fc"><i>108</i>&nbsp;        riskMapper.insert(risk);</b>
+<b class="fc"><i>109</i>&nbsp;    }</b>
+<i>110</i>&nbsp;
+<b class="nc"><i>111</i>&nbsp;    @SneakyThrows</b>
+<i>112</i>&nbsp;    public List&lt;String&gt; GetRisk(String projectId)
+<i>113</i>&nbsp;    {
+<b class="fc"><i>114</i>&nbsp;        List&lt;String&gt; result=new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>115</i>&nbsp;        List&lt;Risk&gt; risks=selectRiskByProjectId(projectId);</b>
+<b class="fc"><i>116</i>&nbsp;        for(Risk risk: risks)</b>
+<i>117</i>&nbsp;        {
+<b class="fc"><i>118</i>&nbsp;            List&lt;RiskRelatedPeople&gt; riskRelatedPeople=selectRiskRelatedPeopleByRiskId(risk.getRiskId());</b>
+<b class="fc"><i>119</i>&nbsp;            List&lt;String&gt; people=riskRelatedPeople.stream()</b>
+<b class="fc"><i>120</i>&nbsp;                    .map(RiskRelatedPeople::getReferredRelatedPersonId)</b>
+<b class="fc"><i>121</i>&nbsp;                    .collect(Collectors.toList());</b>
+<b class="fc"><i>122</i>&nbsp;            var riskMap=objectMapper.convertValue(risk,</b>
+<i>123</i>&nbsp;                                                  new TypeReference&lt;Map&lt;String,String&gt;&gt;()
+<b class="fc"><i>124</i>&nbsp;                                                  {</b>
+<i>125</i>&nbsp;                                                  });
+<b class="fc"><i>126</i>&nbsp;            riskMap.put(&quot;risk_responsible_person&quot;,</b>
+<b class="fc"><i>127</i>&nbsp;                        objectMapper.writeValueAsString(people));</b>
+<b class="fc"><i>128</i>&nbsp;            result.add(objectMapper.writeValueAsString(riskMap));</b>
+<b class="fc"><i>129</i>&nbsp;        }</b>
+<b class="fc"><i>130</i>&nbsp;        return result;</b>
+<i>131</i>&nbsp;    }
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;    public void UpdateRisk(Risk risk,List&lt;String&gt; relatedPerson)
+<i>134</i>&nbsp;    {
+<b class="fc"><i>135</i>&nbsp;        riskRelatedPeopleMapper.deleteByRiskId(risk.getRiskId());</b>
+<b class="fc"><i>136</i>&nbsp;        for(String personId: relatedPerson)</b>
+<i>137</i>&nbsp;        {
+<b class="fc"><i>138</i>&nbsp;            riskRelatedPeopleMapper.insert(new RiskRelatedPeople(risk.getRiskId(),</b>
+<i>139</i>&nbsp;                                                                 personId));
+<b class="fc"><i>140</i>&nbsp;        }</b>
+<b class="fc"><i>141</i>&nbsp;        riskMapper.updateByPrimaryKeySelective(risk);</b>
+<b class="fc"><i>142</i>&nbsp;    }</b>
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-03-28 15:47</div>
+</div>
+</body>
+</html>
