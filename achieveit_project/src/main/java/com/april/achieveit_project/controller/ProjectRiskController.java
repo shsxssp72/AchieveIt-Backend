@@ -83,7 +83,7 @@ public class ProjectRiskController
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
-        List<String> queryResult=projectRiskService.GetRisk(projectId);
+        List<Map<String,Object>> queryResult=projectRiskService.GetRisk(projectId);
 
         result.setResult(queryResult);
 
