@@ -90,5 +90,15 @@
       "permission": "risk_modification",
       "projectIdLocation": "global"
     }
+  },
+  "/api/project/device/[A-Z0-9]+": {
+    "GET": {
+      "permission": "",
+      "projectIdLocation": "global"
+    },
+    "PUT": {
+      "permission": "project_device_modification",
+      "projectIdLocation": "body"
+    }
   }
 }
