@@ -117,16 +117,6 @@
       "projectIdLocation": "global"
     }
   },
-  "/api/project/device/${device_id}": {
-    "GET": {
-      "permission": "",
-      "projectIdLocation": "global"
-    },
-    "PUT": {
-      "permission": "project_device_modification",
-      "projectIdLocation": "body"
-    }
-  },
   "/api/project/device/tenancy": {
     "PUT": {
       "permission": "project_device_tenancy",

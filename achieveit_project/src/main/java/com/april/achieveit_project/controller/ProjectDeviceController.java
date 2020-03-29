@@ -23,7 +23,7 @@ public class ProjectDeviceController
     @Autowired
     private ProjectDeviceService projectDeviceService;
 
-    @PostMapping(path="/")
+    @PostMapping(path="")
     @JsonView(value=JsonVisibilityLevel.BasicViewLevel.class)
     public ResponseContent GetDevices(@RequestBody Map<String,String> params)
     {

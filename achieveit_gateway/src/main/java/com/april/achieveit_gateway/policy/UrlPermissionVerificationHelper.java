@@ -56,6 +56,7 @@ public class UrlPermissionVerificationHelper
     private static Set<String> bodyProjectIdLocation=Set.of("project_id",
                                                             "referred_project_id");
     private static String urlProjectIdAnchor="([A-Z0-9\\-]+)";
+    private static String fallbackAnchor="[A-Z0-9]+";
 
     @Autowired
     ObjectMapper objectMapper;
@@ -81,10 +82,18 @@ public class UrlPermissionVerificationHelper
             variableUrlPattern.put(entry.getKey(),
                                    Pattern.compile(entry.getKey()));
 
-            var prefixKey=entry.getKey()
-                    .substring(0,
-                               entry.getKey()
-                                       .indexOf(urlProjectIdAnchor));
+            String prefixKey;
+            if(entry.getKey()
+                    .contains(urlProjectIdAnchor))
+                prefixKey=entry.getKey()
+                        .substring(0,
+                                   entry.getKey()
+                                           .indexOf(urlProjectIdAnchor));
+            else
+                prefixKey=entry.getKey()
+                        .substring(0,
+                                   entry.getKey()
+                                           .indexOf(fallbackAnchor));
             variableUrlPermissionMap.computeIfAbsent(prefixKey,
                                                      k->new TreeMap<>());
             variableUrlPermissionMap.get(prefixKey)
@@ -233,10 +242,10 @@ public class UrlPermissionVerificationHelper
         public String ParseProjectId(String requestPath,String requestMethod,String requestBody)
         {
             Map<String,String> bodyMap=objectMapper.readValue(requestBody,
-                                                                      new TypeReference<Map<String,String>>()
-                                                                      {
-                                                                      });
-            for(String item:bodyProjectIdLocation)
+                                                              new TypeReference<Map<String,String>>()
+                                                              {
+                                                              });
+            for(String item: bodyProjectIdLocation)
             {
                 if(bodyMap.containsKey(item))
                     return bodyMap.get(item);
