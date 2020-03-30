@@ -87,6 +87,13 @@ public class AuthenticationService extends RedisCacheUtility.AbstractRedisCacheS
         return redisCacheHelper.QueryUsingCache(redisKey,
                                                 ()->userInfoMapper.selectByUsername(username));
     }
+    public String GetUserIdByUsername(String username)
+    {
+        UserInfo user=queryByUsername(username);
+        if(user==null)
+            throw new IllegalArgumentException("User not existing");
+        return user.getUserId();
+    }
 
     public boolean VerifyIdentity(String userId,String password)
     {

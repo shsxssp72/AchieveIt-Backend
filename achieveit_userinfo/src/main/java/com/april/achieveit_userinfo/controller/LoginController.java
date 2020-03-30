@@ -37,8 +37,10 @@ public class LoginController
         String jwt=authenticationService.Login(username,
                                                password);
 
-        content.setResult(new ImmutablePair<>("JWT",
-                                              jwt));
+        content.setResult(Map.of("JWT",
+                                 jwt,
+                                 "user_id",
+                                 authenticationService.GetUserIdByUsername(username)));
         content.setStatus(ResponseContentStatus.SUCCESS);
         CookieUtility.CreateCookieBuilder(response)
                 .request(request)
@@ -59,9 +61,12 @@ public class LoginController
         String jwt=CookieUtility.getCookieValue(request,
                                                 "JWT");
         String userId=JWTUtility.getSubjectFromJWT(jwt);
-        authenticationService.UpdateUserInfo(userId,originalPassword,newPassword);
+        authenticationService.UpdateUserInfo(userId,
+                                             originalPassword,
+                                             newPassword);
 
-       return RenewToken(request,response);
+        return RenewToken(request,
+                          response);
     }
 
     @SneakyThrows
@@ -73,8 +78,8 @@ public class LoginController
         ResponseContent content=new ResponseContent();
 
         String jwt=CookieUtility.getCookieValue(request,
-                                             "JWT",
-                                             null);
+                                                "JWT",
+                                                null);
         String renewedToken=authenticationService.RenewToken(jwt);
 
         content.setStatus(ResponseContentStatus.SUCCESS);

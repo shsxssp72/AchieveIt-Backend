@@ -24,7 +24,7 @@ public class ProjectDeviceController
     private ProjectDeviceService projectDeviceService;
 
     @PostMapping(path="")
-    @JsonView(value=JsonVisibilityLevel.BasicViewLevel.class)
+    @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
     public ResponseContent GetDevices(@RequestBody Map<String,String> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
@@ -36,7 +36,7 @@ public class ProjectDeviceController
 
         result.setResult(new HashMap<>()
         {{
-            put("device_id",
+            put("devices",
                 projectDeviceService.ListAllDevices(pageSize,
                                                     currentPage));
         }});

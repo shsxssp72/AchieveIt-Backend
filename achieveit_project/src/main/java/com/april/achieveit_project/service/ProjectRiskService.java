@@ -109,9 +109,9 @@ public class ProjectRiskService extends RedisCacheUtility.AbstractRedisCacheServ
     }
 
     @SneakyThrows
-    public List<String> GetRisk(String projectId)
+    public List<Map<String,Object>> GetRisk(String projectId)
     {
-        List<String> result=new ArrayList<>();
+        List<Map<String,Object>> result=new ArrayList<>();
         List<Risk> risks=selectRiskByProjectId(projectId);
         for(Risk risk: risks)
         {
@@ -120,12 +120,12 @@ public class ProjectRiskService extends RedisCacheUtility.AbstractRedisCacheServ
                     .map(RiskRelatedPeople::getReferredRelatedPersonId)
                     .collect(Collectors.toList());
             var riskMap=objectMapper.convertValue(risk,
-                                                  new TypeReference<Map<String,String>>()
+                                                  new TypeReference<Map<String,Object>>()
                                                   {
                                                   });
             riskMap.put("risk_responsible_person",
-                        objectMapper.writeValueAsString(people));
-            result.add(objectMapper.writeValueAsString(riskMap));
+                        people);
+            result.add(riskMap);
         }
         return result;
     }
