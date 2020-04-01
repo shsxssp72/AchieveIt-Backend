@@ -65,6 +65,12 @@
       "projectIdLocation": "global"
     }
   },
+  "/api/project/getByStatus": {
+    "POST": {
+      "permission": "project_status_modification",
+      "projectIdLocation": "global"
+    }
+  },
   "/api/project/search": {
     "POST": {
       "permission": "",

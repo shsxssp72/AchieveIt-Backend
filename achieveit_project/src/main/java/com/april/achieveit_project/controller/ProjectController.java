@@ -53,6 +53,21 @@ public class ProjectController
         return result;
     }
 
+    @PostMapping(path="/getByStatus")
+    public ResponseContent GetProjectByStatus(@RequestBody Map<String,String> params)
+    {
+        logger.info("Invoking :"+Thread.currentThread()
+                .getStackTrace()[1].getMethodName());
+        ResponseContent result=new ResponseContent();
+
+        String status=params.get("status");
+        List<Project> queryResult=projectService.SelectByProjectStatus(ProjectStateTransition.ProjectState.valueOf(status));
+
+        result.setResult(queryResult);
+        result.setStatus(ResponseContentStatus.SUCCESS);
+        return result;
+    }
+
     @PostMapping(path="/search")
     @JsonView(value=JsonVisibilityLevel.BasicViewLevel.class)
     public ResponseContent SearchProject(@RequestBody Map<String,String> params)

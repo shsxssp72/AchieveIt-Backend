@@ -1,10 +1,5 @@
 package com.april.achieveit_common.utility;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
-
 public class SnowFlakeIdGenerator
 {
     //Initial Timestamp

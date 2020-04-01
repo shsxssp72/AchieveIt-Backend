@@ -27,12 +27,12 @@ changeable_modification_permission: list = [
     'issue_tracker_modification',
 ]
 global_role_permission: dict = {
-    'ProjectSuperior': access_permission,
-    'ConfigurationManager': access_permission + device_modification_permission,
+    'ProjectSuperior': access_permission + ['project_status_modification'],
+    'ConfigurationManager': access_permission + device_modification_permission + ['project_status_modification'],
     'QaManager': access_permission + ['member_list_modification', 'user_role_modification', ],
     'EpgManager': access_permission + ['member_list_modification', 'user_role_modification', ],
     'ProjectManager': access_permission + common_modification_permissions + changeable_access_permission,
-    'CommonUser': access_permission,
+    'CommonUser': [],
 }
 project_role_permission: dict = {
     'DevelopmentLeader': access_permission,
@@ -122,6 +122,6 @@ def generate_global_role_permission_relation() -> None:
 
 
 if __name__ == '__main__':
-    add_global_role_permission('SYKJ-20200101-0000', 'ProjectManager')
+    add_global_role_permission('SYKJ-2019-1215-0000', 'EpgManager')
     # generate_project_role_permission_relation()
     # generate_global_role_permission_relation()

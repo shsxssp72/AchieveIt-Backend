@@ -70,6 +70,7 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
     public void NewProject(Project project)
     {
         projectMapper.insert(project);
+
     }
 
     public List<Project> SearchProjectByName(String projectName,int pageSize,int currentPage)
@@ -97,6 +98,21 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
                                                                                                              ProjectStateTransition.ProjectState.ArchiveDeclined.name(),
                                                                                                              ProjectStateTransition.ProjectState.Archived.name()));
                                                 });
+    }
+
+    public List<Project> SelectByProjectStatus(ProjectStateTransition.ProjectState state)
+    {
+        String currentMethodName=Thread.currentThread()
+                .getStackTrace()[1].getMethodName();
+        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<List<Project>>(redisTemplate,
+                                                                                   objectMapper,
+                                                                                   reentrantLocks.get(currentMethodName),
+                                                                                   cacheValidTime,
+                                                                                   cacheConcurrentWaitTime);
+
+        String redisKey=currentMethodName+"_"+state.name();
+        return redisCacheHelper.QueryUsingCache(redisKey,
+                                                ()->projectMapper.selectByProjectStatus(state.name()));
     }
 
     public List<Project> SelectByProjectIds(Set<String> projectIds,int pageSize,int currentPage)

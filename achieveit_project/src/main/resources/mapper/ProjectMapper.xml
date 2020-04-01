@@ -46,6 +46,12 @@
             #{item}
         </foreach>
     </select>
+    <select id="selectByProjectStatus" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Project
+        where status = #{status,jdbcType=CHAR}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         DELETE
         FROM Project

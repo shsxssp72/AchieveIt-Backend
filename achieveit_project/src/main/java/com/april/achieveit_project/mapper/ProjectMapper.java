@@ -24,6 +24,8 @@ public interface ProjectMapper
 
     List<Project> selectByProjectIds(@Param(value="projectIds") Set<String> projectIds);
 
+    List<Project> selectByProjectStatus(@Param("status") String status);
+
     int updateByPrimaryKeySelective(Project record);
 
     int updateByPrimaryKey(Project record);
