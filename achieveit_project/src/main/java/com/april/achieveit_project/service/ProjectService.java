@@ -75,6 +75,8 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
 
     public List<Project> SearchProjectByName(String projectName,int pageSize,int currentPage)
     {
+        if(StringUtils.isEmpty(projectName))
+            throw new IllegalArgumentException("Project name cannot be null.");
         String currentMethodName=Thread.currentThread()
                 .getStackTrace()[1].getMethodName();
         var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<List<Project>>(redisTemplate,
