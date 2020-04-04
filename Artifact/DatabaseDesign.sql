@@ -10,7 +10,7 @@ CREATE TABLE BusinessField
 CREATE TABLE Project
 (
     project_id                 CHAR(20) PRIMARY KEY,
-    status                     CHAR(10), # - Applied,Initiated,Rejected,Developing,Delivered,Finished,Archived
+    status                     CHAR(20), # - Applied,Initiated,Rejected,Developing,Delivered,Finished,Archived
     project_name               VARCHAR(255),
     referred_outer_customer_id CHAR(15),# Separated system
     scheduled_start_time       TIMESTAMP,
