@@ -190,7 +190,7 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
         boolean qaAdded=false, epgAdded=false, confAdded=false;
         //TODO Check role name in the end
         if(SelectMiscByProjectIdAndKey(projectId,
-                                       "QAManager")!=null)
+                                       "QaManager")!=null)
             qaAdded=true;
         if(SelectMiscByProjectIdAndKey(projectId,
                                        "EPGManager")!=null)
@@ -221,6 +221,13 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
         toUpdateProject.setStatus(state);
 
         projectMapper.updateByPrimaryKeySelective(toUpdateProject);
+    }
+
+    public void ConfirmConfigEstablished(String projectId,String global_role_name)
+    {
+        InsertMiscByProjectIdAndKey(projectId,
+                                    global_role_name,
+                                    "ConfigEstablished");
     }
 
     public void UpdateProjectMiscWhenMemberUpdated(String projectId,String global_role_name)

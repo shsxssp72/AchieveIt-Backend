@@ -71,6 +71,12 @@
       "projectIdLocation": "global"
     }
   },
+  "/api/project/confirmConfigEstablished": {
+    "POST": {
+      "permission": "project_status_modification",
+      "projectIdLocation": "global"
+    }
+  },
   "/api/project/search": {
     "POST": {
       "permission": "",

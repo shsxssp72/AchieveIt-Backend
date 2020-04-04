@@ -45,7 +45,7 @@ public class ProjectMemberController
             String jwt=CookieUtility.getCookieValue(request,"JWT");
             String userId=JWTUtility.getSubjectFromJWT(jwt);
 
-            //TODO When QA Manager, EPG Leader, Conf. Manager add members. allow PM to push project forward.
+            //When QA Manager, EPG Leader, Conf. Manager add members. allow PM to push project forward.
             ResponseContent queryResponse=roleServiceClient.GetUserGlobalRole(new HashMap<>(){{put("user_id",userId);}});
             Map<String,String> queryResult=objectMapper.convertValue(queryResponse.getResult(),
                                                                      new TypeReference<Map<String,String>>()
