@@ -414,8 +414,7 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
         }
     }
 
-    @Transactional
-    public void UpdateUserProjectRole(@NotNull String projectId,@NotNull String userId,List<Map<String,String>> projectRoleIdList)
+    private void deleteUserProjectRole(@NotNull String projectId,@NotNull String userId)
     {
         List<ProjectUserRelation> currentUserProjectRelations=selectProjectUserRelationByProjectIdAndUserId(projectId,
                                                                                                             userId);
@@ -427,6 +426,13 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
         }
         projectUserRelationMapper.deleteByProjectIdAndUserId(projectId,
                                                              userId);
+    }
+
+    @Transactional
+    public void UpdateUserProjectRole(@NotNull String projectId,@NotNull String userId,List<Map<String,String>> projectRoleIdList)
+    {
+        deleteUserProjectRole(projectId,
+                              userId);
 
         for(Map<String,String> item: projectRoleIdList)
         {
@@ -460,6 +466,17 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
                                 projectRoleId,
                                 "superior_id",
                                 superiorId));
+        }
+
+        Set<String> deleteMembers=selectProjectUserRelationByProjectIdAndUserId(projectId,
+                                                                                null).parallelStream()
+                .map(ProjectUserRelation::getReferredUserId)
+                .collect(Collectors.toSet());
+        deleteMembers.removeAll(userProjectRoleMap.keySet());
+        for(String item: deleteMembers)
+        {
+            deleteUserProjectRole(projectId,
+                                  item);
         }
         for(Map.Entry<String,List<Map<String,String>>> item: userProjectRoleMap.entrySet())
         {
