@@ -97,10 +97,18 @@ project_role_name_id_map: dict = {
     'EPG': 294226523576074240,
     'PropertyAdmin': 294226531868213248,
 }
+
+activity_type_map: dict = {
+    '工程活动': ['需求开发', '设计', '编码', '单体测试', '集成测试', '系统测试', '交付', '维护'],
+    '管理活动': ['范围管理', '计划与调整', '监控与分析', '联络与沟通'],
+    '外包活动': ['外包管理', '外包验收', '外包支持'],
+    '支持活动': ['配置管理', 'QA 审计', '会议报告总结', '培训', '其他']
+}
 #### SQL
 project_user_permission_relation: str = '''INSERT INTO ProjectUserPermissionRelation VALUES ({project_id},'{user_id}',{permission_id},1);'''
 project_role_permission_relation: str = '''INSERT INTO ProjectRolePermissionRelation VALUES ({project_role_id},{permission_id});'''
 global_role_permission_relation: str = '''INSERT INTO GlobalRolePermissionRelation VALUES ({project_role_id},{permission_id});'''
+activity_type_sql: str = '''INSERT INTO ActivityType VALUES ({activity_type_id},'{level_1_description}','{level_2_description}');'''
 
 
 def add_global_role_permission(user_id: str, global_role_name: str) -> None:
@@ -123,7 +131,18 @@ def generate_global_role_permission_relation() -> None:
                                                          permission_id=permission_name_id_map[permission_name]))
 
 
+def generate_activity_type() -> None:
+    from snowflake_id_generator import SnowflakeIdGenerator
+    id_generator = SnowflakeIdGenerator(0, 0)
+    for key, value in activity_type_map.items():
+        for item in value:
+            print(activity_type_sql.format(activity_type_id=id_generator.get_next_id(),
+                                           level_1_description=key,
+                                           level_2_description=item))
+
+
 if __name__ == '__main__':
-    add_global_role_permission('SYKJ-20200201-0001', 'ConfigurationManager')
+    # add_global_role_permission('SYKJ-20200201-0001', 'ConfigurationManager')
     # generate_project_role_permission_relation()
     # generate_global_role_permission_relation()
+    generate_activity_type()
