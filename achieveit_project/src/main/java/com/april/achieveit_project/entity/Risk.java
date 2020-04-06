@@ -26,6 +26,8 @@ public class Risk
     private String riskCountermeasure;
     @JsonProperty(value="risk_status")
     private String riskStatus;
+    @JsonProperty(value="risk_responsible_person")
+    private String riskResponsiblePerson;
     @JsonProperty(value="risk_track_frequency")
     private String riskTrackFrequency;
 }

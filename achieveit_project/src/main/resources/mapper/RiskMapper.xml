@@ -11,12 +11,13 @@
       <arg column="risk_impact" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="risk_countermeasure" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="risk_status" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="risk_responsible_person" javaType="java.lang.String" jdbcType="CHAR"/>
       <arg column="risk_track_frequency" javaType="java.lang.String" jdbcType="CHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
     risk_id, referred_project_id, risk_type, risk_description, risk_level, risk_impact,
-    risk_countermeasure, risk_status, risk_track_frequency
+    risk_countermeasure, risk_status, risk_responsible_person, risk_track_frequency
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -37,10 +38,10 @@
   <insert id="insert" parameterType="com.april.achieveit_project.entity.Risk">
     insert into Risk (risk_id, referred_project_id, risk_type,
       risk_description, risk_level, risk_impact,
-      risk_countermeasure, risk_status, risk_track_frequency)
+      risk_countermeasure, risk_status, risk_responsible_person, risk_track_frequency)
     values (#{riskId,jdbcType=CHAR}, #{referredProjectId,jdbcType=CHAR}, #{riskType,jdbcType=CHAR},
       #{riskDescription,jdbcType=VARCHAR}, #{riskLevel,jdbcType=CHAR}, #{riskImpact,jdbcType=VARCHAR},
-      #{riskCountermeasure,jdbcType=VARCHAR}, #{riskStatus,jdbcType=CHAR},
+      #{riskCountermeasure,jdbcType=VARCHAR}, #{riskStatus,jdbcType=CHAR}, #{riskResponsiblePerson,jdbcType=CHAR},
       #{riskTrackFrequency,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.april.achieveit_project.entity.Risk">
@@ -69,6 +70,9 @@
       </if>
       <if test="riskStatus != null">
         risk_status,
+      </if>
+      <if test="riskResponsiblePerson != null">
+        risk_responsible_person,
       </if>
       <if test="riskTrackFrequency != null">
         risk_track_frequency,
@@ -99,6 +103,9 @@
       <if test="riskStatus != null">
         #{riskStatus,jdbcType=CHAR},
       </if>
+      <if test="riskResponsiblePerson != null">
+        #{riskResponsiblePerson,jdbcType=CHAR},
+      </if>
       <if test="riskTrackFrequency != null">
         #{riskTrackFrequency,jdbcType=CHAR},
       </if>
@@ -128,6 +135,9 @@
       <if test="riskStatus != null">
         risk_status = #{riskStatus,jdbcType=CHAR},
       </if>
+      <if test="riskResponsiblePerson != null">
+        risk_responsible_person = #{riskResponsiblePerson,jdbcType=CHAR},
+      </if>
       <if test="riskTrackFrequency != null">
         risk_track_frequency = #{riskTrackFrequency,jdbcType=CHAR},
       </if>
@@ -143,6 +153,7 @@
       risk_impact = #{riskImpact,jdbcType=VARCHAR},
       risk_countermeasure = #{riskCountermeasure,jdbcType=VARCHAR},
       risk_status = #{riskStatus,jdbcType=CHAR},
+      risk_responsible_person = #{riskResponsiblePerson,jdbcType=CHAR},
       risk_track_frequency = #{riskTrackFrequency,jdbcType=CHAR}
     where risk_id = #{riskId,jdbcType=CHAR}
   </update>

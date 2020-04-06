@@ -123,7 +123,7 @@ public class ProjectRiskService extends RedisCacheUtility.AbstractRedisCacheServ
                                                   new TypeReference<Map<String,Object>>()
                                                   {
                                                   });
-            riskMap.put("risk_responsible_person",
+            riskMap.put("risk_related_person",
                         people);
             result.add(riskMap);
         }

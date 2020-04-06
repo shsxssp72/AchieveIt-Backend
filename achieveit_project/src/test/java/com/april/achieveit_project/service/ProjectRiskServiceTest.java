@@ -41,6 +41,7 @@ class ProjectRiskServiceTest
                            "H",
                            "沟通",
                            "已识别",
+                           null,
                            "每周1次");
         riskMapper.insert(risk);
 
@@ -64,6 +65,7 @@ class ProjectRiskServiceTest
                            "H",
                            "沟通",
                            "已识别",
+                           null,
                            "每周一次");
         List<String> list=new ArrayList<>();
         list.add("SYKJ-20200201-0001");
@@ -99,6 +101,7 @@ class ProjectRiskServiceTest
                            "H",
                            "沟通",
                            "已识别",
+                           null,
                            "每周一次");
         List<String> list=new ArrayList<>();
         list.add("SYKJ-20200201-0004");

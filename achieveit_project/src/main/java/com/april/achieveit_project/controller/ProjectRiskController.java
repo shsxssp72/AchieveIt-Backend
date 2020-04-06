@@ -47,8 +47,9 @@ public class ProjectRiskController
                            (String)params.get("risk_impact"),
                            (String)params.get("risk_countermeasure"),
                            (String)params.get("risk_status"),
+                           (String)params.get("risk_responsible_person"),
                            (String)params.get("risk_track_frequency"));
-        List<String> riskRelatedPerson=objectMapper.convertValue(params.get("risk_responsible_person"),
+        List<String> riskRelatedPerson=objectMapper.convertValue(params.get("risk_related_person"),
                                                                  new TypeReference<List<String>>()
                                                                  {
                                                                  });
