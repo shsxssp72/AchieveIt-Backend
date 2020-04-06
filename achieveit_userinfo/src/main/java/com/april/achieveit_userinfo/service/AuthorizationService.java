@@ -528,4 +528,11 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
         return redisCacheHelper.QueryUsingCache(currentMethodName,
                                                 ()->projectRoleMapper.selectAll());
     }
+
+    public List<Long> getOuterUserId(List<String> userIds)
+    {
+        return userIds.parallelStream()
+                .map(i->getUserInfoById(i).getReferredOuterUserId())
+                .collect(Collectors.toList());
+    }
 }

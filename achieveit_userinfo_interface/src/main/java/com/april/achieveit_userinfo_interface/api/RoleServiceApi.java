@@ -46,4 +46,7 @@ public interface RoleServiceApi
 
     @GetMapping(path="/listEditablePermission")
     ResponseContent ListEditablePermission();
+
+    @PostMapping(path="/getOuterUserId")
+    ResponseContent GetOuterUserId(@RequestBody Map<String,Object> params);
 }

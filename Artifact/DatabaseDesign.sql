@@ -92,15 +92,16 @@ CREATE TABLE WorkingHour
 
 CREATE TABLE Risk
 (
-    risk_id              CHAR(16) PRIMARY KEY,
-    referred_project_id  CHAR(20),
-    risk_type            CHAR(20),
-    risk_description     VARCHAR(255),
-    risk_level           CHAR(10),
-    risk_impact          VARCHAR(255),
-    risk_countermeasure  VARCHAR(255),
-    risk_status          CHAR(15),
-    risk_track_frequency CHAR(20)# May not expressed by TIME
+    risk_id                 CHAR(16) PRIMARY KEY,
+    referred_project_id     CHAR(20),
+    risk_type               CHAR(20),
+    risk_description        VARCHAR(255),
+    risk_level              CHAR(10),
+    risk_impact             VARCHAR(255),
+    risk_countermeasure     VARCHAR(255),
+    risk_status             CHAR(15),
+    risk_responsible_person CHAR(20),
+    risk_track_frequency    CHAR(20)# May not expressed by TIME
 );
 CREATE TABLE RiskRelatedPeople
 (

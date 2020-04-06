@@ -70,7 +70,7 @@ public class RoleController implements RoleServiceApi
             result.setResult(authorizationService.GetUserRoleFromMultipleProject(userId));
         else
             result.setResult(List.of(authorizationService.GetUserProjectRole(projectId,
-                                                                     userId)));
+                                                                             userId)));
 
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
@@ -111,9 +111,9 @@ public class RoleController implements RoleServiceApi
         String projectId=(String)params.get("project_id");
         Object members=params.get("members");
         List<Map<String,String>> memberList=objectMapper.convertValue(members,
-                                                                   new TypeReference<List<Map<String,String>>>()
-                                                                   {
-                                                                   });
+                                                                      new TypeReference<List<Map<String,String>>>()
+                                                                      {
+                                                                      });
         authorizationService.UpdateProjectMember(projectId,
                                                  memberList);
         result.setStatus(ResponseContentStatus.SUCCESS);
@@ -214,9 +214,9 @@ public class RoleController implements RoleServiceApi
         String userId=(String)params.get("user_id");
         String projectId=(String)params.get("project_id");
         List<String> permissionList=objectMapper.convertValue(params.get("privilege_list"),
-                                                           new TypeReference<List<String>>()
-                                                           {
-                                                           });
+                                                              new TypeReference<List<String>>()
+                                                              {
+                                                              });
         authorizationService.UpdateUserProjectPermission(projectId,
                                                          userId,
                                                          permissionList);
@@ -248,6 +248,24 @@ public class RoleController implements RoleServiceApi
         ResponseContent result=new ResponseContent();
 
         result.setResult(authorizationService.getEditablePermissions());
+
+        result.setStatus(ResponseContentStatus.SUCCESS);
+        return result;
+    }
+
+    @Override
+    @PostMapping(path="/getOuterUserId")
+    public ResponseContent GetOuterUserId(@RequestBody Map<String,Object> params)
+    {
+        logger.info("Invoking :"+Thread.currentThread()
+                .getStackTrace()[1].getMethodName());
+        ResponseContent result=new ResponseContent();
+        List<String> userIds=objectMapper.convertValue(params.get("user_ids"),
+                                                      new TypeReference<List<String>>()
+                                                      {
+                                                      });
+
+        result.setResult(authorizationService.getOuterUserId(userIds));
 
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
