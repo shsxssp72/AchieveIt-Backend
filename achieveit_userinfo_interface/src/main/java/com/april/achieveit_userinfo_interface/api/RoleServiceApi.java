@@ -49,4 +49,7 @@ public interface RoleServiceApi
 
     @PostMapping(path="/getOuterUserId")
     ResponseContent GetOuterUserId(@RequestBody Map<String,Object> params);
+
+    @PostMapping(path="/searchUser")
+    ResponseContent SearchUser(@RequestBody Map<String,String> params);
 }

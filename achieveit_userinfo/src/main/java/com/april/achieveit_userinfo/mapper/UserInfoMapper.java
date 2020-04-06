@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper
 @Component
 public interface UserInfoMapper
@@ -18,6 +20,8 @@ public interface UserInfoMapper
     UserInfo selectByPrimaryKey(@Param(value="userId") String userId);
 
     UserInfo selectByUsername(@Param(value="username") String username);
+
+    List<UserInfo> searchByUserId(@Param("userId") String userId);
 
     int updateByPrimaryKeySelective(UserInfo record);
 

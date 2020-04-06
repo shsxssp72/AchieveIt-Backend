@@ -271,4 +271,19 @@ public class RoleController implements RoleServiceApi
         return result;
     }
 
+    @Override
+    @PostMapping(path="/searchUser")
+    public ResponseContent SearchUser(@RequestBody Map<String,String> params)
+    {
+        logger.info("Invoking :"+Thread.currentThread()
+                .getStackTrace()[1].getMethodName());
+        ResponseContent result=new ResponseContent();
+        String userId=params.getOrDefault("user_id",null);
+
+        result.setResult(authorizationService.SearchUser(userId));
+
+        result.setStatus(ResponseContentStatus.SUCCESS);
+        return result;
+    }
+
 }

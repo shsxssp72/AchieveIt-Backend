@@ -65,6 +65,12 @@
       "projectIdLocation": "global"
     }
   },
+  "/api/user/searchUser": {
+    "POST": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
   "/api/project/setUp": {
     "PUT": {
       "permission": "project_info_modification",

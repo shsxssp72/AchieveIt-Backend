@@ -535,4 +535,31 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
                 .map(i->getUserInfoById(i).getReferredOuterUserId())
                 .collect(Collectors.toList());
     }
+
+    public List<Map<String,String>> SearchUser(String userId)
+    {
+        String currentMethodName=Thread.currentThread()
+                .getStackTrace()[1].getMethodName();
+        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<List<Map<String,String>>>(redisTemplate,
+                                                                                              objectMapper,
+                                                                                              reentrantLocks.get(currentMethodName),
+                                                                                              cacheValidTime,
+                                                                                              cacheConcurrentWaitTime);
+
+        String redisKey=currentMethodName+"_"+userId;
+        return redisCacheHelper.QueryUsingCache(redisKey,
+                                                ()->
+                                                {
+                                                    LinkedList<Map<String,String>> result=new LinkedList<Map<String,String>>();
+                                                    List<UserInfo> searchResult=userInfoMapper.searchByUserId(userId);
+                                                    for(UserInfo item: searchResult)
+                                                    {
+                                                        result.add(Map.of("user_id",
+                                                                          item.getUserId(),
+                                                                          "referred_outer_user_id",
+                                                                          String.valueOf(item.getReferredOuterUserId())));
+                                                    }
+                                                    return result;
+                                                });
+    }
 }

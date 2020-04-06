@@ -26,6 +26,12 @@
     from UserInfo
     where user_name=#{username,jdbcType=VARCHAR}
   </select>
+  <select id="searchByUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from UserInfo
+    where user_id like concat(#{userId},'%')
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from UserInfo
     where user_id = #{userId,jdbcType=CHAR}
