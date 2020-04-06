@@ -48,6 +48,8 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
     @Value("${local.cache-concurrent-wait-time}")
     private Integer cacheConcurrentWaitTime;
 
+    private static final String UTF8_BOM = "\uFEFF";
+
 
     @Autowired
     ProjectFunctionMapper projectFunctionMapper;
@@ -165,6 +167,8 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
     @SneakyThrows
     public List<ProjectFunction> ParseFunctionCsv(String projectId,String csvContent)
     {
+        if(csvContent.startsWith(UTF8_BOM))
+            csvContent=csvContent.substring(1);
         Iterable<CSVRecord> records=CSVFormat.DEFAULT.withHeader(CsvHeaders)
                 .withFirstRecordAsHeader()
                 .parse(new StringReader(csvContent));
