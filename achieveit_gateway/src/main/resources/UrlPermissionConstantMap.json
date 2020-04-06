@@ -59,6 +59,12 @@
       "projectIdLocation": "global"
     }
   },
+  "/api/user/getOuterUserId": {
+    "POST": {
+      "permission": "",
+      "projectIdLocation": "global"
+    }
+  },
   "/api/project/setUp": {
     "PUT": {
       "permission": "project_info_modification",
