@@ -12,16 +12,31 @@
     device_id, device_name, device_status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from DeviceInfo
     where device_id = #{deviceId,jdbcType=BIGINT}
   </select>
-    <select id="selectAll" resultMap="BaseResultMap">
-      select
-      <include refid="Base_Column_List" />
-      from DeviceInfo
-    </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from DeviceInfo
+  </select>
+  <select id="selectByProjectIdAndStatus" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from DeviceInfo
+    where 1=1
+    <if test="status != null">
+      and device_status = #{deviceStatus,jdbcType=CHAR}
+    </if>
+    <if test="projectId !=null">
+      and device_id in
+      (select referred_device_id
+      from DeviceTenancy
+      where referred_project_id = #{projectId,jdbcType=BIGINT})
+    </if>
+  </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from DeviceInfo
     where device_id = #{deviceId,jdbcType=BIGINT}

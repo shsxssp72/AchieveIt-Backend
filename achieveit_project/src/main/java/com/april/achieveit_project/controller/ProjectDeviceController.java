@@ -3,6 +3,7 @@ package com.april.achieveit_project.controller;
 import com.april.achieveit_common.bean.ResponseContent;
 import com.april.achieveit_common.bean.ResponseContentStatus;
 import com.april.achieveit_common.utility.JsonVisibilityLevel;
+import com.april.achieveit_project.config.DeviceStateTransition;
 import com.april.achieveit_project.entity.DeviceExamination;
 import com.april.achieveit_project.entity.DeviceTenancy;
 import com.april.achieveit_project.service.ProjectDeviceService;
@@ -31,14 +32,18 @@ public class ProjectDeviceController
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
 
+        String projectId=params.getOrDefault("project_id",null);
+        String device_status=params.getOrDefault("device_status",null);
         int pageSize=Integer.parseInt(params.get("page_size"));
         int currentPage=Integer.parseInt(params.get("current_page"));
 
         result.setResult(new HashMap<>()
         {{
             put("devices",
-                projectDeviceService.ListAllDevices(pageSize,
-                                                    currentPage));
+                projectDeviceService.selectDevicesByProjectIdAndStatus(projectId,
+                                                                       DeviceStateTransition.DeviceState.valueOf(device_status),
+                                                                       pageSize,
+                                                                       currentPage));
         }});
 
         result.setStatus(ResponseContentStatus.SUCCESS);

@@ -63,8 +63,10 @@ class ProjectDeviceServiceTest
     @Test
     void listAllDevices()
     {
-        List<DeviceInfo> list=projectDeviceService.ListAllDevices(5,
-                                                                  1);
+        List<DeviceInfo> list=projectDeviceService.selectDevicesByProjectIdAndStatus(null,
+                                                                                     null,
+                                                                                     5,
+                                                                                     1);
         MatcherAssert.assertThat(list.get(0)
                                          .getDeviceName(),
                                  is("部署服务器2"));

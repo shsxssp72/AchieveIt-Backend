@@ -66,7 +66,7 @@ public class ProjectDeviceService extends RedisCacheUtility.AbstractRedisCacheSe
                                                       machineId);
     }
 
-    public List<DeviceInfo> ListAllDevices(int pageSize,int currentPage)
+    public List<DeviceInfo> selectDevicesByProjectIdAndStatus(String projectId,DeviceStateTransition.DeviceState deviceState,int pageSize,int currentPage)
     {
         String currentMethodName=Thread.currentThread()
                 .getStackTrace()[1].getMethodName();
@@ -82,7 +82,8 @@ public class ProjectDeviceService extends RedisCacheUtility.AbstractRedisCacheSe
                                                 {
                                                     PageHelper.startPage(currentPage,
                                                                          pageSize);
-                                                    return deviceInfoMapper.selectAll();
+                                                    return deviceInfoMapper.selectByProjectIdAndStatus(projectId,
+                                                                                                       deviceState.name());
                                                 });
     }
 
