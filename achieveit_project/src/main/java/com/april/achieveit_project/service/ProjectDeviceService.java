@@ -83,7 +83,7 @@ public class ProjectDeviceService extends RedisCacheUtility.AbstractRedisCacheSe
                                                     PageHelper.startPage(currentPage,
                                                                          pageSize);
                                                     return deviceInfoMapper.selectByProjectIdAndStatus(projectId,
-                                                                                                       deviceState.name());
+                                                                                                       deviceState!=null?deviceState.name():null);
                                                 });
     }
 

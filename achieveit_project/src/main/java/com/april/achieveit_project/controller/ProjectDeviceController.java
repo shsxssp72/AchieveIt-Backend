@@ -32,8 +32,10 @@ public class ProjectDeviceController
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
 
-        String projectId=params.getOrDefault("project_id",null);
-        String device_status=params.getOrDefault("device_status",null);
+        String projectId=params.getOrDefault("project_id",
+                                             null);
+        String device_status=params.getOrDefault("device_status",
+                                                 null);
         int pageSize=Integer.parseInt(params.get("page_size"));
         int currentPage=Integer.parseInt(params.get("current_page"));
 
@@ -41,7 +43,7 @@ public class ProjectDeviceController
         {{
             put("devices",
                 projectDeviceService.selectDevicesByProjectIdAndStatus(projectId,
-                                                                       DeviceStateTransition.DeviceState.valueOf(device_status),
+                                                                       device_status!=null?DeviceStateTransition.DeviceState.valueOf(device_status):null,
                                                                        pageSize,
                                                                        currentPage));
         }});

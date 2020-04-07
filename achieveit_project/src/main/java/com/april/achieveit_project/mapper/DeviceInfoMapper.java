@@ -21,7 +21,7 @@ public interface DeviceInfoMapper
 
     List<DeviceInfo> selectAll();
 
-    List<DeviceInfo> selectByProjectIdAndStatus(@Param(value="projectId") String projectId,@Param(value="deviceStatus") String device_status);
+    List<DeviceInfo> selectByProjectIdAndStatus(@Param(value="projectId") String projectId,@Param(value="deviceStatus") String deviceStatus);
 
     int updateByPrimaryKeySelective(DeviceInfo record);
 

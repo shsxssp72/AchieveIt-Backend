@@ -27,7 +27,7 @@
     <include refid="Base_Column_List"/>
     from DeviceInfo
     where 1=1
-    <if test="status != null">
+    <if test="deviceStatus != null">
       and device_status = #{deviceStatus,jdbcType=CHAR}
     </if>
     <if test="projectId !=null">
