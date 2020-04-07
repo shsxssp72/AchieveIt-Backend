@@ -9,6 +9,7 @@ import java.lang.reflect.ParameterizedType;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class RedisCacheUtility
@@ -64,7 +65,7 @@ public class RedisCacheUtility
                     }
                     else
                     {
-                        Thread.sleep(concurrentWaitTime);
+                        TimeUnit.MILLISECONDS.sleep(concurrentWaitTime);
                         return QueryUsingCache(redisKey,
                                                query);
                     }

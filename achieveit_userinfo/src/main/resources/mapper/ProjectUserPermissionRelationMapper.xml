@@ -46,9 +46,31 @@
       </if>
     </trim>
   </insert>
-  <update id="updateWeightByProjectIdAndUserIdAndPermissionId">
+  <insert id="increaseWeightByProjectIdAndUserIdAndPermissionId">
+    <selectKey keyProperty="count" resultType="INT" order="BEFORE">
+      select count(*)
+      from ProjectUserPermissionRelation
+      where referred_project_id=#{projectId,jdbcType=CHAR}
+      and referred_user_id=#{userId,jdbcType=CHAR}
+      and referred_permission_id=#{permissionId,jdbcType=BIGINT}
+    </selectKey>
+    <choose>
+      <when test="count > 0">
+        update ProjectUserPermissionRelation
+        set permit_weight = permit_weight + 1
+        where referred_project_id=#{projectId,jdbcType=CHAR}
+        and referred_user_id=#{userId,jdbcType=CHAR}
+        and referred_permission_id=#{permissionId,jdbcType=BIGINT}
+      </when>
+      <otherwise>
+        insert into ProjectUserPermissionRelation
+        values (#{projectId},#{userId},#{permissionId},1)
+      </otherwise>
+    </choose>
+  </insert>
+  <update id="decreaseWeightByProjectIdAndUserIdAndPermissionId">
     update ProjectUserPermissionRelation
-    set permit_weight = #{weight,jdbcType=INTEGER}
+    set permit_weight = permit_weight - 1
     where referred_project_id=#{projectId,jdbcType=CHAR}
     and referred_user_id=#{userId,jdbcType=CHAR}
     and referred_permission_id=#{permissionId,jdbcType=BIGINT}

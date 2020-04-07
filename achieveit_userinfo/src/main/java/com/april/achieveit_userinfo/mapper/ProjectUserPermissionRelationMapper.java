@@ -21,5 +21,7 @@ public interface ProjectUserPermissionRelationMapper
 
     int deleteByProjectIdAndUserIdAndPermissionId(@Param(value="projectId") String projectId,@Param(value="userId") String userId,@Param(value="permissionId") Long permissionId);
 
-    int updateWeightByProjectIdAndUserIdAndPermissionId(@Param(value="weight") int weight,@Param(value="projectId") String projectId,@Param(value="userId") String userId,@Param(value="permissionId") Long permissionId);
+    int increaseWeightByProjectIdAndUserIdAndPermissionId(@Param(value="projectId") String projectId,@Param(value="userId") String userId,@Param(value="permissionId") Long permissionId);
+
+    int decreaseWeightByProjectIdAndUserIdAndPermissionId(@Param(value="projectId") String projectId,@Param(value="userId") String userId,@Param(value="permissionId") Long permissionId);
 }

@@ -39,10 +39,14 @@ global_role_permission: dict = {
 project_role_permission: dict = {
     'DevelopmentLeader': access_permission,
     'QaLeader': access_permission,
+    'TestLeader': access_permission,
     'DevelopmentStaff': [
         'user_role_access', 'project_info_access', 'member_list_access', 'function_list_access', 'project_status_access'
     ],
     'QaStaff': [
+        'user_role_access', 'project_info_access', 'member_list_access', 'function_list_access', 'project_status_access'
+    ],
+    'TestStaff': [
         'user_role_access', 'project_info_access', 'member_list_access', 'function_list_access', 'project_status_access'
     ],
     'EPG': [
@@ -91,7 +95,9 @@ global_role_name_id_map: dict = {
 }
 project_role_name_id_map: dict = {
     'DevelopmentLeader': 290089467161608193,
-    'QaLeader': 294226508208144384,
+    'QaLeader': 294226515434930174,
+    'TestLeader': 294226508208144384,
+    'TestStaff': 294226508208155935,
     'DevelopmentStaff': 294226509294469120,
     'QaStaff': 294226515434930176,
     'EPG': 294226523576074240,
@@ -142,7 +148,7 @@ def generate_activity_type() -> None:
 
 
 if __name__ == '__main__':
-    add_global_role_permission('SYKJ-20200101-0000', 'ProjectManager')
-    # generate_project_role_permission_relation()
+    # add_global_role_permission('SYKJ-20200101-0000', 'ProjectManager')
+    generate_project_role_permission_relation()
     # generate_global_role_permission_relation()
     # generate_activity_type()

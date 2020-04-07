@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
@@ -365,9 +366,9 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
     /**
      * For multiple role may have same permission
      */
-    private void deregisterProjectRole(@NotNull String projectId,@NotNull String userId,Long projectRoleId)
+    @Transactional
+    void deregisterProjectRole(@NotNull String projectId,@NotNull String userId,Long projectRoleId)
     {
-        //
         List<Long> roleRelatedPermissionIds=selectProjectRolePermissionRelationByProjectRoleId(projectRoleId).parallelStream()
                 .map(ProjectRolePermissionRelation::getReferredPermissionId)
                 .collect(Collectors.toList());
@@ -381,36 +382,26 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
                 logger.warn("Permission not exist, database may be in an inconsistent state.");
                 continue;
             }
-            userPermissionRelationMapper.updateWeightByProjectIdAndUserIdAndPermissionId(currentUserPermission.getPermitWeight()-1,
-                                                                                         projectId,
-                                                                                         userId,
-                                                                                         permissionId);
+            userPermissionRelationMapper.decreaseWeightByProjectIdAndUserIdAndPermissionId(projectId,
+                                                                                           userId,
+                                                                                           permissionId);
         }
     }
 
     /**
      * For multiple role may have same permission
      */
-    private void registerProjectRole(@NotNull String projectId,@NotNull String userId,Long projectRoleId)
+    @Transactional
+    void registerProjectRole(@NotNull String projectId,@NotNull String userId,Long projectRoleId)
     {
         List<Long> roleRelatedPermissionIds=selectProjectRolePermissionRelationByProjectRoleId(projectRoleId).parallelStream()
                 .map(ProjectRolePermissionRelation::getReferredPermissionId)
                 .collect(Collectors.toList());
         for(Long permissionId: roleRelatedPermissionIds)
         {
-            ProjectUserPermissionRelation currentUserPermission=selectUserPermissionRelationByProjectIdAndUserIdAndPermissionId(projectId,
-                                                                                                                                userId,
-                                                                                                                                permissionId);
-            if(currentUserPermission!=null)
-                userPermissionRelationMapper.updateWeightByProjectIdAndUserIdAndPermissionId(currentUserPermission.getPermitWeight()+1,
-                                                                                             projectId,
-                                                                                             userId,
-                                                                                             permissionId);
-            else
-                userPermissionRelationMapper.insert(new ProjectUserPermissionRelation(projectId,
-                                                                                      userId,
-                                                                                      permissionId,
-                                                                                      1));
+            userPermissionRelationMapper.increaseWeightByProjectIdAndUserIdAndPermissionId(projectId,
+                                                                                           userId,
+                                                                                           permissionId);
         }
     }
 
