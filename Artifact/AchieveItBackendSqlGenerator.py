@@ -6,7 +6,8 @@ common_modification_permissions: list = [
     'function_list_modification',
     'project_status_modification',
     'working_hour_verification',
-    'risk_modification'
+    'risk_modification',
+    'issue_tracker_modification',
 ]
 device_modification_permission: list = [
     'project_device_modification', 'project_device_check', 'project_device_tenancy',
@@ -24,7 +25,6 @@ changeable_modification_permission: list = [
     'project_git_modification',
     'mail_list_modification',
     'file_system_modification',
-    'issue_tracker_modification',
 ]
 global_role_permission: dict = {
     'ProjectSuperior': access_permission + ['project_status_modification'],
@@ -142,7 +142,7 @@ def generate_activity_type() -> None:
 
 
 if __name__ == '__main__':
-    # add_global_role_permission('SYKJ-20200201-0001', 'ConfigurationManager')
+    add_global_role_permission('SYKJ-20200101-0000', 'ProjectManager')
     # generate_project_role_permission_relation()
     # generate_global_role_permission_relation()
-    generate_activity_type()
+    # generate_activity_type()

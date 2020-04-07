@@ -97,8 +97,8 @@
       "projectIdLocation": "global"
     },
     "PUT": {
-      "permission": "project_device_modification",
-      "projectIdLocation": "body"
+      "permission": "",
+      "projectIdLocation": "global"
     }
   }
 }
