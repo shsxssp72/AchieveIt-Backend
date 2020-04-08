@@ -21,7 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -48,20 +51,25 @@ public class ProjectController
         project.setStatus(ProjectStateTransition.ProjectState.Applied);
         projectService.NewProject(project);
 
-        result.setMessage(dependencyService.sendEmail("","",""));
+        result.setMessage(dependencyService.sendEmail("",
+                                                      "",
+                                                      ""));
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;
     }
 
     @PostMapping(path="/getByStatus")
-    public ResponseContent GetProjectByStatus(@RequestBody Map<String,String> params)
+    public ResponseContent GetProjectByStatus(@RequestBody Map<String,Object> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
 
-        String status=params.get("status");
-        List<Project> queryResult=projectService.SelectByProjectStatus(ProjectStateTransition.ProjectState.valueOf(status));
+        Set<String> status=objectMapper.convertValue(params.get("status"),
+                                                      new TypeReference<Set<String>>()
+                                                      {
+                                                      });
+        List<Project> queryResult=projectService.SelectByProjectStatus(status);
 
         result.setResult(queryResult);
         result.setStatus(ResponseContentStatus.SUCCESS);
@@ -109,10 +117,12 @@ public class ProjectController
                 userId);
         }});
         List<Map<String,String>> userRoleInfo=objectMapper.convertValue(roleQueryResult.getResult(),
-                                                                     new TypeReference<List<Map<String,String>>>()
-                                                                     {
-                                                                     });
-        Set<String> relatedProjectIds=userRoleInfo.parallelStream().map(i->i.get("project_id")).collect(Collectors.toSet());
+                                                                        new TypeReference<List<Map<String,String>>>()
+                                                                        {
+                                                                        });
+        Set<String> relatedProjectIds=userRoleInfo.parallelStream()
+                .map(i->i.get("project_id"))
+                .collect(Collectors.toSet());
 
         List<Project> queryResult=projectService.SelectByProjectIds(relatedProjectIds,
                                                                     pageSize,
@@ -188,17 +198,23 @@ public class ProjectController
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
 
-        String projectId=params.get("project_id");String jwt=CookieUtility.getCookieValue(request,
-                                                                                          "JWT");
+        String projectId=params.get("project_id");
+        String jwt=CookieUtility.getCookieValue(request,
+                                                "JWT");
         String userId=JWTUtility.getSubjectFromJWT(jwt);
-        ResponseContent queryResponse=roleServiceClient.GetUserGlobalRole(new HashMap<>(){{put("user_id",userId);}});
+        ResponseContent queryResponse=roleServiceClient.GetUserGlobalRole(new HashMap<>()
+        {{
+            put("user_id",
+                userId);
+        }});
         Map<String,String> queryResult=objectMapper.convertValue(queryResponse.getResult(),
                                                                  new TypeReference<Map<String,String>>()
                                                                  {
                                                                  });
         String global_role_name=queryResult.get("global_role_name");
 
-        projectService.ConfirmConfigEstablished(projectId,global_role_name);
+        projectService.ConfirmConfigEstablished(projectId,
+                                                global_role_name);
 
         result.setStatus(ResponseContentStatus.SUCCESS);
         return result;

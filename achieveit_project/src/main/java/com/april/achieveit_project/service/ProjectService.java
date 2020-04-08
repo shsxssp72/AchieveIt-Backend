@@ -9,6 +9,7 @@ import com.april.achieveit_project.mapper.ProjectMapper;
 import com.april.achieveit_project.mapper.ProjectMiscellaneousMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -91,7 +92,7 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
                                                 {
                                                     PageHelper.startPage(currentPage,
                                                                          pageSize);
-                                                    return projectMapper.selectByProjectNameAndStatus(projectName!=null?projectName:"",
+                                                    return projectMapper.selectByProjectNameAndStatus(projectName,
                                                                                                       Set.of(ProjectStateTransition.ProjectState.Initiated.name(),
                                                                                                              ProjectStateTransition.ProjectState.Developing.name(),
                                                                                                              ProjectStateTransition.ProjectState.Delivered.name(),
@@ -102,7 +103,8 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
                                                 });
     }
 
-    public List<Project> SelectByProjectStatus(ProjectStateTransition.ProjectState state)
+    @SneakyThrows
+    public List<Project> SelectByProjectStatus(Set<String> states)
     {
         String currentMethodName=Thread.currentThread()
                 .getStackTrace()[1].getMethodName();
@@ -112,9 +114,9 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
                                                                                    cacheValidTime,
                                                                                    cacheConcurrentWaitTime);
 
-        String redisKey=currentMethodName+"_"+state.name();
+        String redisKey=currentMethodName+"_"+objectMapper.writeValueAsString(states);
         return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->projectMapper.selectByProjectStatus(state.name()));
+                                                ()->projectMapper.selectByProjectNameAndStatus("",states));
     }
 
     public List<Project> SelectByProjectIds(Set<String> projectIds,int pageSize,int currentPage)
