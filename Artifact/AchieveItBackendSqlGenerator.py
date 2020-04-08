@@ -123,6 +123,12 @@ def add_global_role_permission(user_id: str, global_role_name: str) -> None:
                                                       permission_id=permission_name_id_map[i]))
 
 
+def add_project_role_permission(user_id: str, project_role_name: str,project_id:str) -> None:
+    for i in project_role_permission[project_role_name]:
+        print(project_user_permission_relation.format(project_id="'{project_id}'".format(project_id=project_id), user_id=user_id,
+                                                      permission_id=permission_name_id_map[i]))
+
+
 def generate_project_role_permission_relation() -> None:
     for role_name, role_id in project_role_name_id_map.items():
         for permission_name in project_role_permission[role_name]:
@@ -149,6 +155,7 @@ def generate_activity_type() -> None:
 
 if __name__ == '__main__':
     # add_global_role_permission('SYKJ-20200101-0000', 'ProjectManager')
-    generate_project_role_permission_relation()
+    add_project_role_permission('SYKJ-20200201-0000','DevelopmentLeader','2020-4577-D-01')
+    # generate_project_role_permission_relation()
     # generate_global_role_permission_relation()
     # generate_activity_type()
