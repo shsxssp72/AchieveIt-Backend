@@ -96,6 +96,7 @@ public class ProjectWorkingHourController
     }
 
     @SneakyThrows
+    @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
     @GetMapping(path="/{project_id}/{working_hour_id}")
     public ResponseContent GetDetailedWorkingHour(@PathVariable(name="project_id") String projectId,@PathVariable(name="working_hour_id") String workingHourId,HttpServletRequest request)
     {
@@ -138,6 +139,7 @@ public class ProjectWorkingHourController
     }
 
     @SneakyThrows
+    @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
     @PostMapping(path="/verify")
     public ResponseContent GetToBeVerifiedWorkingHour(@RequestBody Map<String,String> params,HttpServletRequest request)
     {

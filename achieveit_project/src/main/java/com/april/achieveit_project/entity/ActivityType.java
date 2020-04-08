@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class ActivityType
 {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @JsonProperty("activicy_type_id")
+    @JsonProperty("activity_type_id")
     private Long activityTypeId;
     @JsonProperty(value="level_1_description")
     private String level1Description;
