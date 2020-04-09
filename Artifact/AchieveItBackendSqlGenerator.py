@@ -33,13 +33,14 @@ global_role_permission: dict = {
                                       'project_status_modification', ],
     'EpgManager': access_permission + ['member_list_modification', 'user_role_modification',
                                        'project_status_modification', ],
-    'ProjectManager': access_permission + common_modification_permissions + changeable_access_permission,
+    'ProjectManager': access_permission + common_modification_permissions + changeable_access_permission + [
+        'project_device_tenancy'],
     'CommonUser': [],
 }
 project_role_permission: dict = {
-    'DevelopmentLeader': access_permission,
-    'QaLeader': access_permission,
-    'TestLeader': access_permission,
+    'DevelopmentLeader': access_permission + ['project_device_tenancy'],
+    'QaLeader': access_permission + ['project_device_tenancy'],
+    'TestLeader': access_permission + ['project_device_tenancy'],
     'DevelopmentStaff': [
         'user_role_access', 'project_info_access', 'member_list_access', 'function_list_access', 'project_status_access'
     ],
@@ -123,9 +124,10 @@ def add_global_role_permission(user_id: str, global_role_name: str) -> None:
                                                       permission_id=permission_name_id_map[i]))
 
 
-def add_project_role_permission(user_id: str, project_role_name: str,project_id:str) -> None:
+def add_project_role_permission(user_id: str, project_role_name: str, project_id: str) -> None:
     for i in project_role_permission[project_role_name]:
-        print(project_user_permission_relation.format(project_id="'{project_id}'".format(project_id=project_id), user_id=user_id,
+        print(project_user_permission_relation.format(project_id="'{project_id}'".format(project_id=project_id),
+                                                      user_id=user_id,
                                                       permission_id=permission_name_id_map[i]))
 
 
@@ -155,7 +157,7 @@ def generate_activity_type() -> None:
 
 if __name__ == '__main__':
     # add_global_role_permission('SYKJ-20200101-0000', 'ProjectManager')
-    add_project_role_permission('SYKJ-20200201-0000','DevelopmentLeader','2020-4577-D-01')
+    # add_project_role_permission('SYKJ-20200201-0000', 'DevelopmentLeader', '2020-4577-D-01')
     # generate_project_role_permission_relation()
-    # generate_global_role_permission_relation()
+    generate_global_role_permission_relation()
     # generate_activity_type()
