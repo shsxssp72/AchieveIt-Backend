@@ -17,9 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -116,6 +118,7 @@ public class ProjectDeviceService extends RedisCacheUtility.AbstractRedisCacheSe
         deviceInfoMapper.updateByPrimaryKeySelective(toUpdateDevice);
     }
 
+    @Transactional
     public void NewTenancy(DeviceTenancy tenancy)
     {
         Long deviceId=tenancy.getReferredDeviceId();
@@ -124,6 +127,7 @@ public class ProjectDeviceService extends RedisCacheUtility.AbstractRedisCacheSe
                 .equals(DeviceStateTransition.DeviceState.Available.name()))
             throw new IllegalArgumentException("Device not available");
         tenancy.setTenancyId(snowFlakeIdGenerator.getNextId());
+        tenancy.setTenancyTime(new Date());
         deviceTenancyMapper.insert(tenancy);
 
         var toUpdateDevice=new DeviceInfo();
