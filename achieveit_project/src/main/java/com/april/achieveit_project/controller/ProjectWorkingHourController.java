@@ -140,7 +140,7 @@ public class ProjectWorkingHourController
     }
 
     @SneakyThrows
-    @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
+    @JsonView(value=JsonVisibilityLevel.AuthenticatedViewLevel.class)
     @PostMapping(path="/verify")
     public ResponseContent GetToBeVerifiedWorkingHour(@RequestBody Map<String,String> params,HttpServletRequest request)
     {
