@@ -26,7 +26,9 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCacheService
@@ -195,10 +197,12 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
         workingHourMapper.updateByPrimaryKeySelective(workingHour);
     }
 
+    @SneakyThrows
+    @SuppressWarnings(value="all")
     public void VerifyWorkingHour(Long workingHourId,Boolean verifyResult,String verifierId)
     {
         WorkingHour currentWorkingHour=selectWorkingHourByPrimaryKey(workingHourId);
-        String creatorId=currentWorkingHour.getReferredProjectId();
+        String creatorId=currentWorkingHour.getReferredUserId();
         String projectId=currentWorkingHour.getReferredProjectId();
         //TODO role controller api may change, confirm in the end
         ResponseContent queryResponse=roleServiceClient.GetUserProjectRole(new HashMap<>()
@@ -212,9 +216,16 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
                                                                        new TypeReference<List<Map<String,String>>>()
                                                                        {
                                                                        });
-        var currentProjectRole=queryResult.get(0);
-        if(!currentProjectRole.get("superior_id")
-                .equals(verifierId))
+        Map<String,String> currentQueryResult=queryResult.get(0);
+
+        List<Map<String,String>> projectRoleIdList=objectMapper.readValue(currentQueryResult.get("project_role_id_list"),
+                                                                             new TypeReference<List<Map<String,String>>>()
+                                                                             {
+                                                                             });
+        Set<String> superiors=projectRoleIdList.parallelStream()
+                .map(i->i.get("superior_id"))
+                .collect(Collectors.toSet());
+        if(!superiors.contains(verifierId))
             throw new IllegalArgumentException("Permission required to verify this working hour.");
         currentWorkingHour.setVerified(verifyResult);
         workingHourMapper.updateByPrimaryKeySelective(currentWorkingHour);
@@ -237,7 +248,10 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
         if(queryResult==null||queryResult.isEmpty())
             return null;
         return workingHourMapper.selectByProjectIdAndUserIds(projectId,
-                                                             queryResult);
+                                                             queryResult)
+                .parallelStream()
+                .filter(i->!i.getVerified())
+                .collect(Collectors.toList());
     }
 
     public List<ActivityType> ListAllActivityType()

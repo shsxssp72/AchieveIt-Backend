@@ -128,8 +128,8 @@ public class ProjectWorkingHourController
                                                 "JWT");
         String userId=JWTUtility.getSubjectFromJWT(jwt);
 
-        var workingHourId=Long.parseLong(params.get("working_hour_id"));
-        var verified=Boolean.parseBoolean(params.get("verified"));
+        long workingHourId=Long.parseLong(params.get("working_hour_id"));
+        boolean verified=Boolean.parseBoolean(params.get("verified"));
 
         projectWorkingHourService.VerifyWorkingHour(workingHourId,
                                                     verified,
