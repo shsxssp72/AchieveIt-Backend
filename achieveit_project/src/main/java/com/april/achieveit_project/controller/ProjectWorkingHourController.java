@@ -40,6 +40,7 @@ public class ProjectWorkingHourController
         String userId=JWTUtility.getSubjectFromJWT(jwt);
 
         params.put("referred_user_id", userId);
+        params.put("verified","false");
         WorkingHour workingHour=projectWorkingHourService.assembleWorkingHour(projectId,params);
 
 
