@@ -30,11 +30,11 @@ public class Project
     private String referredOuterCustomerId;
     @JsonProperty(value="scheduled_start_time")
     @JsonView(value=JsonVisibilityLevel.AuthenticatedViewLevel.class)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date scheduledStartTime;
     @JsonProperty(value="scheduled_end_time")
     @JsonView(value=JsonVisibilityLevel.AuthenticatedViewLevel.class)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date scheduledEndTime;
     @JsonProperty("referred_superior_id")
     @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)

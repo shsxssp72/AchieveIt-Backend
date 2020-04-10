@@ -22,10 +22,10 @@ public class DeviceTenancy
     @JsonProperty(value="referred_device_id")
     private Long referredDeviceId;
     @JsonProperty(value="tenancy_time")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date tenancyTime;
     @JsonProperty(value="scheduled_return_time")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date scheduledReturnTime;
     @JsonProperty(value="referred_device_manager_id")
     private String referredDeviceManagerId;

@@ -38,11 +38,11 @@ public class WorkingHour
     private Long referredFunctionId;
     @JsonProperty(value="start_time")
     @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date startTime;
     @JsonProperty(value="end_time")
     @JsonView(value=JsonVisibilityLevel.AdvancedViewLevel.class)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date endTime;
     @JsonProperty(value="verified")
     @JsonView(value=JsonVisibilityLevel.BasicViewLevel.class)

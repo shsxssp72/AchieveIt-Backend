@@ -20,7 +20,7 @@ public class DeviceExamination
     @JsonProperty(value="referred_device_id")
     private Long referredDeviceId;
     @JsonProperty(value="examination_time")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date examinationTime;
     @JsonProperty("referred_tester_id")
     private String referredTesterId;
