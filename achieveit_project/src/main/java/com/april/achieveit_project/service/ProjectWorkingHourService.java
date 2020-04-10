@@ -250,7 +250,7 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
         return workingHourMapper.selectByProjectIdAndUserIds(projectId,
                                                              queryResult)
                 .parallelStream()
-                .filter(i->!i.getVerified())
+                .filter(i->i.getVerified()==null||!i.getVerified())
                 .collect(Collectors.toList());
     }
 
