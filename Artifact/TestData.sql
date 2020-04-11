@@ -1,7 +1,7 @@
 INSERT INTO Project
 VALUES ('2020-4577-D-01', 'Developing', 'SimpleManage开发', 'CS1123616462', '2019-12-01', '2020-06-01',
         'SYKJ-20180101-0000', '设计，开发，测试, 交付',
-        'springboot', 290084263116668929, 'Manage');
+        'springboot', 293116318507335680, 'Manage');
 INSERT INTO GlobalRole
 VALUES (290070571767562241, 'ProjectManager');
 INSERT INTO GlobalRole

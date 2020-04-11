@@ -116,7 +116,10 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
         }
         if(params.containsKey("verified"))
         {
-            workingHour.setVerified(Boolean.parseBoolean(params.get("verified")));
+            if(params.get("verified")==null)
+                workingHour.setVerified(null);
+            else
+                workingHour.setVerified(Boolean.parseBoolean(params.get("verified")));
         }
         return workingHour;
     }
@@ -219,9 +222,9 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
         Map<String,String> currentQueryResult=queryResult.get(0);
 
         List<Map<String,String>> projectRoleIdList=objectMapper.readValue(currentQueryResult.get("project_role_id_list"),
-                                                                             new TypeReference<List<Map<String,String>>>()
-                                                                             {
-                                                                             });
+                                                                          new TypeReference<List<Map<String,String>>>()
+                                                                          {
+                                                                          });
         Set<String> superiors=projectRoleIdList.parallelStream()
                 .map(i->i.get("superior_id"))
                 .collect(Collectors.toSet());
