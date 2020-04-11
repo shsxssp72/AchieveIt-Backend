@@ -2,11 +2,6 @@ DROP DATABASE IF EXISTS AchieveIt;
 CREATE DATABASE AchieveIt;
 USE AchieveIt;
 
-CREATE TABLE BusinessField
-(
-    business_field_id          BIGINT PRIMARY KEY,
-    business_field_description VARCHAR(255)
-)
 CREATE TABLE Project
 (
     project_id                 CHAR(20) PRIMARY KEY,
