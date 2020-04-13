@@ -31,15 +31,15 @@ public class RoleController implements RoleServiceApi
     @SneakyThrows
     @Override
     @PutMapping(path="/userProjectRole")
-    public ResponseContent UpdateUserProjectRole(@RequestBody Map<String,String> params)
+    public ResponseContent UpdateUserProjectRole(@RequestBody Map<String,Object> params)
     {
         logger.info("Invoking :"+Thread.currentThread()
                 .getStackTrace()[1].getMethodName());
         ResponseContent result=new ResponseContent();
 
-        String projectId=params.get("project_id");
-        String userId=params.get("user_id");
-        List<Map<String,String>> projectRoleIdList=objectMapper.readValue(params.get("project_role_id_list"),
+        String projectId=(String)params.get("project_id");
+        String userId=(String)params.get("user_id");
+        List<Map<String,String>> projectRoleIdList=objectMapper.convertValue(params.get("project_role_id_list"),
                                                                           new TypeReference<List<Map<String,String>>>()
                                                                           {
                                                                           });

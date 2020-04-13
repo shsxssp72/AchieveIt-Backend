@@ -170,6 +170,11 @@ if __name__ == '__main__':
     grant_user_perimssion('2020-4577-D-01','SYKJ-20200201-0000','working_hour_modification')
     grant_user_perimssion('2020-4577-D-01','SYKJ-20200201-0000','working_hour_access')
     grant_user_perimssion('2020-4577-D-01','SYKJ-20200201-0000','working_hour_verification')
+    grant_user_perimssion('2020-4577-D-01','SYKJ-20200201-0000','risk_access')
+    grant_user_perimssion('2020-4577-D-01','SYKJ-20200201-0000','risk_modification')
+
     grant_user_perimssion('2020-4577-D-01','SYKJ-20200101-0000','working_hour_modification')
     grant_user_perimssion('2020-4577-D-01','SYKJ-20200101-0000','working_hour_access')
     grant_user_perimssion('2020-4577-D-01','SYKJ-20200101-0000','working_hour_verification')
+    grant_user_perimssion('2020-4577-D-01','SYKJ-20200101-0000','risk_access')
+    grant_user_perimssion('2020-4577-D-01','SYKJ-20200101-0000','risk_modification')

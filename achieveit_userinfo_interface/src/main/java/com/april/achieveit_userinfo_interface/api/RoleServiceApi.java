@@ -12,7 +12,7 @@ import java.util.Map;
 public interface RoleServiceApi
 {
     @PutMapping(path="/userProjectRole")
-    ResponseContent UpdateUserProjectRole(@RequestBody Map<String,String> params);
+    ResponseContent UpdateUserProjectRole(@RequestBody Map<String,Object> params);
 
     @PostMapping(path="/userProjectRole")
     ResponseContent GetUserProjectRole(@RequestBody Map<String,String> params);
