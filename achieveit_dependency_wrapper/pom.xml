@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.april</groupId>
     <artifactId>achieveit_dependency_wrapper</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-RELEASE</version>
     <name>achieveit_dependency_wrapper</name>
     <description>achieveit_dependency_wrapper</description>
 
@@ -54,7 +54,7 @@
         <dependency>
             <groupId>com.april</groupId>
             <artifactId>achieveit_common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0-RELEASE</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

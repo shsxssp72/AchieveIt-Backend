@@ -20,7 +20,7 @@
     </parent>
     <groupId>com.april</groupId>
     <artifactId>achieveit</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-RELEASE</version>
     <name>achieveit</name>
     <description>April AchieveIt</description>
     <packaging>pom</packaging>
