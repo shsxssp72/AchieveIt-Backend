@@ -10,15 +10,15 @@ zuul:
     userinfo-service: /user/**
   sensitive-headers:
 ribbon:
-  ConnectTimeout: 4000
-  ReadTimeout: 4000
+  ConnectTimeout: 20000
+  ReadTimeout: 20000
 hystrix:
   command:
     default:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 20000
+            timeoutInMilliseconds: 40000
 local:
   filter:
     allowPaths:

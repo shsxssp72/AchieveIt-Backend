@@ -143,9 +143,13 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
                                                                                        cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+projectId+"_"+userId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->workingHourMapper.selectByProjectIdAndUserIds(projectId,
-                                                                                                  List.of(userId)));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->workingHourMapper.selectByProjectIdAndUserIds(projectId,
+                                                                                                         List.of(userId)));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     private WorkingHour selectWorkingHourByPrimaryKey(Long workingHourId)
@@ -159,8 +163,12 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
                                                                                  cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+workingHourId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->workingHourMapper.selectByPrimaryKey(workingHourId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->workingHourMapper.selectByPrimaryKey(workingHourId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     public WorkingHour SelectByWorkingHourId(Long workingHourId,String userId)
@@ -183,8 +191,12 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
                                                                                      cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+functionId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->projectFunctionMapper.selectByPrimaryKey(functionId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->projectFunctionMapper.selectByPrimaryKey(functionId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     public void UpdateWorkingHour(WorkingHour workingHour,String userId)
@@ -200,6 +212,38 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
         workingHourMapper.updateByPrimaryKeySelective(workingHour);
     }
 
+    private List<Map<String,String>> getUserProjectRole(String projectId,String userId)
+    {
+        String currentMethodName=Thread.currentThread()
+                .getStackTrace()[1].getMethodName();
+        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<List<Map<String,String>>>(redisTemplate,
+                                                                                              objectMapper,
+                                                                                              reentrantLocks.get(currentMethodName),
+                                                                                              cacheValidTime,
+                                                                                              cacheConcurrentWaitTime);
+
+        String redisKey=currentMethodName+"_"+projectId+"_"+userId;
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->
+                                                       {
+                                                           ResponseContent queryResponse=roleServiceClient.GetUserProjectRole(new HashMap<>()
+                                                           {{
+                                                               put("project_id",
+                                                                   projectId);
+                                                               put("user_id",
+                                                                   userId);
+                                                           }});
+                                                           return objectMapper.convertValue(queryResponse.getResult(),
+                                                                                            new TypeReference<List<Map<String,String>>>()
+                                                                                            {
+                                                                                            });
+                                                       });
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
+    }
+
     @SneakyThrows
     @SuppressWarnings(value="all")
     public void VerifyWorkingHour(Long workingHourId,Boolean verifyResult,String verifierId)
@@ -208,17 +252,7 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
         String creatorId=currentWorkingHour.getReferredUserId();
         String projectId=currentWorkingHour.getReferredProjectId();
         //TODO role controller api may change, confirm in the end
-        ResponseContent queryResponse=roleServiceClient.GetUserProjectRole(new HashMap<>()
-        {{
-            put("project_id",
-                projectId);
-            put("user_id",
-                creatorId);
-        }});
-        List<Map<String,String>> queryResult=objectMapper.convertValue(queryResponse.getResult(),
-                                                                       new TypeReference<List<Map<String,String>>>()
-                                                                       {
-                                                                       });
+        List<Map<String,String>> queryResult=getUserProjectRole(projectId,creatorId);
         Map<String,String> currentQueryResult=queryResult.get(0);
 
         List<Map<String,String>> projectRoleIdList=objectMapper.readValue(currentQueryResult.get("project_role_id_list"),
@@ -234,24 +268,51 @@ public class ProjectWorkingHourService extends RedisCacheUtility.AbstractRedisCa
         workingHourMapper.updateByPrimaryKeySelective(currentWorkingHour);
     }
 
+    private List<String> getInferior(String projectId,String superiorId)
+    {
+        String currentMethodName=Thread.currentThread()
+                .getStackTrace()[1].getMethodName();
+        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<List<String>>(redisTemplate,
+                                                                                  objectMapper,
+                                                                                  reentrantLocks.get(currentMethodName),
+                                                                                  cacheValidTime,
+                                                                                  cacheConcurrentWaitTime);
+
+        String redisKey=currentMethodName+"_"+projectId+"_"+superiorId;
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->
+                                                       {
+                                                           ResponseContent queryResponse=roleServiceClient.GetInferior(new HashMap<>()
+                                                           {{
+                                                               put("project_id",
+                                                                   projectId);
+                                                               put("superior_id",
+                                                                   superiorId);
+                                                           }});
+
+                                                           List<String> queryResult=objectMapper.convertValue(queryResponse.getResult(),
+                                                                                                              new TypeReference<List<String>>()
+                                                                                                              {
+                                                                                                              });
+                                                           if(queryResult==null||queryResult.isEmpty())
+                                                               return null;
+                                                           return queryResult;
+                                                       });
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
+    }
+
+
     public List<WorkingHour> GetToBeVerifiedWorkingHour(String projectId,String verifierId)
     {
-        ResponseContent queryResponse=roleServiceClient.GetInferior(new HashMap<>()
-        {{
-            put("project_id",
-                projectId);
-            put("superior_id",
-                verifierId);
-        }});
 
-        List<String> queryResult=objectMapper.convertValue(queryResponse.getResult(),
-                                                           new TypeReference<List<String>>()
-                                                           {
-                                                           });
-        if(queryResult==null||queryResult.isEmpty())
-            return null;
+        List<String> userId=getInferior(projectId,
+                                        verifierId);
+
         return workingHourMapper.selectByProjectIdAndUserIds(projectId,
-                                                             queryResult)
+                                                             userId)
                 .parallelStream()
                 .filter(i->i.getVerified()==null||!i.getVerified())
                 .collect(Collectors.toList());

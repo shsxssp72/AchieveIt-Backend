@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -66,8 +67,12 @@ public class ProjectRiskService extends RedisCacheUtility.AbstractRedisCacheServ
                                                                                 cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+projectId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->riskMapper.selectByProjectId(projectId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->riskMapper.selectByProjectId(projectId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
 
     }
 
@@ -82,8 +87,13 @@ public class ProjectRiskService extends RedisCacheUtility.AbstractRedisCacheServ
                                                                                              cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+riskId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->riskRelatedPeopleMapper.selectByRiskId(riskId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->riskRelatedPeopleMapper.selectByRiskId(riskId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
+
     }
 
     private static String generateNewRiskId()
@@ -93,6 +103,7 @@ public class ProjectRiskService extends RedisCacheUtility.AbstractRedisCacheServ
                                                                                                                                                 100)+new Date().getTime()%10;
     }
 
+    @Transactional
     public void NewRisk(Risk risk,List<String> relatedPerson)
     {
         String newId=generateNewRiskId();
@@ -116,9 +127,12 @@ public class ProjectRiskService extends RedisCacheUtility.AbstractRedisCacheServ
         for(Risk risk: risks)
         {
             List<RiskRelatedPeople> riskRelatedPeople=selectRiskRelatedPeopleByRiskId(risk.getRiskId());
-            List<String> people=riskRelatedPeople.stream()
-                    .map(RiskRelatedPeople::getReferredRelatedPersonId)
-                    .collect(Collectors.toList());
+            List<String> people=new ArrayList<>();
+            for(RiskRelatedPeople riskRelatedPerson: riskRelatedPeople)
+            {
+                String referredRelatedPersonId=riskRelatedPerson.getReferredRelatedPersonId();
+                people.add(referredRelatedPersonId);
+            }
             var riskMap=objectMapper.convertValue(risk,
                                                   new TypeReference<Map<String,Object>>()
                                                   {

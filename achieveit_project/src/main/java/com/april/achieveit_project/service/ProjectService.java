@@ -7,6 +7,7 @@ import com.april.achieveit_project.entity.Project;
 import com.april.achieveit_project.entity.ProjectMiscellaneous;
 import com.april.achieveit_project.mapper.ProjectMapper;
 import com.april.achieveit_project.mapper.ProjectMiscellaneousMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import lombok.SneakyThrows;
@@ -87,20 +88,24 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
                                                                                    cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+projectName+"_"+pageSize+"_"+currentPage;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->
-                                                {
-                                                    PageHelper.startPage(currentPage,
-                                                                         pageSize);
-                                                    return projectMapper.selectByProjectNameAndStatus(projectName,
-                                                                                                      Set.of(ProjectStateTransition.ProjectState.Initiated.name(),
-                                                                                                             ProjectStateTransition.ProjectState.Developing.name(),
-                                                                                                             ProjectStateTransition.ProjectState.Delivered.name(),
-                                                                                                             ProjectStateTransition.ProjectState.Finished.name(),
-                                                                                                             ProjectStateTransition.ProjectState.ReadyArchive.name(),
-                                                                                                             ProjectStateTransition.ProjectState.ArchiveDeclined.name(),
-                                                                                                             ProjectStateTransition.ProjectState.Archived.name()));
-                                                });
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->
+                                                       {
+                                                           PageHelper.startPage(currentPage,
+                                                                                pageSize);
+                                                           return projectMapper.selectByProjectNameAndStatus(projectName,
+                                                                                                             Set.of(ProjectStateTransition.ProjectState.Initiated.name(),
+                                                                                                                    ProjectStateTransition.ProjectState.Developing.name(),
+                                                                                                                    ProjectStateTransition.ProjectState.Delivered.name(),
+                                                                                                                    ProjectStateTransition.ProjectState.Finished.name(),
+                                                                                                                    ProjectStateTransition.ProjectState.ReadyArchive.name(),
+                                                                                                                    ProjectStateTransition.ProjectState.ArchiveDeclined.name(),
+                                                                                                                    ProjectStateTransition.ProjectState.Archived.name()));
+                                                       });
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     @SneakyThrows
@@ -115,8 +120,13 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
                                                                                    cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+objectMapper.writeValueAsString(states);
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->projectMapper.selectByProjectNameAndStatus("",states));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->projectMapper.selectByProjectNameAndStatus("",
+                                                                                                      states));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     public List<Project> SelectByProjectIds(Set<String> projectIds,int pageSize,int currentPage)
@@ -139,8 +149,12 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
                                                                              cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+projectId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->projectMapper.selectByPrimaryKey(projectId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->projectMapper.selectByPrimaryKey(projectId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     public Project SelectByProjectId(String projectId)
@@ -250,9 +264,13 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
                                                                                           cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+projectId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->projectMiscellaneousMapper.selectByProjectIdAndKey(projectId,
-                                                                                                       key));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->projectMiscellaneousMapper.selectByProjectIdAndKey(projectId,
+                                                                                                              key));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     public String SelectMiscByProjectIdAndKey(String projectId,String key)

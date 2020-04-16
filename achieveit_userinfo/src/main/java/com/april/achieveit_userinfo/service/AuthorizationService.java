@@ -3,6 +3,7 @@ package com.april.achieveit_userinfo.service;
 import com.april.achieveit_common.utility.RedisCacheUtility;
 import com.april.achieveit_userinfo.mapper.*;
 import com.april.achieveit_userinfo_interface.entity.*;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
@@ -17,7 +18,6 @@ import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
@@ -42,6 +42,8 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
     private ObjectMapper objectMapper;
     @Value("${local.cache-valid-time}")
     private Integer cacheValidTime;
+    @Value("${local.permanent-cache-valid-time}")
+    private Integer permanentCacheValidTime;
     @Value("${local.cache-concurrent-wait-time}")
     private Integer cacheConcurrentWaitTime;
 
@@ -82,12 +84,16 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
         var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<ProjectRole>(redisTemplate,
                                                                                  objectMapper,
                                                                                  reentrantLocks.get(currentMethodName),
-                                                                                 cacheValidTime,
+                                                                                 permanentCacheValidTime,
                                                                                  cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+projectRoleId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->projectRoleMapper.selectByPrimaryKey(projectRoleId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->projectRoleMapper.selectByPrimaryKey(projectRoleId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     private List<ProjectUserRelation> selectProjectUserRelationByProjectIdAndUserId(String projectId,String userId)
@@ -101,9 +107,13 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
                                                                                                cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+projectId+"_"+userId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->projectUserRelationMapper.selectByProjectIdAndUserId(projectId,
-                                                                                                         userId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->projectUserRelationMapper.selectByProjectIdAndUserId(projectId,
+                                                                                                                userId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     private GlobalRole selectGlobalRoleByPrimaryKey(Long globalRoleId)
@@ -113,12 +123,16 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
         var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<GlobalRole>(redisTemplate,
                                                                                 objectMapper,
                                                                                 reentrantLocks.get(currentMethodName),
-                                                                                cacheValidTime,
+                                                                                permanentCacheValidTime,
                                                                                 cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+globalRoleId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->globalRoleMapper.selectByPrimaryKey(globalRoleId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->globalRoleMapper.selectByPrimaryKey(globalRoleId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     private List<ProjectUserRelation> selectUserRelationBySuperiorId(String projectId,String superiorId)
@@ -132,9 +146,13 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
                                                                                                cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+projectId+"_"+superiorId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->projectUserRelationMapper.selectBySuperiorId(projectId,
-                                                                                                 superiorId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->projectUserRelationMapper.selectBySuperiorId(projectId,
+                                                                                                        superiorId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     private List<ProjectUserPermissionRelation> selectUserPermissionRelationByProjectIdAndUserId(String projectId,String userId)
@@ -148,9 +166,13 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
                                                                                                          cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+projectId+"_"+userId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->userPermissionRelationMapper.selectByProjectIdAndUserId(projectId,
-                                                                                                            userId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->userPermissionRelationMapper.selectByProjectIdAndUserId(projectId,
+                                                                                                                   userId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     private Permission selectPermissionByPrimaryKey(Long permissionId)
@@ -160,12 +182,16 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
         var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<Permission>(redisTemplate,
                                                                                 objectMapper,
                                                                                 reentrantLocks.get(currentMethodName),
-                                                                                cacheValidTime,
+                                                                                permanentCacheValidTime,
                                                                                 cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+permissionId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->permissionMapper.selectByPrimaryKey(permissionId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->permissionMapper.selectByPrimaryKey(permissionId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     private ProjectUserPermissionRelation selectUserPermissionRelationByProjectIdAndUserIdAndPermissionId(String projectId,String userId,Long permissionId)
@@ -179,10 +205,14 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
                                                                                                    cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+projectId+"_"+userId+"_"+permissionId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->userPermissionRelationMapper.selectByProjectIdAndUserIdAndPermissionId(projectId,
-                                                                                                                           userId,
-                                                                                                                           permissionId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->userPermissionRelationMapper.selectByProjectIdAndUserIdAndPermissionId(projectId,
+                                                                                                                                  userId,
+                                                                                                                                  permissionId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     private List<ProjectRolePermissionRelation> selectProjectRolePermissionRelationByProjectRoleId(Long projectRoleId)
@@ -196,8 +226,12 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
                                                                                                          cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+projectRoleId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->projectRolePermissionRelationMapper.selectByProjectRoleId(projectRoleId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->projectRolePermissionRelationMapper.selectByProjectRoleId(projectRoleId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     private Permission selectPermissionByPermissionName(String permissionName)
@@ -207,12 +241,16 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
         var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<Permission>(redisTemplate,
                                                                                 objectMapper,
                                                                                 reentrantLocks.get(currentMethodName),
-                                                                                cacheValidTime,
+                                                                                permanentCacheValidTime,
                                                                                 cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+permissionName;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->permissionMapper.selectByPermissionName(permissionName));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->permissionMapper.selectByPermissionName(permissionName));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     @SneakyThrows
@@ -322,8 +360,12 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
                                                                               cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+userId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->userInfoMapper.selectByPrimaryKey(userId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->userInfoMapper.selectByPrimaryKey(userId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
 
@@ -516,8 +558,12 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
                                                                                        cacheValidTime,
                                                                                        cacheConcurrentWaitTime);
 
-        return redisCacheHelper.QueryUsingCache(currentMethodName,
-                                                ()->projectRoleMapper.selectAll());
+        Object result=redisCacheHelper.QueryUsingCache(currentMethodName,
+                                                       ()->projectRoleMapper.selectAll());
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     public List<Long> getOuterUserId(List<String> userIds)
@@ -538,19 +584,23 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
                                                                                               cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+userId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->
-                                                {
-                                                    LinkedList<Map<String,String>> result=new LinkedList<Map<String,String>>();
-                                                    List<UserInfo> searchResult=userInfoMapper.searchByUserId(userId);
-                                                    for(UserInfo item: searchResult)
-                                                    {
-                                                        result.add(Map.of("user_id",
-                                                                          item.getUserId(),
-                                                                          "referred_outer_user_id",
-                                                                          String.valueOf(item.getReferredOuterUserId())));
-                                                    }
-                                                    return result;
-                                                });
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->
+                                                       {
+                                                           LinkedList<Map<String,String>> queryResult=new LinkedList<Map<String,String>>();
+                                                           List<UserInfo> searchResult=userInfoMapper.searchByUserId(userId);
+                                                           for(UserInfo item: searchResult)
+                                                           {
+                                                               queryResult.add(Map.of("user_id",
+                                                                                      item.getUserId(),
+                                                                                      "referred_outer_user_id",
+                                                                                      String.valueOf(item.getReferredOuterUserId())));
+                                                           }
+                                                           return queryResult;
+                                                       });
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 }

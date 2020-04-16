@@ -9,6 +9,7 @@ import com.april.achieveit_project.entity.DeviceTenancy;
 import com.april.achieveit_project.mapper.DeviceExaminationMapper;
 import com.april.achieveit_project.mapper.DeviceInfoMapper;
 import com.april.achieveit_project.mapper.DeviceTenancyMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
@@ -79,14 +80,18 @@ public class ProjectDeviceService extends RedisCacheUtility.AbstractRedisCacheSe
                                                                                       cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+pageSize+"_"+currentPage;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->
-                                                {
-                                                    PageHelper.startPage(currentPage,
-                                                                         pageSize);
-                                                    return deviceInfoMapper.selectByProjectIdAndStatus(projectId,
-                                                                                                       deviceState!=null?deviceState.name():null);
-                                                });
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->
+                                                       {
+                                                           PageHelper.startPage(currentPage,
+                                                                                pageSize);
+                                                           return deviceInfoMapper.selectByProjectIdAndStatus(projectId,
+                                                                                                              deviceState!=null?deviceState.name():null);
+                                                       });
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     public DeviceInfo SelectDeviceInfoById(Long deviceId)
@@ -100,8 +105,12 @@ public class ProjectDeviceService extends RedisCacheUtility.AbstractRedisCacheSe
                                                                                 cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+deviceId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->deviceInfoMapper.selectByPrimaryKey(deviceId));
+        var result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                    ()->deviceInfoMapper.selectByPrimaryKey(deviceId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     public void UpdateDeviceStatus(Long deviceId,String status)

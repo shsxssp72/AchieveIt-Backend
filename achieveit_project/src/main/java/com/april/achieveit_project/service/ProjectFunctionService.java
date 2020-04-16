@@ -4,6 +4,7 @@ import com.april.achieveit_common.utility.RedisCacheUtility;
 import com.april.achieveit_common.utility.SnowFlakeIdGenerator;
 import com.april.achieveit_project.entity.ProjectFunction;
 import com.april.achieveit_project.mapper.ProjectFunctionMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.apache.commons.csv.CSVFormat;
@@ -92,8 +93,12 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
                                                                                            cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+projectId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->projectFunctionMapper.selectByProjectId(projectId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->projectFunctionMapper.selectByProjectId(projectId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     public ImmutablePair<List<Map<String,String>>,List<Map<String,String>>> ClassifyFunctionByIsSuperior(String projectId)

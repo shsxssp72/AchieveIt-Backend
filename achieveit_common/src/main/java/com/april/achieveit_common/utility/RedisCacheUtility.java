@@ -1,11 +1,13 @@
 package com.april.achieveit_common.utility;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,11 +36,12 @@ public class RedisCacheUtility
     @AllArgsConstructor
     public static class RedisCacheHelper<T>
     {
-        private RedisTemplate<String,String> redisTemplate;
-        private ObjectMapper objectMapper;
-        private ReentrantLock reentrantLock;
-        private long cacheValidTime;
-        private long concurrentWaitTime;
+        private static Logger logger=LoggerFactory.getLogger(RedisCacheHelper.class);
+        private final RedisTemplate<String,String> redisTemplate;
+        private final ObjectMapper objectMapper;
+        private final ReentrantLock reentrantLock;
+        private final long cacheValidTime;
+        private final long concurrentWaitTime;
 
         @SuppressWarnings(value={"all"})
         public T QueryUsingCache(String redisKey,AbstractQuery<T> query)
@@ -74,13 +77,16 @@ public class RedisCacheUtility
                 {
                     String cached_result=redisTemplate.opsForValue()
                             .get(redisKey);
-                    Class<T> entityClass=(Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
                     result=objectMapper.readValue(cached_result,
-                                                  entityClass);
+                                                  new TypeReference<T>()
+                                                  {
+                                                  });
+                    logger.info("Using cache.");
                 }
             }
             catch(Exception e)
             {
+                logger.warn("Cache penetrated. Cause: "+e.getMessage());
                 result=query.Query();
             }
             return result;

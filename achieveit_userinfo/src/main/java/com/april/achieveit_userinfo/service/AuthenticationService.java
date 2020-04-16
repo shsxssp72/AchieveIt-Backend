@@ -5,6 +5,7 @@ import com.april.achieveit_common.utility.JWTUtility;
 import com.april.achieveit_common.utility.RedisCacheUtility;
 import com.april.achieveit_userinfo.mapper.UserInfoMapper;
 import com.april.achieveit_userinfo_interface.entity.UserInfo;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -69,8 +70,12 @@ public class AuthenticationService extends RedisCacheUtility.AbstractRedisCacheS
                                                                               cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+userId;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->userInfoMapper.selectByPrimaryKey(userId));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->userInfoMapper.selectByPrimaryKey(userId));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
 
     private UserInfo queryByUsername(String username)
@@ -84,9 +89,14 @@ public class AuthenticationService extends RedisCacheUtility.AbstractRedisCacheS
                                                                               cacheConcurrentWaitTime);
 
         String redisKey=currentMethodName+"_"+username;
-        return redisCacheHelper.QueryUsingCache(redisKey,
-                                                ()->userInfoMapper.selectByUsername(username));
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->userInfoMapper.selectByUsername(username));
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
     }
+
     public String GetUserIdByUsername(String username)
     {
         UserInfo user=queryByUsername(username);
