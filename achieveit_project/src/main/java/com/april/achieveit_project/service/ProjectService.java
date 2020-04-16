@@ -1,7 +1,9 @@
 package com.april.achieveit_project.service;
 
+import com.april.achieveit_common.bean.ResponseContent;
 import com.april.achieveit_common.utility.RedisCacheUtility;
 import com.april.achieveit_common.utility.SnowFlakeIdGenerator;
+import com.april.achieveit_project.client.RoleServiceClient;
 import com.april.achieveit_project.config.ProjectStateTransition;
 import com.april.achieveit_project.entity.Project;
 import com.april.achieveit_project.entity.ProjectMiscellaneous;
@@ -22,7 +24,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -54,6 +58,8 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
     private ProjectMapper projectMapper;
     @Autowired
     private ProjectMiscellaneousMapper projectMiscellaneousMapper;
+    @Autowired
+    RoleServiceClient roleServiceClient;
 
     @Value("${snowflake.datacenter-id}")
     private Long datacenterId;
@@ -68,6 +74,37 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
                                                       machineId);
     }
 
+    public String getUserGlobalRole(String userId)
+    {
+        String currentMethodName=Thread.currentThread()
+                .getStackTrace()[1].getMethodName();
+        var redisCacheHelper=new RedisCacheUtility.RedisCacheHelper<String>(redisTemplate,
+                                                                            objectMapper,
+                                                                            reentrantLocks.get(currentMethodName),
+                                                                            cacheValidTime,
+                                                                            cacheConcurrentWaitTime);
+
+        String redisKey=currentMethodName+"_"+userId;
+        Object result=redisCacheHelper.QueryUsingCache(redisKey,
+                                                       ()->
+                                                       {
+                                                           ResponseContent queryResponse=roleServiceClient.GetUserGlobalRole(new HashMap<>()
+                                                           {{
+                                                               put("user_id",
+                                                                   userId);
+                                                           }});
+                                                           Map<String,String> queryResult=objectMapper.convertValue(queryResponse.getResult(),
+                                                                                                                    new TypeReference<Map<String,String>>()
+                                                                                                                    {
+                                                                                                                    });
+                                                           return queryResult.get("global_role_name");
+                                                       });
+        return objectMapper.convertValue(result,
+                                         new TypeReference<>()
+                                         {
+                                         });
+
+    }
 
     public void NewProject(Project project)
     {

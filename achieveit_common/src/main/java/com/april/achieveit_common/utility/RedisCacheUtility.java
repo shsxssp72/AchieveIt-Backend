@@ -81,7 +81,7 @@ public class RedisCacheUtility
                                                   new TypeReference<T>()
                                                   {
                                                   });
-                    logger.info("Using cache.");
+                    logger.debug("Using cache.");
                 }
             }
             catch(Exception e)

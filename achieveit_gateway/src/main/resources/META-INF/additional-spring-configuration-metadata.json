@@ -24,5 +24,20 @@
       "name": "local.url-permission-constant-map-file",
       "type": "java.lang.String",
       "description": "Description for local.url-permission-constant-map-file."
+    },
+    {
+      "name": "local.cache-valid-time",
+      "type": "java.lang.String",
+      "description": "Description for local.cache-valid-time."
+    },
+    {
+      "name": "local.permanent-cache-valid-time",
+      "type": "java.lang.String",
+      "description": "Description for local.permanent-cache-valid-time."
+    },
+    {
+      "name": "local.cache-concurrent-wait-time",
+      "type": "java.lang.String",
+      "description": "Description for local.cache-concurrent-wait-time."
     }
   ] }

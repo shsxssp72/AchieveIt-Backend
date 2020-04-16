@@ -66,9 +66,9 @@ public class ProjectController
         ResponseContent result=new ResponseContent();
 
         Set<String> status=objectMapper.convertValue(params.get("status"),
-                                                      new TypeReference<Set<String>>()
-                                                      {
-                                                      });
+                                                     new TypeReference<Set<String>>()
+                                                     {
+                                                     });
         List<Project> queryResult=projectService.SelectByProjectStatus(status);
 
         result.setResult(queryResult);
@@ -190,6 +190,8 @@ public class ProjectController
         return result;
     }
 
+
+
     @SneakyThrows
     @PostMapping(path="/confirmConfigEstablished")
     public ResponseContent ConfirmConfigEstablished(@RequestBody Map<String,String> params,HttpServletRequest request)
@@ -202,16 +204,7 @@ public class ProjectController
         String jwt=CookieUtility.getCookieValue(request,
                                                 "JWT");
         String userId=JWTUtility.getSubjectFromJWT(jwt);
-        ResponseContent queryResponse=roleServiceClient.GetUserGlobalRole(new HashMap<>()
-        {{
-            put("user_id",
-                userId);
-        }});
-        Map<String,String> queryResult=objectMapper.convertValue(queryResponse.getResult(),
-                                                                 new TypeReference<Map<String,String>>()
-                                                                 {
-                                                                 });
-        String global_role_name=queryResult.get("global_role_name");
+        String global_role_name=projectService.getUserGlobalRole(userId);
 
         projectService.ConfirmConfigEstablished(projectId,
                                                 global_role_name);

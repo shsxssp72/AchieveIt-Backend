@@ -104,9 +104,15 @@ public class ProjectFunctionService extends RedisCacheUtility.AbstractRedisCache
     public ImmutablePair<List<Map<String,String>>,List<Map<String,String>>> ClassifyFunctionByIsSuperior(String projectId)
     {
         List<ProjectFunction> projectFunctions=selectByProjectId(projectId);
-        Map<Long,String> displayIdMap=projectFunctions.parallelStream()
-                .collect(Collectors.toMap(ProjectFunction::getFunctionId,
-                                          ProjectFunction::getIdForDisplay));
+        Map<Long,String> displayIdMap=new HashMap<>();
+        for(ProjectFunction projectFunction: projectFunctions)
+        {
+            if(displayIdMap.put(projectFunction.getFunctionId(),
+                                projectFunction.getIdForDisplay())!=null)
+            {
+                throw new IllegalStateException("Duplicate key");
+            }
+        }
         List<Map<String,String>> superiors=new LinkedList<>();
         List<Map<String,String>> inferiors=new LinkedList<>();
         for(var item: projectFunctions)

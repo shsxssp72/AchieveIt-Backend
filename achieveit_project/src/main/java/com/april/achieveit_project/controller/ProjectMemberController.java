@@ -46,12 +46,7 @@ public class ProjectMemberController
             String userId=JWTUtility.getSubjectFromJWT(jwt);
 
             //When QA Manager, EPG Leader, Conf. Manager add members. allow PM to push project forward.
-            ResponseContent queryResponse=roleServiceClient.GetUserGlobalRole(new HashMap<>(){{put("user_id",userId);}});
-            Map<String,String> queryResult=objectMapper.convertValue(queryResponse.getResult(),
-                                                                     new TypeReference<Map<String,String>>()
-                                      {
-                                      });
-            String global_role_name=queryResult.get("global_role_name");
+            String global_role_name=projectService.getUserGlobalRole(userId);
             projectService.UpdateProjectMiscWhenMemberUpdated(projectId,global_role_name);
         }
 

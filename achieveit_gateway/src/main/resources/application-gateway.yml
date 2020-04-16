@@ -29,6 +29,9 @@ local:
   shared-secret: 46d34cb35b006fab90e74f4ba0fec16fe1ee7b671895fe0fa92e9401c0647c75b56e5e02f82e6e05f2f96ff7af22babe8d674fcb99e6eadee16bee7de86fc0ce
   url-permission-constant-map-file: UrlPermissionConstantMap.json
   url-permission-variable-map-file: UrlPermissionVariableMap.json
+  cache-valid-time: 2500
+  permanent-cache-valid-time: 3600000
+  cache-concurrent-wait-time: 100
 feign:
   httpclient:
     enabled: true
