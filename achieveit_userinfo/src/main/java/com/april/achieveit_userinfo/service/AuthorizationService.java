@@ -396,12 +396,31 @@ public class AuthorizationService extends RedisCacheUtility.AbstractRedisCacheSe
     @Transactional
     public List<String> GetUserPermissionName(String projectId,@NotNull String userId)
     {
-        List<ProjectUserPermissionRelation> projectUserRelations=selectUserPermissionRelationByProjectIdAndUserId(projectId,
-                                                                                                                  userId);
-        return projectUserRelations.parallelStream()
-                .filter(i->i.getPermitWeight()>0)
-                .map(i->selectPermissionByPrimaryKey(i.getReferredPermissionId()).getPermissionName())
-                .collect(Collectors.toList());
+        List<ProjectUserPermissionRelation> projectUserRelations;
+        if(projectId==null)
+        {
+            projectUserRelations=selectUserPermissionRelationByProjectIdAndUserId(null,
+                                                                                  userId);
+        }
+        else
+        {
+            Set<ProjectUserPermissionRelation> projectUserPermissionRelationSet=new HashSet<>(selectUserPermissionRelationByProjectIdAndUserId(null,
+                                                                                                                                                                    userId));
+            projectUserPermissionRelationSet.addAll(selectUserPermissionRelationByProjectIdAndUserId(projectId,
+                                                                                                     userId));
+            projectUserRelations=new ArrayList<>(projectUserPermissionRelationSet);
+        }
+
+        List<String> list=new ArrayList<>();
+        for(ProjectUserPermissionRelation i: projectUserRelations)
+        {
+            if(i.getPermitWeight()>0)
+            {
+                String permissionName=selectPermissionByPrimaryKey(i.getReferredPermissionId()).getPermissionName();
+                list.add(permissionName);
+            }
+        }
+        return list;
     }
 
 
