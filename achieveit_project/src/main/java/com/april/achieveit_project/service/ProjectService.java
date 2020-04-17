@@ -246,7 +246,7 @@ public class ProjectService extends RedisCacheUtility.AbstractRedisCacheService
                                        "QaManager")!=null)
             qaAdded=true;
         if(SelectMiscByProjectIdAndKey(projectId,
-                                       "EPGManager")!=null)
+                                       "EpgManager")!=null)
             epgAdded=true;
         if(SelectMiscByProjectIdAndKey(projectId,
                                        "ConfigurationManager")!=null)
