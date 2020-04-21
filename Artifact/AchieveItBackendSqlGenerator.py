@@ -155,7 +155,7 @@ def generate_activity_type() -> None:
                                            level_2_description=item))
 
 
-def grant_user_perimssion(project_id:str,user_id:str,permission_name:str)->None:
+def grant_user_perimssion(project_id: str, user_id: str, permission_name: str) -> None:
     print(project_user_permission_relation.format(project_id="'{project_id}'".format(project_id=project_id),
                                                   user_id=user_id,
                                                   permission_id=permission_name_id_map[permission_name]))
